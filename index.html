@@ -15,9 +15,9 @@
     z-index: 99;
     width: 45px;
     height: 45px;
-    background-color: var(--navy, #102b46);
-    color: var(--gold-light, #ead9b2);
-    border: 1px solid var(--gold, #c9a45d);
+    background-color: #102b46;
+    color: #ffffff;
+    border: 1px solid #102b46;
     border-radius: 50%;
     cursor: pointer;
     display: none;
@@ -28,10 +28,10 @@
     transition: all 0.3s ease;
   }
   #scrollTopBtn:hover {
-    background-color: var(--gold, #c9a45d);
-    color: var(--navy, #102b46);
+    background-color: #102b46;
+    color: #ffffff;
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(201, 164, 93, 0.35);
+    box-shadow: 0 6px 20px rgba(16, 43, 70, 0.35);
   }
 </style>
 </head>
@@ -146,18 +146,10 @@
     });
 
     scrollBtn.addEventListener("click", function() {
-      scrollBtn.style.backgroundColor = "var(--gold, #c9a45d)";
-      scrollBtn.style.color = "var(--navy, #102b46)";
-
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
-
-      setTimeout(function() {
-        scrollBtn.style.backgroundColor = "";
-        scrollBtn.style.color = "";
-      }, 500);
     });
   </script>
 
