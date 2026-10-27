@@ -33,22 +33,23 @@
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(16, 43, 70, 0.35);
   }
-
-  /* تأثير التحريك للأسفل/الأعلى وإضاءة الرقم عند المرور بالماوس */
   .year-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
   }
   .year-card:hover {
-    transform: translateY(-8px);
-    border-color: #102b46;
-    box-shadow: 0 12px 25px rgba(16, 43, 70, 0.15);
+    transform: translateY(-5px);
+    border-color: #c9a45d;
   }
-  .year-card .year-number {
-    transition: color 0.3s ease, text-shadow 0.3s ease;
+  .year-card:hover .year-number,
+  .year-card.selected .year-number {
+    color: #c9a45d !important;
+    text-shadow: 0 0 10px rgba(201, 164, 93, 0.5);
   }
-  .year-card:hover .year-number {
-    color: #102b46;
-    text-shadow: 0 0 10px rgba(16, 43, 70, 0.3);
+  .year-card.selected {
+    transform: translateY(-5px);
+    border-color: #c9a45d;
+    background: linear-gradient(145deg, #fff, #fbf8f0);
+    box-shadow: 0 12px 28px #102b460b;
   }
 </style>
 </head>
@@ -98,10 +99,10 @@
       </div>
       
       <div class="year-grid" id="yearGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
-        <button class="year-card active" data-year="1" onclick="updateTitleAndScroll('ماتريال الفرقة الأولى،<br><em>علوم أساسي.</em>', 1)">
+        <button class="year-card" data-year="1" onclick="updateTitleAndScroll('ماتريال الفرقة الأولى،<br><em>علوم أساسي.</em>', 1, this)">
           <span class="year-number">01</span><span class="year-symbol">⚗</span><span class="year-name">الفرقة الأولى — علوم أساسي</span><span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span><span class="year-arrow">←</span>
         </button>                
-        <button class="year-card active" data-year="2" onclick="updateTitleAndScroll('ماتريال الفرقة الثانية،<br><em>علوم أساسي.</em>', 2)">
+        <button class="year-card" data-year="2" onclick="updateTitleAndScroll('ماتريال الفرقة الثانية،<br><em>علوم أساسي.</em>', 2, this)">
           <span class="year-number">02</span><span class="year-symbol">⚗</span><span class="year-name">الفرقة الثانية — علوم أساسي</span><span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span><span class="year-arrow">←</span>
         </button>
       </div>
@@ -139,9 +140,14 @@
   </div>
 
   <script>
-    function updateTitleAndScroll(newHtmlText, yearNum) {
+    function updateTitleAndScroll(newHtmlText, yearNum, buttonElement) {
       document.getElementById("mainTitle").innerHTML = newHtmlText;
       
+      document.querySelectorAll('.year-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      buttonElement.classList.add('selected');
+
       const midtermBtn = document.getElementById("midtermBtn");
       if (yearNum === 2) {
         midtermBtn.style.display = "inline-flex";
