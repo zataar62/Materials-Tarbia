@@ -17,7 +17,7 @@
       </a>
     </div>
     <nav class="nav-links" aria-label="التنقل الرئيسي"></nav>
-    <a class="header-button" href="جدول-امتحانات-الميدترم.png" target="_blank">جدول امتحانات الميدترم<span>⊞</span></a> 
+    <a id="midtermBtn" class="header-button" href="جدول-امتحانات-الميدترم.png" target="_blank" style="display: none;">جدول امتحانات الميدترم<span>⊞</span></a> 
   </header>
 
   <main>
@@ -25,7 +25,6 @@
       <div class="hero-copy">
         <span class="eyebrow"><span class="pulse"></span> مكتبتك الدراسية الرقمية</span>
         
-        <!-- تم تعديل العنوان هنا وإضافة id باسم mainTitle -->
         <h1 id="mainTitle">ماتريال الفرق الدراسية،<br><em>علوم أساسي.</em></h1>
         
         <p>مكان واحد لتنظيم محاضرات علوم أساسي والملازم والملخصات وامتحانات السنوات السابقة. ابحث عن الملف اللي محتاجه بسهولة.</p>
@@ -55,12 +54,11 @@
         <span class="heading-mark">01 <i> / 02</i></span>
       </div>
       
-      <!-- تم إضافة دالة updateTitleAndScroll للزرارين عشان يغيروا العنوان ويطلعوا لفوق -->
       <div class="year-grid" id="yearGrid" style="grid-template-columns:minmax(250px,420px)">
-        <button class="year-card active" data-year="1" onclick="updateTitleAndScroll('ماتريال الفرقة الأولى،<br><em>علوم أساسي.</em>')">
+        <button class="year-card active" data-year="1" onclick="updateTitleAndScroll('ماتريال الفرقة الأولى،<br><em>علوم أساسي.</em>', 1)">
           <span class="year-number">01</span><span class="year-symbol">⚗</span><span class="year-name">الفرقة الأولى — علوم أساسي</span><span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span><span class="year-arrow">←</span>
         </button>                
-        <button class="year-card active" data-year="2" onclick="updateTitleAndScroll('ماتريال الفرقة الثانية،<br><em>علوم أساسي.</em>')">
+        <button class="year-card active" data-year="2" onclick="updateTitleAndScroll('ماتريال الفرقة الثانية،<br><em>علوم أساسي.</em>', 2)">
           <span class="year-number">02</span><span class="year-symbol">⚗</span><span class="year-name">الفرقة الثانية — علوم أساسي</span><span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span><span class="year-arrow">←</span>
         </button>
       </div>
@@ -88,14 +86,21 @@
     </section>
   </main>
 
- <div style="width: 100%; text-align: center; margin-top: auto; padding: 20px 0; display: flex; flex-direction: column; gap: 6px; align-items: center;">
+  <div style="width: 100%; text-align: center; margin-top: auto; padding: 20px 0; display: flex; flex-direction: column; gap: 6px; align-items: center;">
     <span class="copyright">© <span id="yearNow"></span> جميع الحقوق محفوظة</span>
     <span style="font-weight: 800; font-size: 11px; color: var(--navy, #102b46); letter-spacing: 4.5px;">Developed by: Ebram Adel</span>
   </div>
-<script>
 
-    function updateTitleAndScroll(newHtmlText) {
+  <script>
+    function updateTitleAndScroll(newHtmlText, yearNum) {
       document.getElementById("mainTitle").innerHTML = newHtmlText;
+      
+      const midtermBtn = document.getElementById("midtermBtn");
+      if (yearNum === 2) {
+        midtermBtn.style.display = "inline-flex";
+      } else {
+        midtermBtn.style.display = "none";
+      }
       
       document.getElementById("home").scrollIntoView({ behavior: 'smooth' });
     }
