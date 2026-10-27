@@ -146,12 +146,21 @@
     });
 
     scrollBtn.addEventListener("click", function() {
+      scrollBtn.style.backgroundColor = "var(--gold, #c9a45d)";
+      scrollBtn.style.color = "var(--navy, #102b46)";
+
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
+
+      setTimeout(function() {
+        scrollBtn.style.backgroundColor = "";
+        scrollBtn.style.color = "";
+      }, 500);
     });
   </script>
 
   <script src="script.js"></script>
 </body>
+</html>
