@@ -33,6 +33,13 @@
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(16, 43, 70, 0.35);
   }
+  .year-card {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+  }
+  .year-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 16px 32px rgba(16, 43, 70, 0.15) !important;
+  }
 </style>
 </head>
 <body>
@@ -81,7 +88,7 @@
         <span class="heading-mark">01 <i> / 02</i></span>
       </div>
       
-      <div class="year-grid" id="yearGrid" style="grid-template-columns:minmax(250px,420px)">
+      <div class="year-grid" id="yearGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
         <button class="year-card active" data-year="1" onclick="updateTitleAndScroll('ماتريال الفرقة الأولى،<br><em>علوم أساسي.</em>', 1)">
           <span class="year-number">01</span><span class="year-symbol">⚗</span><span class="year-name">الفرقة الأولى — علوم أساسي</span><span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span><span class="year-arrow">←</span>
         </button>                
@@ -135,7 +142,6 @@
       
       document.getElementById("home").scrollIntoView({ behavior: 'smooth' });
     }
-
     const scrollBtn = document.getElementById("scrollTopBtn");
     window.addEventListener("scroll", function() {
       if (window.scrollY > 300) {
