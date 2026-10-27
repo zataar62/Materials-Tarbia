@@ -76,7 +76,7 @@ function showSubjectBoxes() {
   container.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 30px;';
 
   if (selectedYear === '1') {
-    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted, #64748b); font-size: 16px;">المكتبة مخصصة حالياً للفرقة الثانية، والفرقة الأولى فارغة حالياً.</div>';
+    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted, #64748b); font-size: 16px;"> الفرقة الأولى غير متوفره حاليًا  .</div>';
     fileGrid.innerHTML = '';
     resultsCount.textContent = '0 ملف';
     if (emptyState) emptyState.hidden = true;
