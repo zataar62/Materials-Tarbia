@@ -276,7 +276,7 @@ function showSubjectBoxes() {
       <span class="subject-icon">${sub.icon}</span>
       <span>
         <span class="subject-name">${sub.name}</span>
-        <span class="subject-caption">الفرقة الثانية · علوم أساسي</span>
+        <span class="subject-caption">الفرقة الثانية - علوم أساسي</span>
       </span>
       <span aria-hidden="true" style="margin-right:auto; color:var(--text-muted,#94a3b8); font-size:20px;">‹</span>
     </button>
