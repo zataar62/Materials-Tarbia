@@ -1,7 +1,6 @@
-s = [
+const materials = [
   { id: 1, year: 2, subject: 'كيمياء عامة (2)', title: 'محاضرة كيمياء عامة', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 2, year: 2, subject: 'طحالب + تصنيف نبات B', part: 'طحالب', title: 'محاضرات الطحالب', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 15, year: 2, subject: 'طحالب + تصنيف نبات B', part: 'تصنيف نبات B', title: 'محاضرات تصنيف نبات B', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 2, year: 2, subject: 'طحالب + تصنيف نبات B', title: 'محاضرة الطحالب والتصنيف', type: 'محاضرات', format: 'PDF', file: '', note: '' },
   { id: 3, year: 2, subject: 'تطبيقات الفيزياء في الحياة', title: 'ملخص تطبيقات الفيزياء', type: 'ملخصات', format: 'PDF', file: '', note: '' },
   { id: 4, year: 2, subject: 'كهرومغناطيسية', title: 'محاضرة الكهرومغناطيسية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
   { id: 5, year: 2, subject: 'تدريس مصغر (2)', title: 'ملزمة التدريس المصغر', type: 'ملازم', format: 'PDF', file: '', note: '' },
@@ -18,7 +17,6 @@ s = [
 
 let selectedYear = null;
 let selectedSubject = null;
-let selectedSubSubject = null;
 let selectedMediaType = null;
 
 const fileGrid = document.getElementById('fileGrid');
@@ -38,6 +36,7 @@ styleAnimation.innerHTML = `
     animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  /* تصميم بطاقات المواد */
   #categoryBoxes.subjects-layout {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
@@ -175,8 +174,10 @@ document.head.appendChild(styleAnimation);
 function renderFiles() {
   const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
 
-  if (selectedYear === null && searchTerm) {
+  if (searchTerm) {
     selectedYear = '2';
+    selectedSubject = null;
+    selectedMediaType = null;
   }
 
   if (selectedYear === null) {
@@ -187,10 +188,6 @@ function renderFiles() {
   }
 
   if (selectedSubject) {
-    if (selectedSubject === 'طحالب + تصنيف نبات B' && !selectedSubSubject) {
-      showCombinedSubjectOptions();
-      return;
-    }
     selectedMediaType = 'PDF';
     showActualFiles();
     return;
@@ -265,7 +262,7 @@ function showSubjectBoxes() {
     container.innerHTML = `
       <div class="unavailable-card">
         <strong>لا توجد مواد مطابقة للبحث</strong>
-        <p>جرّب كتابة اسم المادة أو جزءًا منه.</p>
+        <p>جرّب كتابة اسم المادة أو جزءًا منها.</p>
       </div>
     `;
     fileGrid.innerHTML = '';
@@ -293,43 +290,6 @@ function showSubjectBoxes() {
   if (emptyState) emptyState.hidden = true;
 }
 
-function showCombinedSubjectOptions() {
-  const container = document.getElementById('categoryBoxes');
-  if (!container) return;
-
-  container.className = 'animate-fade subjects-layout';
-  container.style.cssText = '';
-  container.innerHTML = `
-    <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
-      <div>
-        <button type="button" onclick="goBackToSubjects()" class="materials-back-button">→ العودة لقائمة المواد</button>
-        <h3>طحالب + تصنيف نبات B</h3>
-        <p>اختر المادة التي تريد فتحها</p>
-      </div>
-    </div>
-    <button type="button" class="subject-card" onclick="selectSubSubjectHandler('طحالب')" style="--subject-accent:#16a34a; --subject-tint:rgba(22,163,74,.11); font-family:inherit; width:100%;">
-      <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M12 14C5 14 4 8 4 5c6 0 9 3 8 9ZM12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/></svg></span>
-      <span><span class="subject-name">طحالب</span><span class="subject-caption">ملفات ومحاضرات الطحالب</span></span>
-      <span aria-hidden="true" style="margin-right:auto; color:var(--text-muted,#94a3b8); font-size:20px;">‹</span>
-    </button>
-    <button type="button" class="subject-card" onclick="selectSubSubjectHandler('تصنيف نبات B')" style="--subject-accent:#2563eb; --subject-tint:rgba(37,99,235,.11); font-family:inherit; width:100%;">
-      <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg></span>
-      <span><span class="subject-name">تصنيف نبات B</span><span class="subject-caption">ملفات ومحاضرات التصنيف</span></span>
-      <span aria-hidden="true" style="margin-right:auto; color:var(--text-muted,#94a3b8); font-size:20px;">‹</span>
-    </button>
-  `;
-  fileGrid.innerHTML = '';
-  fileGrid.hidden = true;
-  resultsCount.textContent = 'مادتان';
-  if (emptyState) emptyState.hidden = true;
-}
-
-window.selectSubSubjectHandler = function(part) {
-  selectedSubSubject = part;
-  selectedMediaType = 'PDF';
-  renderFiles();
-};
-
 function showMediaTypeBoxes() {
   selectedMediaType = 'PDF';
   showActualFiles();
@@ -341,16 +301,15 @@ function showActualFiles() {
     container.innerHTML = `
       <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
         <div>
-          <button type="button" onclick="${selectedSubSubject ? 'goBackToSubSubjects()' : 'goBackToSubjects()'}" class="materials-back-button">→ ${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</button>
-          <h3>${escapeHTML(selectedSubSubject || selectedSubject)}</h3>
-          <p>المحاضرات والملازم والملخصات المتاحة بصيغة PDF</p>
+          <button type="button" onclick="goBackToSubjects()" class="materials-back-button">→ العودة لقائمة المواد</button>
+          <h3>${escapeHTML(selectedSubject)}</h3>
+          <p></p>
         </div>
-        <span class="pdf-count">PDF · ملفات دراسية</span>
       </div>
     `;
   }
 
-  const filtered = materials.filter(item => item.subject === selectedSubject && item.format === 'PDF' && (!selectedSubSubject || item.part === selectedSubSubject));
+  const filtered = materials.filter(item => item.subject === selectedSubject && item.format === 'PDF');
   
   fileGrid.className = 'file-grid animate-fade';
   fileGrid.innerHTML = filtered.length ? filtered.map(item => `
@@ -374,13 +333,6 @@ function showActualFiles() {
 
 window.selectSubjectHandler = function(subject) {
   selectedSubject = subject;
-  selectedSubSubject = null;
-  selectedMediaType = null;
-  renderFiles();
-};
-
-window.goBackToSubSubjects = function() {
-  selectedSubSubject = null;
   selectedMediaType = null;
   renderFiles();
 };
@@ -392,7 +344,6 @@ window.selectMediaTypeHandler = function(mediaType) {
 
 window.goBackToSubjects = function() {
   selectedSubject = null;
-  selectedSubSubject = null;
   selectedMediaType = null;
   renderFiles();
 };
@@ -407,7 +358,6 @@ window.selectYear = function(yearNum, newHtmlText) {
   document.getElementById("mainTitle").innerHTML = newHtmlText;
   selectedYear = String(yearNum)
   selectedSubject = null;
-  selectedSubSubject = null;
   selectedMediaType = null;
   
   const markElement = document.getElementById("sectionMark");
@@ -441,6 +391,7 @@ searchInput.addEventListener('input', renderFiles);
 typeFilter.addEventListener('change', renderFiles);
 document.getElementById('yearNow').textContent = new Date().getFullYear();
 
+// عند تحديث الصفحة، ابدأ دائمًا من أعلى الصفحة الرئيسية.
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
@@ -449,6 +400,7 @@ window.addEventListener('load', function () {
   window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 });
 
+// بعض المتصفحات تستعيد موضع التمرير عند الرجوع من صفحة أخرى؛ أعده للأعلى.
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
