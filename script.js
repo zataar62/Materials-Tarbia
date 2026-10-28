@@ -28,22 +28,155 @@ const emptyState = document.getElementById('emptyState');
 const styleAnimation = document.createElement('style');
 styleAnimation.innerHTML = `
   @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
+
   .animate-fade {
-    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  #categoryBoxes.subjects-layout {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 18px !important;
+    margin: 8px 0 30px;
+    direction: rtl;
+  }
+
+  .subject-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 104px;
+    padding: 18px 16px;
+    overflow: hidden;
+    text-align: right;
+    cursor: pointer;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 18px;
+    background: var(--surface, #fff);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, .045);
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  }
+
+  .subject-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 4px;
+    background: var(--subject-accent, #3b82f6);
+    opacity: .9;
+  }
+
+  .subject-card:hover,
+  .subject-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--subject-accent, var(--primary, #3b82f6));
+    box-shadow: 0 12px 26px rgba(15, 23, 42, .10);
+    outline: none;
+  }
+
+  .subject-icon {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    color: var(--subject-accent, #3b82f6);
+    background: var(--subject-tint, rgba(59, 130, 246, .10));
+  }
+
+  .subject-icon svg { width: 25px; height: 25px; }
+  .subject-name {
+    color: var(--text, #1e293b);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.8;
+  }
+  .subject-caption {
+    display: block;
+    margin-top: 3px;
+    color: var(--text-muted, #64748b);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .unavailable-card {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 42px 20px;
+    border: 1px dashed var(--border, #cbd5e1);
+    border-radius: 20px;
+    background: var(--surface, #fff);
+    color: var(--text-muted, #64748b);
+    text-align: center;
+  }
+  .unavailable-card .unavailable-icon {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    color: #d97706;
+    background: rgba(245, 158, 11, .12);
+  }
+  .unavailable-card strong { color: var(--text, #1e293b); font-size: 17px; }
+  .unavailable-card p { margin: 0; font-size: 13px; line-height: 1.8; }
+
+  .materials-back-button {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 15px; border-radius: 12px;
+    border: 1px solid var(--border, #e2e8f0);
+    background: var(--surface, #fff); color: var(--primary, #2563eb);
+    font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: .2s ease;
+  }
+  .materials-back-button:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(15,23,42,.08); }
+  .materials-heading {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin: 10px 0 22px; padding: 18px 20px;
+    border-radius: 18px; border: 1px solid var(--border, #e2e8f0);
+    background: linear-gradient(135deg, var(--surface, #fff), rgba(59,130,246,.045));
+  }
+  .materials-heading h3 { margin: 12px 0 0; font-size: 19px; line-height: 1.8; color: var(--text, #1e293b); }
+  .materials-heading p { margin: 3px 0 0; color: var(--text-muted, #64748b); font-size: 12px; }
+  .materials-heading .pdf-count {
+    display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px;
+    border-radius: 999px; background: rgba(220,38,38,.09); color: #dc2626;
+    font-size: 12px; font-weight: 800; white-space: nowrap;
+  }
+  .file-card { transition: transform .22s ease, box-shadow .22s ease; }
+  .file-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15,23,42,.09); }
+  .pdf-empty-state {
+    grid-column: 1/-1; padding: 32px 18px; border-radius: 18px; text-align: center;
+    border: 1px dashed var(--border, #cbd5e1); color: var(--text-muted, #64748b);
+    background: var(--surface, #fff);
+  }
+
+  @media (max-width: 520px) {
+    #categoryBoxes.subjects-layout {
+      grid-template-columns: 1fr;
+      gap: 12px !important;
+    }
+    .subject-card { min-height: 88px; padding: 14px; }
   }
 `;
 document.head.appendChild(styleAnimation);
 
 function renderFiles() {
+  const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
+
+  if (selectedYear === null && searchTerm) {
+    selectedYear = '2';
+  }
+
   if (selectedYear === null) {
     fileGrid.innerHTML = '';
     resultsCount.textContent = '0 ملف';
@@ -51,17 +184,24 @@ function renderFiles() {
     return;
   }
 
-  if (selectedSubject && !selectedMediaType) {
-    showMediaTypeBoxes();
-    return;
-  }
-
-  if (selectedSubject && selectedMediaType) {
+  if (selectedSubject) {
+    selectedMediaType = 'PDF';
     showActualFiles();
     return;
   }
 
   showSubjectBoxes();
+}
+
+function normalizeSearchText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .trim();
 }
 
 function showSubjectBoxes() {
@@ -72,11 +212,23 @@ function showSubjectBoxes() {
     fileGrid.parentNode.insertBefore(container, fileGrid);
   }
   
-  container.className = 'animate-fade';
-  container.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 30px;';
+  container.className = 'animate-fade subjects-layout';
+  container.style.cssText = '';
 
   if (selectedYear === '1') {
-    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted, #64748b); font-size: 16px;"> الفرقة الأولى غير متوفره حاليًا  .</div>';
+    container.innerHTML = `
+      <div class="unavailable-card">
+        <div class="unavailable-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 8v4"></path>
+            <path d="M12 16h.01"></path>
+          </svg>
+        </div>
+        <strong>الفرقة الأولى غير متوفرة حاليًا</strong>
+        <p>نعمل على تجهيز المواد الدراسية وسيتم إتاحتها قريبًا إن شاء الله .</p>
+      </div>
+    `;
     fileGrid.innerHTML = '';
     resultsCount.textContent = '0 ملف';
     if (emptyState) emptyState.hidden = true;
@@ -84,96 +236,97 @@ function showSubjectBoxes() {
   }
 
   const subjects = [
-    { name: 'كيمياء عامة (2)', subject: 'كيمياء عامة (2)', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31L4.5 19.7A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-2.3L14 9.31V2h-4z"/></svg>' },
-    { name: 'طحالب + تصنيف نبات B', subject: 'طحالب + تصنيف نبات B', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' },
-    { name: 'تطبيقات الفيزياء في الحياة', subject: 'تطبيقات الفيزياء في الحياة', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>' },
-    { name: 'كهرومغناطيسية', subject: 'كهرومغناطيسية', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>' },
-    { name: 'تدريس مصغر (2)', subject: 'تدريس مصغر (2)', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/></svg>' },
-    { name: 'تطبيقات الرياضيات في الحياة', subject: 'تطبيقات الرياضيات في الحياة', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' },
-    { name: 'قضايا مجتمعية', subject: 'قضايا مجتمعية', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' },
-    { name: 'الاتجاهات المعاصرة في علم نفس', subject: 'الاتجاهات المعاصرة في علم نفس', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/></svg>' },
-    { name: 'دمج ذوي الاحتياجات الخاصة', subject: 'دمج ذوي الاحتياجات الخاصة', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' },
-    { name: 'كيمياء الجزيئات الحيوية', subject: 'كيمياء الجزيئات الحيوية', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>' },
-    { name: 'خبرات دولية في تطوير المناهج', subject: 'خبرات دولية في تطوير المناهج', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>' },
-    { name: 'نظريات تربوية وإدارية', subject: 'نظريات تربوية وإدارية', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>' },
-    { name: 'المهارات الحياتية', subject: 'المهارات الحياتية', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' },
-    { name: 'القوة الإيجابية في الشخصية', subject: 'القوة الإيجابية في الشخصية', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' }
+    { name: 'كيمياء عامة (2)', subject: 'كيمياء عامة (2)', accent: '#0f766e', tint: 'rgba(15,118,110,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 15h8"/><circle cx="10" cy="18" r=".7" fill="currentColor"/><circle cx="14" cy="17" r=".7" fill="currentColor"/></svg>' },
+    { name: 'طحالب + تصنيف نبات B', subject: 'طحالب + تصنيف نبات B', accent: '#16a34a', tint: 'rgba(22,163,74,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10"/><path d="M12 14C5 14 4 8 4 5c6 0 9 3 8 9Z"/><path d="M12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/><path d="M4 21h16"/></svg>' },
+    { name: 'تطبيقات الفيزياء في الحياة', subject: 'تطبيقات الفيزياء في الحياة', accent: '#2563eb', tint: 'rgba(37,99,235,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="4"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(-60 12 12)"/></svg>' },
+    { name: 'كهرومغناطيسية', subject: 'كهرومغناطيسية', accent: '#7c3aed', tint: 'rgba(124,58,237,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 13h6l-1 9 11-13h-7Z"/><path d="M3 5h3M2 9h2M18 19h3"/></svg>' },
+    { name: 'تدريس مصغر (2)', subject: 'تدريس مصغر (2)', accent: '#c2410c', tint: 'rgba(194,65,12,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M8 21h8M12 16v5M7 8h10M7 11h6"/></svg>' },
+    { name: 'تطبيقات الرياضيات في الحياة', subject: 'تطبيقات الرياضيات في الحياة', accent: '#0891b2', tint: 'rgba(8,145,178,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 19h2m4 0h2"/></svg>' },
+    { name: 'قضايا مجتمعية', subject: 'قضايا مجتمعية', accent: '#be123c', tint: 'rgba(190,18,60,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20v-2a6.5 6.5 0 0 1 13 0v2zM16 14a5 5 0 0 1 5.5 5v1H18"/></svg>' },
+    { name: 'الاتجاهات المعاصرة في علم نفس', subject: 'الاتجاهات المعاصرة في علم نفس', accent: '#9333ea', tint: 'rgba(147,51,234,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H9a4 4 0 0 0-4 4v1a3 3 0 0 0 0 6v1a4 4 0 0 0 4 4h2Z"/><path d="M13 4h2a4 4 0 0 1 4 4v1a3 3 0 0 1 0 6v1a4 4 0 0 1-4 4h-2Z"/><path d="M8 9h3m2 5h3"/></svg>' },
+    { name: 'دمج ذوي الاحتياجات الخاصة', subject: 'دمج ذوي الاحتياجات الخاصة', accent: '#0369a1', tint: 'rgba(3,105,161,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="M12 7v5m0-3-5 2m5-2 5 2M12 12l-4 8m4-8 4 8"/><circle cx="12" cy="12" r="9"/></svg>' },
+    { name: 'كيمياء الجزيئات الحيوية', subject: 'كيمياء الجزيئات الحيوية', accent: '#ca8a04', tint: 'rgba(202,138,4,.13)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="14" cy="18" r="2"/><circle cx="5" cy="18" r="1.5"/><path d="m8 7 8-1m1 1-2 9M7 9l6 7M7 18h5"/></svg>' },
+    { name: 'خبرات دولية في تطوير المناهج', subject: 'خبرات دولية في تطوير المناهج', accent: '#4f46e5', tint: 'rgba(79,70,229,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5a15 15 0 0 1 0 19M12 2.5a15 15 0 0 0 0 19M5 5h14M5 19h14"/></svg>' },
+    { name: 'نظريات تربوية وإدارية', subject: 'نظريات تربوية وإدارية', accent: '#475569', tint: 'rgba(71,85,105,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5l8-3 8 3v16M2 21h20M8 8h2m4 0h2M8 12h2m4 0h2M10 21v-4h4v4"/></svg>' },
+    { name: 'المهارات الحياتية', subject: 'المهارات الحياتية', accent: '#db2777', tint: 'rgba(219,39,119,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"/><path d="M8 12h2l1.2-2.5L13 15l1.2-3H16"/></svg>' },
+    { name: 'القوة الإيجابية في الشخصية', subject: 'القوة الإيجابية في الشخصية', accent: '#d97706', tint: 'rgba(217,119,6,.12)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.8 6.1 6.7.8-4.9 4.5 1.3 6.6-5.9-3.3-5.9 3.3 1.3-6.6-4.9-4.5 6.7-.8L12 2Z"/><path d="m9 12 2 2 4-4"/></svg>' }
   ];
 
-  container.innerHTML = subjects.map(sub => `
-    <div class="cat-box" onclick="selectSubjectHandler('${sub.subject}')" style="background: var(--surface, #ffffff); border: 1px solid var(--border, #e2e8f0); padding: 18px 12px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--primary, #3b82f6)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border, #e2e8f0)';">
-      <div style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(59, 130, 246, 0.08); color: var(--primary, #3b82f6); border-radius: 12px; margin-bottom: 10px;">${sub.icon}</div>
-      <div style="font-weight: 600; font-size: 13px; color: var(--text, #1e293b);">${sub.name}</div>
-    </div>
+  const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
+  const matchingSubjects = subjects.filter(sub => normalizeSearchText(sub.name).includes(searchTerm));
+
+  if (searchTerm && matchingSubjects.length === 0) {
+    container.innerHTML = `
+      <div class="unavailable-card">
+        <strong>لا توجد مواد مطابقة للبحث</strong>
+        <p>جرّب كتابة اسم المادة أو جزءًا منه.</p>
+      </div>
+    `;
+    fileGrid.innerHTML = '';
+    resultsCount.textContent = '0 مادة';
+    if (emptyState) emptyState.hidden = true;
+    return;
+  }
+
+  container.innerHTML = matchingSubjects.map(sub => `
+    <button type="button" class="subject-card"
+      onclick="selectSubjectHandler('${sub.subject}')"
+      style="--subject-accent:${sub.accent}; --subject-tint:${sub.tint}; font-family:inherit; width:100%;"
+      aria-label="فتح مادة ${sub.name}">
+      <span class="subject-icon">${sub.icon}</span>
+      <span>
+        <span class="subject-name">${sub.name}</span>
+        <span class="subject-caption">الفرقة الثانية · علوم أساسي</span>
+      </span>
+      <span aria-hidden="true" style="margin-right:auto; color:var(--text-muted,#94a3b8); font-size:20px;">‹</span>
+    </button>
   `).join('');
 
   fileGrid.innerHTML = '';
-  resultsCount.textContent = '0 ملف';
+  resultsCount.textContent = searchTerm ? `${matchingSubjects.length} مادة` : '0 ملف';
   if (emptyState) emptyState.hidden = true;
 }
 
 function showMediaTypeBoxes() {
-  let container = document.getElementById('categoryBoxes');
-  if (!container) return;
-
-  container.className = 'animate-fade';
-  container.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 30px;';
-
-  const mediaTypes = [
-    { name: 'ملفات PDF', type: 'PDF', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' },
-    { name: 'فيديوهات', type: 'فيديوهات', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>' },
-    { name: 'صور', type: 'صور', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' },
-    { name: 'ملفات صوتية', type: 'صوت', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>' }
-  ];
-
-  container.innerHTML = `
-    <div style="grid-column: 1/-1; margin-bottom: 10px;">
-      <button onclick="goBackToSubjects()" style="background: none; border: none; color: var(--primary, #3b82f6); cursor: pointer; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 5px;">← العودة لقائمة المواد</button>
-      <h3 style="margin-top: 5px; font-size: 18px; color: var(--text, #1e293b);">${selectedSubject}</h3>
-    </div>
-  ` + mediaTypes.map(m => `
-    <div class="cat-box" onclick="selectMediaTypeHandler('${m.type}')" style="background: var(--surface, #ffffff); border: 1px solid var(--border, #e2e8f0); padding: 18px 12px; border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.25s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--primary, #3b82f6)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border, #e2e8f0)';">
-      <div style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(59, 130, 246, 0.08); color: var(--primary, #3b82f6); border-radius: 12px; margin-bottom: 10px;">${m.icon}</div>
-      <div style="font-weight: 600; font-size: 14px; color: var(--text, #1e293b);">${m.name}</div>
-    </div>
-  `).join('');
-
-  fileGrid.innerHTML = '';
-  resultsCount.textContent = '0 ملف';
-  if (emptyState) emptyState.hidden = true;
+  selectedMediaType = 'PDF';
+  showActualFiles();
 }
 
 function showActualFiles() {
   let container = document.getElementById('categoryBoxes');
   if (container) {
     container.innerHTML = `
-      <div style="grid-column: 1/-1; margin-bottom: 10px;">
-        <button onclick="goBackToMediaTypes()" style="background: none; border: none; color: var(--primary, #3b82f6); cursor: pointer; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 5px;">← العودة لأنواع الملفات</button>
-        <h3 style="margin-top: 5px; font-size: 18px; color: var(--text, #1e293b);">${selectedSubject} — ${selectedMediaType}</h3>
+      <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
+        <div>
+          <button type="button" onclick="goBackToSubjects()" class="materials-back-button">→ العودة لقائمة المواد</button>
+          <h3>${escapeHTML(selectedSubject)}</h3>
+          <p>المحاضرات والملازم والملخصات المتاحة بصيغة PDF</p>
+        </div>
+        <span class="pdf-count">PDF · ملفات دراسية</span>
       </div>
     `;
   }
 
-  const filtered = materials.filter(item => item.subject === selectedSubject);
+  const filtered = materials.filter(item => item.subject === selectedSubject && item.format === 'PDF');
   
   fileGrid.className = 'file-grid animate-fade';
-  fileGrid.innerHTML = filtered.map(item => `
-    <article class="file-card">
+  fileGrid.innerHTML = filtered.length ? filtered.map(item => `
+    <article class="file-card" style="direction:rtl;">
       <span class="file-type-icon type-${item.type}">${item.format}</span>
       <div class="file-info">
         <h3>${escapeHTML(item.title)}</h3>
         <p>${escapeHTML(item.subject)} · الفرقة الثانية علوم أساسي</p>
         <div class="file-meta">
           <span class="file-tag">${escapeHTML(item.type)}</span>
-          <a class="file-link" href="#" onclick="alert('جاري فتح المحتوى...'); return false;">عرض المحتوى ←</a>
+          ${item.file ? `<a class="file-link" href="${escapeHTML(item.file)}" target="_blank" rel="noopener noreferrer">فتح ملف PDF ↗</a>` : `<span class="file-link" aria-label="رابط الملف غير مضاف">سيُتاح الملف قريبًا</span>`}
         </div>
       </div>
     </article>
-  `).join('');
-  
+  `).join('') : '<div class="pdf-empty-state">لا توجد ملفات PDF مضافة لهذه المادة حتى الآن.</div>';
+
   resultsCount.textContent = `${filtered.length} ملف`;
-  if (emptyState) emptyState.hidden = filtered.length !== 0;
-  fileGrid.hidden = filtered.length === 0;
+  if (emptyState) emptyState.hidden = true;
+  fileGrid.hidden = false;
 }
 
 window.selectSubjectHandler = function(subject) {
@@ -195,12 +348,13 @@ window.goBackToSubjects = function() {
 
 window.goBackToMediaTypes = function() {
   selectedMediaType = null;
+  selectedSubject = null;
   renderFiles();
 };
 
 window.selectYear = function(yearNum, newHtmlText) {
   document.getElementById("mainTitle").innerHTML = newHtmlText;
-  selectedYear = String(yearNum);
+  selectedYear = String(yearNum)
   selectedSubject = null;
   selectedMediaType = null;
   
@@ -234,3 +388,17 @@ function escapeHTML(value) { return String(value).replace(/[&<>"']/g, char => ({
 searchInput.addEventListener('input', renderFiles);
 typeFilter.addEventListener('change', renderFiles);
 document.getElementById('yearNow').textContent = new Date().getFullYear();
+
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+window.addEventListener('load', function () {
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+});
+
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }
+});
