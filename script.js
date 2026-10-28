@@ -99,6 +99,24 @@ styleAnimation.innerHTML = `
     font-weight: 700;
     line-height: 1.8;
   }
+  .subject-arrow {
+    margin-right: auto;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    color: var(--subject-accent, #64748b);
+    background: var(--subject-tint, rgba(59,130,246,.08));
+    transition: transform .22s ease, background .22s ease, border-color .22s ease;
+  }
+  .subject-arrow svg { width: 15px; height: 15px; }
+  .subject-card:hover .subject-arrow,
+  .subject-card:focus-visible .subject-arrow { transform: translateX(-3px); }
+
   .subject-caption {
     display: block;
     margin-top: 3px;
@@ -265,7 +283,7 @@ function showSubjectBoxes() {
     container.innerHTML = `
       <div class="unavailable-card">
         <strong>لا توجد مواد مطابقة للبحث</strong>
-        <p>جرّب كتابة اسم المادة أو جزءًا منها.</p>
+        <p>جرّب كتابة اسم المادة أو جزءًا منه.</p>
       </div>
     `;
     fileGrid.innerHTML = '';
@@ -282,9 +300,9 @@ function showSubjectBoxes() {
       <span class="subject-icon">${sub.icon}</span>
       <span>
         <span class="subject-name">${sub.name}</span>
-        <span class="subject-caption">الفرقة الثانية - علوم أساسي</span>
+        <span class="subject-caption">الفرقة الثانية · علوم أساسي</span>
       </span>
-      <span aria-hidden="true" style="margin-right:auto; color:var(--text-muted,#94a3b8); font-size:20px;">‹</span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
     </button>
   `).join('');
 
@@ -310,12 +328,12 @@ function showCombinedSubjectOptions() {
     <button type="button" class="subject-card" onclick="selectSubSubjectHandler('طحالب')" style="--subject-accent:#16a34a; --subject-tint:rgba(22,163,74,.11); font-family:inherit; width:100%;">
       <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M12 14C5 14 4 8 4 5c6 0 9 3 8 9ZM12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/></svg></span>
       <span><span class="subject-name">طحالب</span><span class="subject-caption">ملفات ومحاضرات الطحالب</span></span>
-      <span aria-hidden="true" style="margin-right:auto; color:var(--text-muted,#94a3b8); font-size:20px;">‹</span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
     </button>
     <button type="button" class="subject-card" onclick="selectSubSubjectHandler('تصنيف نبات B')" style="--subject-accent:#2563eb; --subject-tint:rgba(37,99,235,.11); font-family:inherit; width:100%;">
       <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg></span>
       <span><span class="subject-name">تصنيف نبات B</span><span class="subject-caption">ملفات ومحاضرات التصنيف</span></span>
-      <span aria-hidden="true" style="margin-right:auto; color:var(--text-muted,#94a3b8); font-size:20px;">‹</span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
     </button>
   `;
   fileGrid.innerHTML = '';
