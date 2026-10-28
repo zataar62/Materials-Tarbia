@@ -151,14 +151,53 @@ styleAnimation.innerHTML = `
   .unavailable-card p { margin: 0; font-size: 13px; line-height: 1.8; }
 
   .materials-back-button {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 15px; border-radius: 12px;
-    border: 1px solid var(--border, #e2e8f0);
-    background: var(--surface, #fff); color: var(--primary, #2563eb);
-    font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
-    transition: .2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+    gap: 10px;
+    min-height: 46px;
+    padding: 7px 14px 7px 10px;
+    margin-inline-start: 0;
+    text-align: right;
+    align-self: flex-start;
+    border: 1px solid rgba(37, 99, 235, .16);
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--surface, #fff), rgba(37, 99, 235, .055));
+    color: var(--primary, #2563eb);
+    font-family: "Cairo", "Tajawal", "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.5;
+    letter-spacing: 0;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, .045);
+    transition: none;
   }
-  .materials-back-button:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(15,23,42,.08); }
+  .materials-back-button .back-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 9px;
+    background: rgba(37, 99, 235, .10);
+    color: var(--primary, #2563eb);
+    transition: none;
+  }
+  .materials-back-button .back-button-icon svg { width: 17px; height: 17px; }
+  .materials-back-button .back-button-label { direction: rtl; unicode-bidi: isolate; white-space: nowrap; }
+  .materials-back-button:hover,
+  .materials-back-button:focus-visible {
+    outline: none;
+  }
+  .materials-back-button .back-button-icon { transform: none; }
+  .materials-back-button:active { transform: none; }
+  .materials-back-button.is-going-back { pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .materials-back-button, .materials-back-button .back-button-icon { transition: none; animation: none !important; }
+  }
   .materials-heading {
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 12px; margin: 10px 0 22px; padding: 18px 20px;
@@ -300,7 +339,7 @@ function showSubjectBoxes() {
       <span class="subject-icon">${sub.icon}</span>
       <span>
         <span class="subject-name">${sub.name}</span>
-        <span class="subject-caption">الفرقة الثانية · علوم أساسي</span>
+        <span class="subject-caption">الفرقة الثانية - علوم أساسي</span>
       </span>
       <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
     </button>
@@ -320,7 +359,7 @@ function showCombinedSubjectOptions() {
   container.innerHTML = `
     <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
       <div>
-        <button type="button" onclick="goBackToSubjects()" class="materials-back-button">→ العودة لقائمة المواد</button>
+        <button type="button" onclick="animateBackAndGo(this, 'goBackToSubjects')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M12 5l7 7-7 7"/></svg></span><span class="back-button-label">العودة لقائمة المواد</span></button>
         <h3>طحالب + تصنيف نبات B</h3>
         <p>اختر المادة التي تريد فتحها</p>
       </div>
@@ -359,7 +398,7 @@ function showActualFiles() {
     container.innerHTML = `
       <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
         <div>
-          <button type="button" onclick="${selectedSubSubject ? 'goBackToSubSubjects()' : 'goBackToSubjects()'}" class="materials-back-button">→ ${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</button>
+          <button type="button" onclick="animateBackAndGo(this, '${selectedSubSubject ? 'goBackToSubSubjects' : 'goBackToSubjects'}')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M12 5l7 7-7 7"/></svg></span><span class="back-button-label">${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</span></button>
           <h3>${escapeHTML(selectedSubSubject || selectedSubject)}</h3>
         </div>
       </div>
@@ -404,6 +443,10 @@ window.goBackToSubSubjects = function() {
 window.selectMediaTypeHandler = function(mediaType) {
   selectedMediaType = mediaType;
   renderFiles();
+};
+
+window.animateBackAndGo = function(button, actionName) {
+  if (typeof window[actionName] === 'function') window[actionName]();
 };
 
 window.goBackToSubjects = function() {
