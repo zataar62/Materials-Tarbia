@@ -1,4 +1,4 @@
 window.MATERIALS_CONFIG = {
-  supabaseUrl: 'https://YOUR-PROJECT.supabase.co',
-  supabaseAnonKey: 'YOUR_SUPABASE_ANON_KEY'
+  supabaseUrl: 'https://oxjburnvruewpxnunvpm.supabase.co',
+  supabaseAnonKey: 'sb_publishable__aigRyDjPSS5xzidxX2INA_Orc2i1-9'
 };
