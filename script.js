@@ -422,7 +422,7 @@ function showActualFiles() {
         <p>${escapeHTML(item.subject)} · الفرقة الثانية علوم أساسي</p>
         <div class="file-meta">
           <span class="file-tag">${escapeHTML(item.type)}</span>
-          ${item.file ? `<span style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><a class="file-link preview-link" href="${escapeHTML(window.fileActions.getPreviewUrl(item))}" target="_blank" rel="noopener noreferrer" title="معاينة ${escapeHTML(item.subject)} — ${escapeHTML(item.title)}">معاينة ↗</a><a class="file-link download-link" href="${escapeHTML(window.fileActions.getOriginalFileUrl(item))}" data-file-key="${escapeHTML(item.file_key || '')}" download="${escapeHTML(downloadFileName(item))}">تنزيل ↓</a></span>` : `<span class="file-link" aria-label="رابط الملف غير مضاف">سيُتاح الملف قريبًا</span>`}
+          ${item.file ? `<span style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><a class="file-link preview-link" href="${escapeHTML(window.fileActions.getPreviewUrl(item))}" target="_blank" rel="noopener noreferrer" title="معاينة ${escapeHTML(item.subject)} — ${escapeHTML(item.title)}">معاينة</a><a class="file-link download-link" href="${escapeHTML(window.fileActions.getOriginalFileUrl(item))}" data-file-key="${escapeHTML(item.file_key || '')}" download="${escapeHTML(downloadFileName(item))}">تنزيل</a></span>` : `<span class="file-link" aria-label="رابط الملف غير مضاف">سيُتاح الملف قريبًا</span>`}
         </div>
       </div>
     </article>
