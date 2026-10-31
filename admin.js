@@ -2,7 +2,7 @@
   const config = window.MATERIALS_CONFIG;
   const demoMode = !config || !window.supabase || !config.supabaseUrl || config.supabaseUrl.includes('YOUR-');
   const DEMO_EMAIL = 'kingbebo1153@gmail.com';
-  const DEMO_PASSWORD = 'bebo2006';
+  const DEMO_PASSWORD = 'bebo1957';
   const form = document.getElementById('loginForm');
   const message = document.getElementById('loginMessage');
   if (!form) return;
