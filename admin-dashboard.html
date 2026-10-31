@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>إضافة وإدارة المواد — Materials-Tarbia</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div id="appView" class="app-shell" hidden>
+    <header class="admin-topbar">
+      <a class="brand" href="index.html"><img src="logo.png" alt=""><span><strong>كلية التربية قسم علوم أساسي</strong><small>إضافة وإدارة ملفات المكتبة</small></span></a>
+      <div class="top-actions"><a href="index.html" target="_blank">فتح الموقع ↗</a><button id="logoutButton" class="ghost">تسجيل الخروج</button></div>
+    </header>
+    <main class="admin-main">
+      <section class="intro"><div><span class="eyebrow">مركز التحكم</span><h1>إضافة ملفات للمكتبة</h1><p>اختار الفرقة والمادة، ارفع PDF أو صورة، وانشرها للطلاب فورًا.</p></div><div class="live-pill"><i></i> متصل</div></section>
+      <section class="dashboard-grid">
+        <form id="materialForm" class="panel upload-panel">
+          <div class="panel-heading"><div><span class="eyebrow">ملف جديد</span><h2>إضافة ملف للمكتبة</h2></div><span class="step-mark">01</span></div>
+          <div class="form-grid">
+            <label>الفرقة<select id="year" required><option value="2">الفرقة الثانية</option><option value="1">الفرقة الأولى</option></select></label>
+            <label>المادة<select id="subject" required></select></label>
+            <label id="partWrap" hidden>اختار المادة الفرعية <select id="part"><option value="">اختار المادة</option><option value="طحالب">طحالب</option><option value="تصنيف نبات B">تصنيف نبات B</option></select></label>
+            <label>نوع المحتوى<select id="type"><option>محاضرات</option><option>اسم الكتاب</option><option>ملازم</option><option>ملخصات</option><option>امتحانات</option></select></label>
+            <label>عنوان الملف<input id="title" required placeholder="مثال: محاضرة الوحدة الأولى"></label>
+            <label>صيغة رابط Drive<select id="driveFormat"><option value="PDF">PDF</option><option value="صورة">صورة</option><option value="فيديو">فيديو</option></select></label>
+          </div>
+          <label>رابط Google Drive<input id="driveUrl" type="url" placeholder="الصق رابط مشاركة Google Drive هنا"></label>
+          <p style="margin:-8px 0 14px;color:var(--muted);font-size:11px">اترك رفع الملف فارغًا إذا كنت ستستخدم رابط Google Drive.</p>
+          <label class="dropzone" id="dropzone"><input id="file" type="file" accept="application/pdf,image/png,image/jpeg,image/webp,video/mp4"><span class="upload-icon">↑</span><strong id="fileLabel">اسحب الملف هنا أو اضغط للاختيار</strong><small>PDF أو PNG أو JPG أو WEBP أو MP4 — حتى 50MB</small></label>
+          <label class="checkline"><input id="published" type="checkbox" checked> نشر الملف للطلاب فورًا</label>
+          <button class="primary" type="submit"><span id="submitLabel">رفع ونشر الملف</span><span>←</span></button><button id="cancelEdit" class="ghost" type="button" hidden>إلغاء التعديل</button>
+          <p id="formMessage" class="message" role="status"></p>
+        </form>
+        <aside class="panel stats-panel"><span class="eyebrow">ملخص سريع</span><div class="big-stat" id="totalCount">0</div><p>ملف منشور في المكتبة</p><div class="stat-row"><span>الفرقة الأولى</span><b id="year1Count">0</b></div><div class="stat-row"><span>الفرقة الثانية</span><b id="year2Count">0</b></div><div class="hint">الملفات المنشورة تظهر في الموقع العام تلقائيًا بعد الرفع.</div></aside>
+      </section>
+      <section class="panel library-panel"><div class="panel-heading"><div><span class="eyebrow">المحتوى الحالي</span><h2>الملفات المضافة</h2></div><input id="adminSearch" class="search" type="search" placeholder="ابحث باسم الملف أو المادة..."></div><div id="materialsList" class="materials-list"></div></section>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="file-actions.js"></script>
+  <script src="admin-dashboard.js"></script>
+</body>
+</html>
