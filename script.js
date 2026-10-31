@@ -328,7 +328,7 @@ function showSubjectBoxes() {
     container.innerHTML = `
       <div class="unavailable-card">
         <strong>لا توجد مواد مطابقة للبحث</strong>
-        <p>جرّب كتابة اسم المادة أو جزءًا منه.</p>
+        <p>جرّب كتابة اسم المادة او جزءًا منها.</p>
       </div>
     `;
     fileGrid.innerHTML = '';
