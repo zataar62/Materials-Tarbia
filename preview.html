@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>معاينة الملف</title>
+  <style>body{margin:0;background:#f7f8fa;font-family:Cairo,Tahoma,Arial,sans-serif;color:#102b46}header{padding:18px 5%;background:#fff;border-bottom:1px solid #e6e9ee;font-weight:800}main{height:calc(100vh - 70px);display:grid;place-items:center;padding:0 4%;box-sizing:border-box}iframe{width:100%;height:100%;border:0;background:#fff}.image{max-width:100%;max-height:90%;object-fit:contain;background:#fff;box-shadow:0 10px 35px #102b4615}video{width:min(100%,1000px);max-height:88vh;background:#000;border-radius:10px}</style>
+</head>
+<body>
+  <header id="fileTitle">معاينة الملف</header>
+  <main id="viewer"></main>
+  <script>
+    (async () => {
+      const params = new URLSearchParams(location.search);
+      const key = params.get('file_key');
+      const name = params.get('name') || 'معاينة الملف';
+      document.title = name;
+      document.getElementById('fileTitle').textContent = name;
+      if (!key) return;
+      const request = indexedDB.open('materials-demo-files', 1);
+      request.onsuccess = () => {
+        const get = request.result.transaction('files', 'readonly').objectStore('files').get(key);
+        get.onsuccess = () => {
+          const file = get.result;
+          if (!file) return;
+          const url = URL.createObjectURL(file);
+          const viewer = document.getElementById('viewer');
+          if (file.type.startsWith('image/')) { const image = document.createElement('img'); image.className = 'image'; image.src = url; viewer.appendChild(image); }
+          else if (file.type.startsWith('video/')) { const video = document.createElement('video'); video.controls = true; video.playsInline = true; video.src = url; viewer.appendChild(video); }
+          else { const frame = document.createElement('iframe'); frame.src = url; viewer.appendChild(frame); }
+        };
+      };
+    })();
+  </script>
+</body>
+</html>
