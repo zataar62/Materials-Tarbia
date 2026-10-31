@@ -108,7 +108,7 @@
     if (!subject || subject === 'اختر المادة') return notify('اختر مادة من القائمة.');
     if (!current && !file && !driveUrl) return notify('اختر ملفًا أو الصق رابط Google Drive.');
     if (driveUrl && !isDriveLink(driveUrl)) return notify('ضع رابط مشاركة صحيح من Google Drive.');
-    if (file && file.size > 50 * 1024 * 1024) return notify('حجم الملف أكبر من 50MB.');
+    if (file && file.size > 100 * 1024 * 1024) return notify('حجم الملف أكبر من 100MB.');
     $('submitLabel').textContent = editingId ? 'جارٍ حفظ التعديل...' : 'جارٍ الرفع...';
 
     const format = file ? (file.type === 'application/pdf' ? 'PDF' : (file.type.startsWith('video/') ? 'فيديو' : 'صورة')) : (driveUrl ? $('driveFormat').value : current.format);
