@@ -248,7 +248,7 @@ function renderFiles() {
   }
 
   if (selectedSubject) {
-    if (['كيمياء عامة (2)', 'طحالب', 'تصنيف نبات B', 'كهرومغناطيسية', 'تطبيقات الرياضيات في الحياة', 'كيمياء الجزيئات الحيوية'].includes(selectedSubject) && !selectedMediaType) {
+    if (['كيمياء عامة (2)', 'طحالب', 'تصنيف نبات B', 'كهرومغناطيسية', 'كيمياء الجزيئات الحيوية'].includes(selectedSubject) && !selectedMediaType) {
       showMediaTypeBoxes();
       return;
     }
