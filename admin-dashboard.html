@@ -22,7 +22,7 @@
             <label>الفرقة<select id="year" required><option value="2">الفرقة الثانية</option><option value="1">الفرقة الأولى</option></select></label>
             <label>المادة<select id="subject" required></select></label>
             <label id="partWrap" hidden>اختار المادة الفرعية <select id="part"><option value="">اختار المادة</option><option value="طحالب">طحالب</option><option value="تصنيف نبات B">تصنيف نبات B</option></select></label>
-            <label>نوع المحتوى<select id="type"><option>محاضرات</option><option>الكتاب</option><option>ملازم</option><option>ملخصات</option><option>امتحانات</option></select></label>
+            <label>نوع المحتوى<select id="type"><option>محاضرات</option><option>الكتاب</option><option>ملازم</option><option>ملخصات</option><option>امتحانات</option><option>تكليف</option></select></label>
             <label>عنوان الملف<input id="title" required placeholder="مثال: محاضرة الوحدة الأولى"></label>
             <label>صيغة رابط Drive<select id="driveFormat"><option value="PDF">PDF</option><option value="صورة">صورة</option><option value="فيديو">فيديو</option></select></label>
           </div>
@@ -33,7 +33,7 @@
           <button class="primary" type="submit"><span id="submitLabel">رفع ونشر الملف</span><span>←</span></button><button id="cancelEdit" class="ghost" type="button" hidden>إلغاء التعديل</button>
           <p id="formMessage" class="message" role="status"></p>
         </form>
-        <aside class="panel stats-panel"><span class="eyebrow">ملخص سريع</span><div class="big-stat" id="totalCount">0</div><p>ملف منشور في المكتبة</p><div class="stat-row"><span>الفرقة الأولى</span><b id="year1Count">0</b></div><div class="stat-row"><span>الفرقة الثانية</span><b id="year2Count">0</b></div><div class="hint">الملفات المنشورة تظهر في الموقع العام تلقائيًا بعد الرفع.</div></aside>
+        <aside class="panel stats-panel"><span class="eyebrow">ملخص سريع</span><div class="big-stat" id="totalCount">0</div><p>ملف منشور في المكتبة</p><div class="stat-row"><span>الفرقة الأولى</span><b id="year1Count">0</b></div><div class="stat-row"><span>الفرقة الثانية</span><b id="year2Count">0</b></div><div class="hint" >الملفات المنشورة تظهر في الموقع العام تلقائيًا بعد الرفع.</div></aside>
       </section>
       <section class="panel library-panel"><div class="panel-heading"><div><span class="eyebrow">المحتوى الحالي</span><h2>الملفات المضافة</h2></div><input id="adminSearch" class="search" type="search" placeholder="ابحث باسم الملف أو المادة..."></div><div id="materialsList" class="materials-list"></div></section>
     </main>
