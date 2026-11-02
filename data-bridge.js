@@ -13,7 +13,7 @@
       if (item.file_key) file = `preview.html?file_key=${encodeURIComponent(item.file_key)}&name=${encodeURIComponent(`${item.subject || ''} - ${item.title || ''}`)}`;
       return { ...item, file, section: item.section || 'المحاضرات' };
     }));
-    window.materials = mapped;
+    window.materials = mapped.filter(item => item.subject !== 'تصنيف نبات B');
     if (typeof window.renderFiles === 'function') window.renderFiles();
   }
 
@@ -43,7 +43,7 @@
         result = await client.from('materials').select('id,year,subject,part,title,type,format,file_url:file_url').eq('published', true).order('created_at', { ascending: false });
       }
       if (result.error || !Array.isArray(result.data)) return;
-      window.materials = result.data.map(item => ({ ...item, section: item.section || 'المحاضرات', file: item.file_url || '' }));
+      window.materials = result.data.map(item => ({ ...item, section: item.section || 'المحاضرات', file: item.file_url || '' })).filter(item => item.subject !== 'تصنيف نبات B');
       if (typeof window.renderFiles === 'function') window.renderFiles();
     }
     loadPublishedMaterials();

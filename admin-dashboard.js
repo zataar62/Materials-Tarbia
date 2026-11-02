@@ -42,12 +42,14 @@
   function notify(text, good = false) { $('formMessage').textContent = text; $('formMessage').style.color = good ? 'var(--success)' : ''; }
   function isDriveLink(value) { return /^https?:\/\/(?:drive\.google\.com|docs\.google\.com)\//i.test(String(value || '').trim()); }
 
+  function isStandaloneClassification(row) { return row && row.subject === 'تصنيف نبات B'; }
+
   function render() {
     const term = ($('adminSearch').value || '').toLowerCase().trim();
-    const filtered = state.rows.filter(row => `${row.title} ${row.subject} ${row.section || ''}`.toLowerCase().includes(term));
-    $('totalCount').textContent = state.rows.length;
-    $('year1Count').textContent = state.rows.filter(row => row.year === 1).length;
-    $('year2Count').textContent = state.rows.filter(row => row.year === 2).length;
+    const filtered = state.rows.filter(row => !isStandaloneClassification(row) && `${row.title} ${row.subject} ${row.section || ''}`.toLowerCase().includes(term));
+    $('totalCount').textContent = state.rows.filter(row => !isStandaloneClassification(row)).length;
+    $('year1Count').textContent = state.rows.filter(row => !isStandaloneClassification(row) && row.year === 1).length;
+    $('year2Count').textContent = state.rows.filter(row => !isStandaloneClassification(row) && row.year === 2).length;
     $('materialsList').innerHTML = filtered.length ? filtered.map(row => `<article class="material-row"><span class="material-icon">${escapeHTML(row.format)}</span><div class="material-info"><strong>${escapeHTML(row.title)}</strong><small>الفرقة ${row.year} · ${escapeHTML(row.subject)}${row.section ? ` · القسم: ${escapeHTML(row.section)}` : ''} · ${escapeHTML(row.type)}</small></div><div class="material-actions"><a href="${escapeHTML(window.fileActions.getPreviewUrl(row))}" target="_blank" rel="noopener">معاينة</a><button class="edit" data-edit="${escapeHTML(row.id)}" type="button">تعديل</button><button class="delete" data-delete="${escapeHTML(row.id)}" type="button">حذف</button></div></article>`).join('') : '<div class="empty">لا توجد ملفات مضافة حتى الآن.</div>';
     document.querySelectorAll('[data-delete]').forEach(button => button.onclick = () => removeMaterial(button.dataset.delete));
     document.querySelectorAll('[data-edit]').forEach(button => button.onclick = () => startEdit(button.dataset.edit));
