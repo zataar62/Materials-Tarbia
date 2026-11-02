@@ -41,3 +41,6 @@
   font-size: 12px;
   font-weight: 800;
 }
+.file-meta .file-actions {
+  gap: 15px !important;
+}
