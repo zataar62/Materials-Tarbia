@@ -236,10 +236,6 @@ document.head.appendChild(styleAnimation);
 function renderFiles() {
   const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
 
-  if (selectedYear === null && searchTerm) {
-    selectedYear = '2';
-  }
-
   if (selectedYear === null) {
     fileGrid.innerHTML = '';
     resultsCount.textContent = '0 ملف';
