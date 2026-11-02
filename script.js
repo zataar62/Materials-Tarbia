@@ -370,8 +370,8 @@ function showSectionOptions() {
     <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
       <div><button type="button" onclick="animateBackAndGo(this, '${selectedSubSubject ? 'goBackToSubSubjects' : 'goBackToSubjects'}')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true">←</span><span class="back-button-label">${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</span></button><h3>${escapeHTML(selectedSubSubject || selectedSubject)}</h3><p>اختار نوع المحتوى</p></div>
     </div>
-    <button type="button" class="subject-card" onclick="selectSectionHandler('المحاضرات')" style="--subject-accent:#2563eb;--subject-tint:rgba(37,99,235,.11);font-family:inherit;width:100%;"><span class="subject-icon">▤</span><span><span class="subject-name">المحاضرات</span><span class="subject-arrow">←</span></button>
-    <button type="button" class="subject-card" onclick="selectSectionHandler('السكاشن')" style="--subject-accent:#16a34a;--subject-tint:rgba(22,163,74,.11);font-family:inherit;width:100%;"><span class="subject-icon">▦</span><span><span class="subject-name">السكاشن</span><span class="subject-arrow">←</spa></button>`;
+    <button type="button" class="subject-card" onclick="selectSectionHandler('المحاضرات')" style="--subject-accent:#2563eb;--subject-tint:rgba(37,99,235,.11);font-family:inherit;width:100%;"><span class="subject-icon">▤</span><span><span class="subject-name">المحاضرات</span><span class="subject-caption">ملفات ومحاضرات المادة</span></span><span class="subject-arrow">←</span></button>
+    <button type="button" class="subject-card" onclick="selectSectionHandler('السكاشن')" style="--subject-accent:#16a34a;--subject-tint:rgba(22,163,74,.11);font-family:inherit;width:100%;"><span class="subject-icon">▦</span><span><span class="subject-name">السكاشن</span><span class="subject-caption">ملفات السكاشن والتطبيقات</span></span><span class="subject-arrow">←</span></button>`;
   fileGrid.innerHTML = ''; fileGrid.hidden = true; resultsCount.textContent = 'قسمان'; if (emptyState) emptyState.hidden = true;
 }
 
@@ -563,4 +563,3 @@ fileGrid.addEventListener('click', async event => {
   };
   await window.fileActions.downloadMaterial(item, link.href, link.getAttribute('download'));
 });
-
