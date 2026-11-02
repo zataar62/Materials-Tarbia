@@ -39,7 +39,41 @@
   }
 
   function selectedSubject() { return $('subject').value.trim(); }
-  function notify(text, good = false) { $('formMessage').textContent = text; $('formMessage').style.color = good ? 'var(--success)' : ''; }
+  function notify(text, good = false) { $('formMessage').textContent = text || ''; $('formMessage').style.color = good ? 'var(--success)' : ''; }
+  function setProgress(percent, label) {
+    const value = Math.max(0, Math.min(100, Math.round(percent)));
+    $('uploadProgress').hidden = false;
+    $('progressBar').style.width = `${value}%`;
+    $('progressPercent').textContent = `${value}%`;
+    $('progressLabel').textContent = label;
+  }
+  function hideProgress() {
+    $('uploadProgress').hidden = true;
+    $('progressBar').style.width = '0%';
+    $('progressPercent').textContent = '0%';
+  }
+  function uploadToStorage(path, file) {
+    return new Promise(async (resolve, reject) => {
+      const { data: sessionData } = await client.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      const request = new XMLHttpRequest();
+      request.open('POST', `${config.supabaseUrl}/storage/v1/object/materials/${path}`);
+      request.setRequestHeader('Authorization', `Bearer ${token}`);
+      request.setRequestHeader('apikey', config.supabaseAnonKey);
+      request.setRequestHeader('x-upsert', 'false');
+      request.setRequestHeader('cache-control', '3600');
+      request.setRequestHeader('content-type', file.type || 'application/octet-stream');
+      request.upload.onprogress = event => {
+        if (event.lengthComputable) setProgress((event.loaded / event.total) * 85, 'جارٍ رفع الملف...');
+      };
+      request.onload = () => request.status >= 200 && request.status < 300
+        ? resolve()
+        : reject(new Error(`فشل رفع الملف (${request.status})`));
+      request.onerror = () => reject(new Error('تعذر الاتصال أثناء رفع الملف.'));
+      request.onabort = () => reject(new Error('تم إلغاء رفع الملف.'));
+      request.send(file);
+    });
+  }
   function isDriveLink(value) { return /^https?:\/\/(?:drive\.google\.com|docs\.google\.com)\//i.test(String(value || '').trim()); }
 
   function isStandaloneClassification(row) { return row && row.subject === 'تصنيف نبات B'; }
@@ -94,7 +128,7 @@
     $('fileLabel').textContent = 'اتركه فارغًا للاحتفاظ بالملف الحالي أو اختر ملفًا جديدًا';
     $('submitLabel').textContent = 'حفظ التعديل';
     $('cancelEdit').hidden = false;
-    notify('أنت الآن تعدّل الملف المحدد. غيّر البيانات ثم اضغط حفظ التعديل.', true);
+    notify('');
     $('materialForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -116,6 +150,8 @@
     if (!current && !file && !driveUrl) return notify('اختر ملفًا أو الصق رابط Google Drive.');
     if (driveUrl && !isDriveLink(driveUrl)) return notify('ضع رابط مشاركة صحيح من Google Drive.');
     if (file && file.size > 100 * 1024 * 1024) return notify('حجم الملف أكبر من 100MB.');
+    notify('');
+    setProgress(0, editingId ? 'جارٍ تجهيز التعديل...' : 'جارٍ تجهيز الملف...');
     $('submitLabel').textContent = editingId ? 'جارٍ حفظ التعديل...' : 'جارٍ الرفع...';
 
     const format = file ? (file.type === 'application/pdf' ? 'PDF' : (file.type.startsWith('video/') ? 'فيديو' : 'صورة')) : (driveUrl ? $('driveFormat').value : current.format);
@@ -126,22 +162,26 @@
         let updated = { ...current, ...base };
         if (file) {
           const key = crypto.randomUUID();
+          setProgress(55, 'جارٍ حفظ الملف محليًا...');
           const db = await openFileDb();
           await putFile(db, key, file);
+          setProgress(100, 'اكتمل رفع الملف.');
           updated = { ...updated, file_key: key, file_url: '' };
         } else if (driveUrl) {
           updated = { ...updated, file_key: '', file_url: driveUrl };
         }
         state.rows = state.rows.map(row => String(row.id) === String(editingId) ? updated : row);
-        persist(); resetForm(); render(); notify('تم تعديل الملف بنجاح.', true); return;
+        persist(); resetForm(); render(); hideProgress(); notify('تم تعديل الملف بنجاح.', true); return;
       }
       const id = crypto.randomUUID();
       if (file) {
+        setProgress(55, 'جارٍ حفظ الملف محليًا...');
         const db = await openFileDb();
         await putFile(db, id, file);
+        setProgress(100, 'اكتمل رفع الملف.');
       }
       state.rows.unshift({ ...base, id, file_key: file ? id : '', file_url: driveUrl });
-      persist(); resetForm(); render(); notify('تمت إضافة الملف في وضع التجربة.', true); return;
+      persist(); resetForm(); render(); hideProgress(); notify('تمت إضافة الملف في وضع التجربة.', true); return;
     }
 
     let fileUrl = current?.file_url || '';
@@ -150,8 +190,10 @@
     if (file) {
       const ext = file.name.split('.').pop().toLowerCase();
       const path = `${base.year}/${crypto.randomUUID()}.${ext}`;
-      const upload = await client.storage.from('materials').upload(path, file, { upsert: false, contentType: file.type, cacheControl: '3600' });
-      if (upload.error) { $('submitLabel').textContent = editingId ? 'حفظ التعديل' : 'رفع ونشر الملف'; return notify(upload.error.message); }
+      let uploadError = null;
+      try { await uploadToStorage(path, file); } catch (error) { uploadError = error; }
+      if (uploadError) { hideProgress(); $('submitLabel').textContent = editingId ? 'حفظ التعديل' : 'رفع ونشر الملف'; return notify(uploadError.message); }
+      setProgress(90, 'اكتمل رفع الملف، جارٍ نشره...');
       const { data: publicData } = client.storage.from('materials').getPublicUrl(path);
       fileUrl = publicData.publicUrl;
       newlyUploadedPath = path;
@@ -177,10 +219,12 @@
     if (result.error) {
       if (newlyUploadedPath) await client.storage.from('materials').remove([newlyUploadedPath]);
       $('submitLabel').textContent = editingId ? 'حفظ التعديل' : 'رفع ونشر الملف';
+      hideProgress();
       return notify(result.error.message);
     }
     if (editingId && current?.file_path && newlyUploadedPath && current.file_path !== newlyUploadedPath) await client.storage.from('materials').remove([current.file_path]);
-    resetForm(); await loadRows(); notify(editingId ? 'تم تعديل الملف بنجاح.' : 'تم رفع الملف ونشره للطلاب.', true);
+    setProgress(100, 'اكتمل الرفع والنشر.');
+    resetForm(); await loadRows(); hideProgress(); notify(editingId ? 'تم تعديل الملف بنجاح.' : 'تم رفع الملف ونشره للطلاب.', true);
   };
 
   function resetForm() {

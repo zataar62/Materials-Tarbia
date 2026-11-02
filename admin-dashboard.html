@@ -32,6 +32,10 @@
           <label class="dropzone" id="dropzone"><input id="file" type="file" accept="application/pdf,image/png,image/jpeg,image/webp,video/mp4"><span class="upload-icon">↑</span><strong id="fileLabel">اسحب الملف هنا أو اضغط للاختيار</strong><small>PDF أو PNG أو JPG أو WEBP أو MP4 — حتى 100MB</small></label>
           <label class="checkline"><input id="published" type="checkbox" checked> نشر الملف للطلاب فورًا</label>
           <button class="primary" type="submit"><span id="submitLabel">رفع ونشر الملف</span><span>←</span></button><button id="cancelEdit" class="ghost" type="button" hidden>إلغاء التعديل</button>
+          <div id="uploadProgress" class="upload-progress" hidden aria-live="polite">
+            <div class="progress-heading"><span id="progressLabel">جارٍ تجهيز الملف...</span><strong id="progressPercent">0%</strong></div>
+            <div class="progress-track"><span id="progressBar"></span></div>
+          </div>
           <p id="formMessage" class="message" role="status"></p>
         </form>
         <aside class="panel stats-panel"><span class="eyebrow">ملخص سريع</span><div class="big-stat" id="totalCount">0</div><p>ملف منشور في المكتبة</p><div class="stat-row"><span>الفرقة الأولى</span><b id="year1Count">0</b></div><div class="stat-row"><span>الفرقة الثانية</span><b id="year2Count">0</b></div><div class="hint" >الملفات المنشورة تظهر في الموقع العام تلقائيًا بعد الرفع.</div></aside>
