@@ -1,7 +1,7 @@
 (() => {
   const config = window.MATERIALS_CONFIG;
   const demoMode = !config || !config.supabaseUrl || config.supabaseUrl.includes('YOUR-');
-  const subjects = { 1: ['اختر المادة'], 2: ['كيمياء عامة (2)', 'طحالب', 'تصنيف نبات B', 'تطبيقات الفيزياء في الحياة', 'كهرومغناطيسية', 'تدريس مصغر (2)', 'تطبيقات الرياضيات في الحياة', 'قضايا مجتمعية', 'الاتجاهات المعاصرة في علم نفس', 'دمج ذوي الاحتياجات الخاصة', 'كيمياء الجزيئات الحيوية', 'خبرات دولية في تطوير المناهج', 'نظريات تربوية وإدارية', 'المهارات الحياتية', 'القوة الإيجابية في الشخصية'] };
+  const subjects = { 1: ['اختر المادة'], 2: ['كيمياء عامة (2)', 'طحالب + تصنيف نبات B', 'تطبيقات الفيزياء في الحياة', 'كهرومغناطيسية', 'تدريس مصغر (2)', 'تطبيقات الرياضيات في الحياة', 'قضايا مجتمعية', 'الاتجاهات المعاصرة في علم نفس', 'دمج ذوي الاحتياجات الخاصة', 'كيمياء الجزيئات الحيوية', 'خبرات دولية في تطوير المناهج', 'نظريات تربوية وإدارية', 'المهارات الحياتية', 'القوة الإيجابية في الشخصية'] };
   const $ = id => document.getElementById(id);
   const state = { rows: JSON.parse(localStorage.getItem('materials-demo-rows') || '[]') };
   let client = null;
@@ -29,10 +29,13 @@
 
   function updateCustomSubject() {
     const selectedName = $('subject').value.trim();
-    const combined = selectedName.includes('طحالب') && selectedName.includes('تصنيف نبات');
+    const combined = selectedName === 'طحالب + تصنيف نبات B';
+    const sectioned = ['كيمياء عامة (2)', 'كهرومغناطيسية', 'تطبيقات الرياضيات في الحياة', 'كيمياء الجزيئات الحيوية'].includes(selectedName) || (combined && !!$('part').value);
     $('partWrap').hidden = !combined;
     $('part').required = combined;
+    $('sectionWrap').hidden = !sectioned;
     if (!combined) $('part').value = '';
+    if (!sectioned) $('section').value = 'المحاضرات';
   }
 
   function selectedSubject() { return $('subject').value.trim(); }
@@ -41,11 +44,11 @@
 
   function render() {
     const term = ($('adminSearch').value || '').toLowerCase().trim();
-    const filtered = state.rows.filter(row => `${row.title} ${row.subject} ${row.part || ''}`.toLowerCase().includes(term));
+    const filtered = state.rows.filter(row => `${row.title} ${row.subject} ${row.section || ''}`.toLowerCase().includes(term));
     $('totalCount').textContent = state.rows.length;
     $('year1Count').textContent = state.rows.filter(row => row.year === 1).length;
     $('year2Count').textContent = state.rows.filter(row => row.year === 2).length;
-    $('materialsList').innerHTML = filtered.length ? filtered.map(row => `<article class="material-row"><span class="material-icon">${escapeHTML(row.format)}</span><div class="material-info"><strong>${escapeHTML(row.title)}</strong><small>الفرقة ${row.year} · ${escapeHTML(row.subject)}${row.part ? ` · الجزء: ${escapeHTML(row.part)}` : ''} · ${escapeHTML(row.type)}</small></div><div class="material-actions"><a href="${escapeHTML(window.fileActions.getPreviewUrl(row))}" target="_blank" rel="noopener">معاينة</a><button class="edit" data-edit="${escapeHTML(row.id)}" type="button">تعديل</button><button class="delete" data-delete="${escapeHTML(row.id)}" type="button">حذف</button></div></article>`).join('') : '<div class="empty">لا توجد ملفات مضافة حتى الآن.</div>';
+    $('materialsList').innerHTML = filtered.length ? filtered.map(row => `<article class="material-row"><span class="material-icon">${escapeHTML(row.format)}</span><div class="material-info"><strong>${escapeHTML(row.title)}</strong><small>الفرقة ${row.year} · ${escapeHTML(row.subject)}${row.section ? ` · القسم: ${escapeHTML(row.section)}` : ''} · ${escapeHTML(row.type)}</small></div><div class="material-actions"><a href="${escapeHTML(window.fileActions.getPreviewUrl(row))}" target="_blank" rel="noopener">معاينة</a><button class="edit" data-edit="${escapeHTML(row.id)}" type="button">تعديل</button><button class="delete" data-delete="${escapeHTML(row.id)}" type="button">حذف</button></div></article>`).join('') : '<div class="empty">لا توجد ملفات مضافة حتى الآن.</div>';
     document.querySelectorAll('[data-delete]').forEach(button => button.onclick = () => removeMaterial(button.dataset.delete));
     document.querySelectorAll('[data-edit]').forEach(button => button.onclick = () => startEdit(button.dataset.edit));
   }
@@ -79,6 +82,7 @@
     $('subject').value = row.subject || '';
     updateCustomSubject();
     $('part').value = row.part || '';
+    $('section').value = row.section || 'المحاضرات';
     $('type').value = row.type || 'محاضرات';
     $('title').value = row.title || '';
     $('driveFormat').value = row.format || 'PDF';
@@ -95,6 +99,7 @@
   $('logoutButton').onclick = async () => { if (client) await client.auth.signOut(); sessionStorage.removeItem('materials-demo-session'); location.href = 'admin.html'; };
   $('year').onchange = setSubjects;
   $('subject').onchange = updateCustomSubject;
+  $('part').onchange = updateCustomSubject;
   $('adminSearch').oninput = render;
   $('file').onchange = event => { if (event.target.files[0]) $('fileLabel').textContent = event.target.files[0].name; };
   $('cancelEdit').onclick = resetForm;
@@ -112,7 +117,7 @@
     $('submitLabel').textContent = editingId ? 'جارٍ حفظ التعديل...' : 'جارٍ الرفع...';
 
     const format = file ? (file.type === 'application/pdf' ? 'PDF' : (file.type.startsWith('video/') ? 'فيديو' : 'صورة')) : (driveUrl ? $('driveFormat').value : current.format);
-    const base = { year: Number($('year').value), subject, part: $('part').value || null, title: $('title').value.trim(), type: $('type').value, format, published: $('published').checked };
+    const base = { year: Number($('year').value), subject, part: $('part').value || null, section: $('sectionWrap').hidden ? null : $('section').value, title: $('title').value.trim(), type: $('type').value, format, published: $('published').checked };
 
     if (demoMode) {
       if (editingId) {

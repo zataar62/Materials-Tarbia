@@ -35,7 +35,7 @@
     const client = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
     window.materialsClient = client;
     async function loadPublishedMaterials() {
-      const { data, error } = await client.from('materials').select('id,year,subject,part,title,type,format,file_url:file_url').eq('published', true).order('created_at', { ascending: false });
+      const { data, error } = await client.from('materials').select('id,year,subject,part,section,title,type,format,file_url:file_url').eq('published', true).order('created_at', { ascending: false });
       if (error || !Array.isArray(data)) return;
       window.materials = data.map(item => ({ ...item, file: item.file_url || '' }));
       if (typeof window.renderFiles === 'function') window.renderFiles();

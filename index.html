@@ -7,7 +7,6 @@
 <link rel="icon" href="logo.png" type="icon/png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
   #scrollTopBtn {
     position: fixed;
@@ -140,19 +139,17 @@
     <span>↑</span>
   </button>
 
-  <div class="footer-bottom">
-    <div class="contact-footer" aria-label="تواصل معنا">
+  <footer class="site-footer">
+    <div class="footer-contact" aria-label="تواصل معنا">
       <strong>تواصل معنا</strong>
-      <div class="contact-icons">
-        <a class="contact-icon whatsapp-icon" href="https://wa.me/201552171808" target="_blank" rel="noopener noreferrer" aria-label="تواصل معنا عبر واتساب"><i class="fa-brands fa-whatsapp"></i></a>
-        <a class="contact-icon facebook-icon" href="https://www.facebook.com/share/1E1h4NRUHi/" target="_blank" rel="noopener noreferrer" aria-label="صفحتنا على فيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
-      </div>
+      <a class="social-icon whatsapp-icon" href="https://wa.me/201552171808" target="_blank" rel="noopener noreferrer" aria-label="واتساب"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.6 4.1 1.6 5.8L.2 24l6.5-1.7a11.7 11.7 0 0 0 5.4 1.3h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.1-1.2-6.1-3.5-8.3ZM12.2 21.5h-.1c-1.7 0-3.4-.5-4.8-1.4l-.3-.2-3.8 1 1-3.7-.2-.4a9.7 9.7 0 0 1-1.5-5.1C2.5 6.4 6.8 2.1 12.1 2.1c2.6 0 5 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.3-4.3 9.6-9.7 9.6Zm5.3-7.2c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-1.8-.9-3-1.6-4.2-3.7-.3-.5.3-.5.8-1.6.1-.2.1-.4 0-.6-.1-.1-.7-1.6-1-2.2-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.5s1.1 2.9 1.2 3.1c.1.2 2.2 3.4 5.4 4.8 2 .9 2.8 1 3.8.8.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4 0-.2-.2-.3-.5-.4Z"/></svg></a>
+      <a class="social-icon facebook-icon" href="https://www.facebook.com/share/1DdubeVmSx/" target="_blank" rel="noopener noreferrer" aria-label="فيسبوك">f</a>
     </div>
-    <div class="footer-credits">
+    <div class="footer-details">
       <span class="copyright">© <span id="yearNow"></span> جميع الحقوق محفوظة</span>
       <span class="developer-credit">Developed by: Ebram Adel</span>
     </div>
-  </div>
+  </footer>
 
   <script>
     function updateTitleAndScroll(newHtmlText, yearNum, buttonElement) {

@@ -1,19 +1,19 @@
 s = [
-  { id: 1, year: 2, subject: 'كيمياء عامة (2)', title: 'محاضرة كيمياء عامة', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 2, year: 2, subject: 'طحالب', title: 'محاضرات الطحالب', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 15, year: 2, subject: 'تصنيف نبات B', title: 'محاضرات تصنيف نبات B', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 3, year: 2, subject: 'تطبيقات الفيزياء في الحياة', title: 'ملخص تطبيقات الفيزياء', type: 'ملخصات', format: 'PDF', file: '', note: '' },
-  { id: 4, year: 2, subject: 'كهرومغناطيسية', title: 'محاضرة الكهرومغناطيسية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 5, year: 2, subject: 'تدريس مصغر (2)', title: 'ملزمة التدريس المصغر', type: 'ملازم', format: 'PDF', file: '', note: '' },
-  { id: 6, year: 2, subject: 'تطبيقات الرياضيات في الحياة', title: 'تطبيقات الرياضيات', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 7, year: 2, subject: 'قضايا مجتمعية', title: 'ملخص القضايا المجتمعية', type: 'ملخصات', format: 'PDF', file: '', note: '' },
-  { id: 8, year: 2, subject: 'الاتجاهات المعاصرة في علم نفس', title: 'محاضرة علم النفس', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 9, year: 2, subject: 'دمج ذوي الاحتياجات الخاصة', title: 'محاضرة الدمج', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 10, year: 2, subject: 'كيمياء الجزيئات الحيوية', title: 'محاضرة الجزيئات الحيوية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 11, year: 2, subject: 'خبرات دولية في تطوير المناهج', title: 'محاضرة الخبرات الدولية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
-  { id: 12, year: 2, subject: 'نظريات تربوية وإدارية', title: 'ملخص النظريات التربوية', type: 'ملخصات', format: 'PDF', file: '', note: '' },
-  { id: 13, year: 2, subject: 'المهارات الحياتية', title: 'ملزمة المهارات الحياتية', type: 'ملازم', format: 'PDF', file: '', note: '' },
-  { id: 14, year: 2, subject: 'القوة الإيجابية في الشخصية', title: 'محاضرة القوة الإيجابية', type: 'محاضرات', format: 'PDF', file: '', note: '' }
+  { id: 1, year: 2, subject: 'كيمياء عامة (2)', section: 'المحاضرات', title: 'محاضرة كيمياء عامة', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 2, year: 2, subject: 'طحالب + تصنيف نبات B', part: 'طحالب', section: 'المحاضرات', title: 'محاضرات الطحالب', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 15, year: 2, subject: 'طحالب + تصنيف نبات B', part: 'تصنيف نبات B', section: 'المحاضرات', title: 'محاضرات تصنيف نبات B', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 3, year: 2, subject: 'تطبيقات الفيزياء في الحياة', section: 'المحاضرات', title: 'ملخص تطبيقات الفيزياء', type: 'ملخصات', format: 'PDF', file: '', note: '' },
+  { id: 4, year: 2, subject: 'كهرومغناطيسية', section: 'المحاضرات', title: 'محاضرة الكهرومغناطيسية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 5, year: 2, subject: 'تدريس مصغر (2)', section: 'المحاضرات', title: 'ملزمة التدريس المصغر', type: 'ملازم', format: 'PDF', file: '', note: '' },
+  { id: 6, year: 2, subject: 'تطبيقات الرياضيات في الحياة', section: 'المحاضرات', title: 'تطبيقات الرياضيات', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 7, year: 2, subject: 'قضايا مجتمعية', section: 'المحاضرات', title: 'ملخص القضايا المجتمعية', type: 'ملخصات', format: 'PDF', file: '', note: '' },
+  { id: 8, year: 2, subject: 'الاتجاهات المعاصرة في علم نفس', section: 'المحاضرات', title: 'محاضرة علم النفس', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 9, year: 2, subject: 'دمج ذوي الاحتياجات الخاصة', section: 'المحاضرات', title: 'محاضرة الدمج', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 10, year: 2, subject: 'كيمياء الجزيئات الحيوية', section: 'المحاضرات', title: 'محاضرة الجزيئات الحيوية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 11, year: 2, subject: 'خبرات دولية في تطوير المناهج', section: 'المحاضرات', title: 'محاضرة الخبرات الدولية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 12, year: 2, subject: 'نظريات تربوية وإدارية', section: 'المحاضرات', title: 'ملخص النظريات التربوية', type: 'ملخصات', format: 'PDF', file: '', note: '' },
+  { id: 13, year: 2, subject: 'المهارات الحياتية', section: 'المحاضرات', title: 'ملزمة المهارات الحياتية', type: 'ملازم', format: 'PDF', file: '', note: '' },
+  { id: 14, year: 2, subject: 'القوة الإيجابية في الشخصية', section: 'المحاضرات', title: 'محاضرة القوة الإيجابية', type: 'محاضرات', format: 'PDF', file: '', note: '' }
 ];
 
 window.materials = window.materials || s;
@@ -21,6 +21,7 @@ window.materials = window.materials || s;
 let selectedYear = null;
 let selectedSubject = null;
 let selectedSubSubject = null;
+let selectedSection = null;
 let selectedMediaType = null;
 
 const fileGrid = document.getElementById('fileGrid');
@@ -126,8 +127,6 @@ styleAnimation.innerHTML = `
     font-size: 11px;
     font-weight: 500;
   }
-  .category-choice { aspect-ratio: 1 / 1; width: 190px !important; max-width: 190px; min-height: 120px; justify-self: center; flex-direction: column; justify-content: center; text-align: center; border-radius: 18px; }
-  .category-choice .subject-arrow { margin-right: 0; }
 
   .unavailable-card {
     grid-column: 1 / -1;
@@ -236,6 +235,10 @@ document.head.appendChild(styleAnimation);
 function renderFiles() {
   const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
 
+  if (selectedYear === null && searchTerm) {
+    selectedYear = '2';
+  }
+
   if (selectedYear === null) {
     fileGrid.innerHTML = '';
     resultsCount.textContent = '0 ملف';
@@ -244,11 +247,15 @@ function renderFiles() {
   }
 
   if (selectedSubject) {
-    if (['كيمياء عامة (2)', 'طحالب', 'تصنيف نبات B', 'كهرومغناطيسية', 'تطبيقات الرياضيات في الحياة', 'كيمياء الجزيئات الحيوية'].includes(selectedSubject) && !selectedMediaType) {
-      showMediaTypeBoxes();
+    if (/^طحالب\s*\+\s*تصنيف نبات/i.test(selectedSubject) && !selectedSubSubject) {
+      showCombinedSubjectOptions();
       return;
     }
-    selectedMediaType = selectedMediaType || 'PDF';
+    if (isSectionedSubject(selectedSubject, selectedSubSubject) && !selectedSection) {
+      showSectionOptions();
+      return;
+    }
+    selectedMediaType = 'PDF';
     showActualFiles();
     return;
   }
@@ -300,8 +307,7 @@ function showSubjectBoxes() {
 
   const subjects = [
     { name: 'كيمياء عامة (2)', subject: 'كيمياء عامة (2)', accent: '#0f766e', tint: 'rgba(15,118,110,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 15h8"/><circle cx="10" cy="18" r=".7" fill="currentColor"/><circle cx="14" cy="17" r=".7" fill="currentColor"/></svg>' },
-    { name: 'طحالب', subject: 'طحالب', accent: '#16a34a', tint: 'rgba(22,163,74,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10"/><path d="M12 14C5 14 4 8 4 5c6 0 9 3 8 9Z"/><path d="M12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/><path d="M4 21h16"/></svg>' },
-    { name: 'تصنيف نبات B', subject: 'تصنيف نبات B', accent: '#2563eb', tint: 'rgba(37,99,235,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>' },
+    { name: 'طحالب + تصنيف نبات B', subject: 'طحالب + تصنيف نبات B', accent: '#16a34a', tint: 'rgba(22,163,74,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10"/><path d="M12 14C5 14 4 8 4 5c6 0 9 3 8 9Z"/><path d="M12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/><path d="M4 21h16"/></svg>' },
     { name: 'تطبيقات الفيزياء في الحياة', subject: 'تطبيقات الفيزياء في الحياة', accent: '#2563eb', tint: 'rgba(37,99,235,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="4"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(-60 12 12)"/></svg>' },
     { name: 'كهرومغناطيسية', subject: 'كهرومغناطيسية', accent: '#7c3aed', tint: 'rgba(124,58,237,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 13h6l-1 9 11-13h-7Z"/><path d="M3 5h3M2 9h2M18 19h3"/></svg>' },
     { name: 'تدريس مصغر (2)', subject: 'تدريس مصغر (2)', accent: '#c2410c', tint: 'rgba(194,65,12,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M8 21h8M12 16v5M7 8h10M7 11h6"/></svg>' },
@@ -318,7 +324,6 @@ function showSubjectBoxes() {
 
   const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
   const dynamicSubjects = [...new Set(materials.filter(item => String(item.year) === String(selectedYear) && item.subject).map(item => item.subject))]
-    .filter(name => name !== 'طحالب + تصنيف نبات B')
     .filter(name => !subjects.some(sub => sub.subject === name))
     .map(name => ({ name, subject: name, accent: '#a78240', tint: 'rgba(167,130,64,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>' }));
   const allSubjects = subjects.concat(dynamicSubjects);
@@ -356,28 +361,67 @@ function showSubjectBoxes() {
   if (emptyState) emptyState.hidden = true;
 }
 
-window.selectSubSubjectHandler = function(part) {
-  selectedSubSubject = part;
-  selectedMediaType = 'PDF';
-  renderFiles();
-};
+function isSectionedSubject(subject, part) {
+  return ['كيمياء عامة (2)', 'كهرومغناطيسية', 'تطبيقات الرياضيات في الحياة', 'كيمياء الجزيئات الحيوية'].includes(subject) || (subject === 'طحالب + تصنيف نبات B' && ['طحالب', 'تصنيف نبات B'].includes(part));
+}
 
-function showMediaTypeBoxes() {
+function showSectionOptions() {
   const container = document.getElementById('categoryBoxes');
   if (!container) return;
   container.className = 'animate-fade subjects-layout';
   container.style.cssText = '';
   container.innerHTML = `
     <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
+      <div><button type="button" onclick="animateBackAndGo(this, '${selectedSubSubject ? 'goBackToSubSubjects' : 'goBackToSubjects'}')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true">←</span><span class="back-button-label">${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</span></button><h3>${escapeHTML(selectedSubSubject || selectedSubject)}</h3><p>اختار نوع المحتوى</p></div>
+    </div>
+    <button type="button" class="subject-card" onclick="selectSectionHandler('المحاضرات')" style="--subject-accent:#2563eb;--subject-tint:rgba(37,99,235,.11);font-family:inherit;width:100%;"><span class="subject-icon">▤</span><span><span class="subject-name">المحاضرات</span><span class="subject-caption">ملفات ومحاضرات المادة</span></span><span class="subject-arrow">←</span></button>
+    <button type="button" class="subject-card" onclick="selectSectionHandler('السكاشن')" style="--subject-accent:#16a34a;--subject-tint:rgba(22,163,74,.11);font-family:inherit;width:100%;"><span class="subject-icon">▦</span><span><span class="subject-name">السكاشن</span><span class="subject-caption">ملفات السكاشن والتطبيقات</span></span><span class="subject-arrow">←</span></button>`;
+  fileGrid.innerHTML = ''; fileGrid.hidden = true; resultsCount.textContent = 'قسمان'; if (emptyState) emptyState.hidden = true;
+}
+
+window.selectSectionHandler = function(section) { selectedSection = section; selectedMediaType = 'PDF'; renderFiles(); };
+
+function showCombinedSubjectOptions() {
+  const container = document.getElementById('categoryBoxes');
+  if (!container) return;
+
+  container.className = 'animate-fade subjects-layout';
+  container.style.cssText = '';
+  container.innerHTML = `
+    <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
       <div>
         <button type="button" onclick="animateBackAndGo(this, 'goBackToSubjects')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M12 5l7 7-7 7"/></svg></span><span class="back-button-label">العودة لقائمة المواد</span></button>
-        <h3>${escapeHTML(selectedSubject)}</h3><p>اختار نوع المحتوى</p>
+        <h3>طحالب + تصنيف نبات B</h3>
+        <p>اختر المادة التي تريد فتحها</p>
       </div>
     </div>
-    <button type="button" class="subject-card category-choice" onclick="selectMediaTypeHandler('PDF')" style="--subject-accent:#102b46;--subject-tint:rgba(16,43,70,.10);font-family:inherit;width:100%;"><span class="subject-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h6"/></svg></span><span class="subject-name">كل ملفات المادة</span><span class="subject-arrow">←</span></button>
-    <button type="button" class="subject-card category-choice" onclick="selectMediaTypeHandler('السكاشن')" style="--subject-accent:#c9a45d;--subject-tint:rgba(201,164,93,.14);font-family:inherit;width:100%;"><span class="subject-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></span><span class="subject-name">السكاشن</span><span class="subject-arrow">←</span></button>
+    <button type="button" class="subject-card" onclick="selectSubSubjectHandler('طحالب')" style="--subject-accent:#16a34a; --subject-tint:rgba(22,163,74,.11); font-family:inherit; width:100%;">
+      <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M12 14C5 14 4 8 4 5c6 0 9 3 8 9ZM12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/></svg></span>
+      <span><span class="subject-name">طحالب</span><span class="subject-caption">ملفات ومحاضرات الطحالب</span></span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
+    </button>
+    <button type="button" class="subject-card" onclick="selectSubSubjectHandler('تصنيف نبات B')" style="--subject-accent:#2563eb; --subject-tint:rgba(37,99,235,.11); font-family:inherit; width:100%;">
+      <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg></span>
+      <span><span class="subject-name">تصنيف نبات B</span><span class="subject-caption">ملفات ومحاضرات التصنيف</span></span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
+    </button>
   `;
-  fileGrid.innerHTML=''; fileGrid.hidden=true; resultsCount.textContent='نوعان من المحتوى'; if (emptyState) emptyState.hidden=true;
+  fileGrid.innerHTML = '';
+  fileGrid.hidden = true;
+  resultsCount.textContent = 'مادتان';
+  if (emptyState) emptyState.hidden = true;
+}
+
+window.selectSubSubjectHandler = function(part) {
+  selectedSubSubject = part;
+  selectedSection = null;
+  selectedMediaType = 'PDF';
+  renderFiles();
+};
+
+function showMediaTypeBoxes() {
+  selectedMediaType = 'PDF';
+  showActualFiles();
 }
 
 function showActualFiles() {
@@ -386,14 +430,14 @@ function showActualFiles() {
     container.innerHTML = `
       <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
         <div>
-          <button type="button" onclick="animateBackAndGo(this, '${selectedSubSubject ? 'goBackToSubSubjects' : 'goBackToSubjects'}')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M12 5l7 7-7 7"/></svg></span><span class="back-button-label">${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</span></button>
-          <h3>${escapeHTML(selectedSubSubject || selectedSubject)}</h3>
+          <button type="button" onclick="animateBackAndGo(this, '${selectedSection ? 'goBackToSections' : 'goBackToSubjects'}')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M12 5l7 7-7 7"/></svg></span><span class="back-button-label">${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</span></button>
+          <h3>${escapeHTML(selectedSection ? `${selectedSubSubject || selectedSubject} — ${selectedSection}` : (selectedSubSubject || selectedSubject))}</h3>
         </div>
       </div>
     `;
   }
 
-  const filtered = materials.filter(item => item.subject === selectedSubject && (!selectedSubSubject || item.part === selectedSubSubject) && (!selectedMediaType || selectedMediaType === 'PDF' || item.type === selectedMediaType));
+  const filtered = materials.filter(item => item.subject === selectedSubject && (!selectedSubSubject || item.part === selectedSubSubject) && (!selectedSection || (item.section || 'المحاضرات') === selectedSection));
   
   fileGrid.className = 'file-grid animate-fade';
   fileGrid.innerHTML = filtered.length ? filtered.map(item => `
@@ -417,12 +461,16 @@ function showActualFiles() {
 window.selectSubjectHandler = function(subject) {
   selectedSubject = subject;
   selectedSubSubject = null;
+  selectedSection = null;
   selectedMediaType = null;
   renderFiles();
 };
 
+window.goBackToSections = function() { selectedSection = null; selectedMediaType = null; renderFiles(); };
+
 window.goBackToSubSubjects = function() {
   selectedSubSubject = null;
+  selectedSection = null;
   selectedMediaType = null;
   renderFiles();
 };
@@ -439,6 +487,7 @@ window.animateBackAndGo = function(button, actionName) {
 window.goBackToSubjects = function() {
   selectedSubject = null;
   selectedSubSubject = null;
+  selectedSection = null;
   selectedMediaType = null;
   renderFiles();
 };
@@ -454,6 +503,7 @@ window.selectYear = function(yearNum, newHtmlText) {
   selectedYear = String(yearNum)
   selectedSubject = null;
   selectedSubSubject = null;
+  selectedSection = null;
   selectedMediaType = null;
   
   const markElement = document.getElementById("sectionMark");
