@@ -36,7 +36,6 @@
 
 /* حجم متجاوب لاسم المطور على الهاتف والتابلت واللاب توب */
 .developer-credit {
-  font-size: clamp(13px, 2vw, 20px) !important;
   letter-spacing: clamp(0.5px, 0.25vw, 3px) !important;
   line-height: 1.5;
   white-space: nowrap;
