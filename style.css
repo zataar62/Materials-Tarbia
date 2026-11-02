@@ -1,34 +1,565 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
-:root{--navy:#102b46;--navy2:#173b5c;--gold:#c9a45d;--gold-light:#ead9b2;--ink:#1c2d3d;--muted:#778392;--paper:#f7f8fa;--line:#e6e9ee;--white:#fff;--shadow:0 18px 45px #122b4510}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:92px}body{margin:0;background:#fff;color:var(--ink);font-family:'Cairo',Tahoma,Arial,sans-serif;line-height:1.7;overflow-x:hidden;width:100%;display:flex;flex-direction:column;min-height:100vh}main{flex:1}a{color:inherit;text-decoration:none}button,input,select{font:inherit}.topbar{height:86px;padding:0 max(5.5%,calc((100% - 1280px)/2));display:flex;align-items:center;justify-content:space-between;gap:28px;background:#fff;border-bottom:1px solid #edf0f3;position:sticky;top:0;z-index:10}.brand{display:flex;align-items:center;gap:12px;min-width:240px}.brand-icon{width:45px;height:45px;border-radius:13px;background:var(--navy);color:var(--gold-light);display:grid;place-items:center;font-size:25px;font-weight:900;border:1px solid #c7a45d80;box-shadow:inset 0 0 0 3px #ffffff0c}.brand strong,.brand small{display:block}.brand strong{font-size:15px;color:var(--navy);line-height:1.7}.brand small{font-size:11px;color:#8a929c}.nav-links{display:flex;gap:32px;color:#687584;font-size:13px}.nav-links a:hover{color:var(--gold)}.header-button{border:1px solid #e2e5e9;border-radius:8px;padding:10px 17px;font-size:12px;font-weight:700;color:var(--navy);white-space:nowrap}.header-button span{color:var(--gold);padding-right:8px}.hero{background:linear-gradient(115deg,#f7f8fa 0%,#fbfaf7 56%,#f4f1e9 100%);min-height:550px;padding:64px max(7%,calc((100% - 1160px)/2));display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;overflow:hidden}.hero-copy{position:relative;z-index:1}.eyebrow{font-size:11px;letter-spacing:.4px;font-weight:800;color:#a07c39;display:inline-flex;align-items:center;gap:9px}.pulse{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px #c9a45d24}.hero h1{font-size:clamp(36px,4.1vw,54px);line-height:1.38;color:var(--navy);margin:16px 0 14px;font-weight:900;letter-spacing:-1.4px}.hero h1 em{font-style:normal;color:#b38d49}.hero-copy>p{max-width:500px;color:#727e8b;font-size:14px;line-height:2.1;margin:0}.hero-actions{display:flex;align-items:center;gap:25px;margin-top:28px}.primary-button{background:var(--navy);color:white;border:0;border-radius:8px;padding:13px 21px;display:inline-flex;align-items:center;gap:22px;font-size:12px;font-weight:800;box-shadow:0 8px 20px #102b4620;transition:.2s}.primary-button:hover{background:#214c70;transform:translateY(-2px)}.primary-button span{color:var(--gold-light);font-size:17px}.text-button{font-size:12px;font-weight:800;color:#596878}.text-button span{color:var(--gold);font-size:19px;margin-right:7px}.hero-note{display:flex;align-items:center;gap:12px;margin-top:33px;color:#7a8591;font-size:10px}.avatar-stack{display:flex;padding-right:4px}.avatar-stack i{font-style:normal;width:26px;height:26px;border:2px solid #f8f8f7;border-radius:50%;margin-right:-5px;background:#d9e2e8;color:var(--navy);font-size:10px;display:grid;place-items:center;font-weight:800}.avatar-stack i:nth-child(2){background:#e9dfc9}.avatar-stack i:nth-child(3){background:#c7d6d0}.hero-art{position:relative;height:405px;display:grid;place-items:center}.orbit{position:absolute;border:1px solid #d9c89e65;border-radius:50%;transform:rotate(-24deg)}.orbit-one{width:370px;height:285px}.orbit-two{width:300px;height:380px;transform:rotate(35deg)}.book{position:absolute;width:178px;height:250px;border-radius:5px 12px 12px 5px;transform:rotate(-8deg);box-shadow:12px 18px 28px #102b4626}.book-back{background:#c5a66d;translate:-35px -9px;transform:rotate(-17deg);height:232px}.book-mid{background:#244766;translate:20px 5px;transform:rotate(9deg);height:246px}.book-front{background:linear-gradient(140deg,#173957,#0e263e);border:1px solid #d3b66f;outline:1px solid #c8a660;outline-offset:-8px;color:#ead9b2;display:flex;align-items:center;flex-direction:column;padding-top:30px;z-index:2}.book-seal{width:38px;height:38px;border:1px solid #c7a45d;border-radius:50%;display:grid;place-items:center;font-size:22px;margin-bottom:15px}.book-title{font-size:28px;font-weight:900;line-height:1.45;text-align:center}.book-line{height:1px;background:#c9a45d;width:75px;margin:15px 0 9px}.book-subtitle{font-size:10px;letter-spacing:2px}.floating-card{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;padding:12px 13px;background:#ffffffed;border:1px solid #e9e8e3;border-radius:10px;box-shadow:0 12px 32px #102b4617;min-width:185px}.floating-card b,.floating-card small{display:block}.floating-card b{font-size:10px;color:var(--navy)}.floating-card small{font-size:9px;color:#87909a;margin-top:2px}.card-pdf{top:69px;right:0}.card-cap{bottom:65px;left:-5px;min-width:160px}.file-icon{font-size:8px;font-weight:900;padding:8px 6px;border-radius:5px}.pdf-icon{background:#f6e8e5;color:#b85a4d}.check{margin-right:auto;color:#5e9b77;font-size:14px}.cap-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:7px;background:#f3ead7;color:#b38d49}.spark{position:absolute;color:#c5a45f}.spark-a{top:54px;left:80px;font-size:23px}.spark-b{right:24px;bottom:54px;font-size:26px}.spark-c{left:44px;top:160px;font-size:13px}.stats{display:grid;grid-template-columns:repeat(4,1fr);padding:26px max(7%,calc((100% - 1160px)/2));border-bottom:1px solid #edf0f3;gap:20px}.stats>div{display:flex;align-items:center;gap:13px;padding:0 10px}.stat-icon{width:40px;height:40px;display:grid;place-items:center;background:#f7f3e9;color:#a78240;border-radius:10px;font-size:21px}.stats b,.stats small{display:block}.stats b{font-size:12px;color:var(--navy)}.stats small{font-size:10px;color:#89929d;margin-top:3px}.section{max-width:1160px;margin:0 auto;padding:75px 28px}.section-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:30px}.section-heading h2{font-size:29px;line-height:1.4;color:var(--navy);margin:6px 0}.section-heading p{font-size:12px;color:#7e8995;margin:0}.heading-mark{font-size:12px;color:var(--gold);font-weight:900;letter-spacing:1px}.heading-mark i{font-style:normal;color:#aeb5bc;font-weight:500}.year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.year-card{text-align:right;position:relative;min-height:195px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 19px;cursor:pointer;transition:.2s;color:var(--ink)}.year-card:hover,.year-card.active{border-color:#c7a45d;box-shadow:0 12px 28px #102b460b;transform:translateY(-3px)}.year-card.active{background:linear-gradient(145deg,#fff,#fbf8f0)}.year-number{position:absolute;left:18px;top:16px;font-size:11px;color:#b3bbc3;font-weight:800}.year-symbol{display:grid;place-items:center;width:43px;height:43px;background:#f4efe3;color:#a78240;border-radius:10px;font-size:22px;margin-bottom:18px}.year-name{display:block;color:var(--navy);font-size:15px;font-weight:900}.year-desc{display:block;color:#8a939e;font-size:10px;margin-top:7px;max-width:190px}.year-arrow{position:absolute;left:18px;bottom:19px;color:#b38d49;font-size:19px}.library-section{padding-top:48px}.library-tools{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:23px}.search-box{display:flex;align-items:center;gap:11px;max-width:610px;width:100%;height:49px;border:1px solid #e4e8ec;border-radius:9px;padding:0 14px;background:#fff}.search-box>span{font-size:25px;color:#b08a46}.search-box input{border:0;outline:0;flex:1;min-width:0;font-size:12px;color:var(--ink);background:transparent}.search-box input::placeholder{color:#a2aab3}.search-box kbd{font:inherit;font-size:10px;background:#f5f6f7;color:#89929c;border-radius:5px;padding:4px 8px}.filter-row{display:flex;align-items:center;gap:15px}.filter-row select{height:43px;border:1px solid #e4e8ec;border-radius:8px;padding:0 12px;background:white;color:#667381;font-size:11px;outline-color:var(--gold)}.results-count{font-size:11px;color:#87919b;white-space:nowrap}.file-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.file-card{border:1px solid var(--line);border-radius:10px;padding:17px;display:flex;align-items:flex-start;gap:13px;min-width:0;transition:.2s}.file-card:hover{border-color:#d2bc8b;box-shadow:var(--shadow)}.file-type-icon{width:43px;height:47px;flex:0 0 43px;border-radius:8px;display:grid;place-items:center;font-size:9px;font-weight:900}.type-محاضرات{background:#e7eef6;color:#315e89}.type-ملخصات{background:#f5eedf;color:#9b7739}.type-امتحانات{background:#f6e7e4;color:#b65c4f}.type-ملازم{background:#e4f0e9;color:#4e8063}.type-تكليف{background:#f6e7e4;color:#b65c4f} ;file-info{flex:1;min-width:0}.file-info h3{font-size:12px;color:var(--navy);margin:0 0 5px;overflow-wrap:anywhere}.file-info p{font-size:10px;color:#8b95a0;margin:0 0 11px}.file-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}.file-tag{font-size:9px;background:#f5f6f7;color:#778390;border-radius:4px;padding:3px 7px}.file-link{font-size:10px;color:#a17d3c;font-weight:800}.file-link:hover{text-decoration:underline}.empty-state{text-align:center;padding:45px 10px;color:#8b95a0}.empty-state>span{font-size:35px;color:#c6a45f}.empty-state h3{color:var(--navy);font-size:17px;margin:5px 0}.empty-state p{font-size:12px}.demo-notice{font-size:10px;color:#8a939c;background:#f7f8f9;border-radius:7px;padding:12px 14px;margin-top:22px}.demo-notice span{color:#b08a46;margin-left:5px}.cta-section{max-width:1104px;margin:0 auto 75px;padding:32px 38px;background:var(--navy);border-radius:15px;color:white;display:flex;align-items:center;gap:24px;position:relative;overflow:hidden}.cta-section:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #c9a45d36;border-radius:50%;left:-80px;top:-110px;box-shadow:0 0 0 28px #c9a45d0a,0 0 0 58px #c9a45d08}.cta-symbol{width:48px;height:48px;border:1px solid #c9a45d8c;border-radius:12px;color:var(--gold-light);display:grid;place-items:center;font-size:24px;flex-shrink:0}.cta-section>div:nth-child(2){flex:1;position:relative;z-index:1}.cta-section h2{font-size:21px;margin:4px 0}.cta-section p{font-size:11px;color:#bdc9d4;margin:0}.cta-section .primary-button{background:#c7a45d;color:#122d47;white-space:nowrap}.cta-section .primary-button span{color:#122d47}footer{border-top:1px solid #edf0f3;min-height:105px;padding:24px max(5.5%,calc((100% - 1280px)/2));display:flex;align-items:center;justify-content:center;gap:15px;text-align:center;width:100%;margin-top:auto}footer p,footer .copyright{font-size:10px;color:#8c96a0;margin:0;text-align:center;display:inline-block}.footer-brand{font-size:12px;font-weight:900;color:var(--navy)}.footer-brand span{color:var(--gold);margin-right:5px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-@media(max-width:900px){.topbar{padding:0 4%;gap:12px}.brand{min-width:auto}.nav-links{gap:15px}.header-button{padding:9px 11px}.hero{padding:48px 5%;gap:10px}.hero-art{transform:scale(.88)}.stats{padding:24px 4%;gap:12px}.stats>div{padding:0}.year-grid{grid-template-columns:repeat(2,1fr)}.section{padding-left:5%;padding-right:5%}.cta-section{margin-left:5%;margin-right:5%}}
-@media(max-width:620px){.topbar{height:72px}.brand-icon{width:39px;height:39px}.brand strong{font-size:12px}.brand small{font-size:9px}.nav-links{display:none}.header-button{font-size:10px}.hero{grid-template-columns:1fr;padding:43px 7% 20px;gap:0}.hero h1{font-size:39px}.hero-copy>p{font-size:12px}.hero-art{height:330px;transform:scale(.82);margin:-5px -20px 0}.card-pdf{right:0}.card-cap{left:0}.stats{grid-template-columns:repeat(2,1fr);row-gap:22px;padding:23px 7%}.stats>div{gap:9px}.stat-icon{width:35px;height:35px}.stats b{font-size:11px}.stats small{font-size:9px}.section{padding:52px 6%}.section-heading h2{font-size:24px}.section-heading p{font-size:10px}.year-grid{grid-template-columns:1fr;gap:10px}.year-card{padding:16px 13px;min-height:180px}.year-name{font-size:13px}.year-desc{font-size:9px}.year-number{left:12px;top:12px}.year-arrow{left:12px;bottom:13px}.library-tools{align-items:stretch;flex-direction:column}.search-box{max-width:none}.filter-row{justify-content:space-between;flex-wrap:wrap}.filter-row select{width:100%}.file-grid{grid-template-columns:1fr}.file-card{padding:14px}.cta-section{padding:24px 20px;flex-wrap:wrap;margin-bottom:48px;gap:15px}.cta-section h2{font-size:18px}.cta-section p{font-size:10px}.cta-section .primary-button{margin-right:0;width:100%;justify-content:center}footer{padding:22px 6%;flex-wrap:wrap;justify-content:center}footer p, footer div{width:100%;text-align:center}}
+s = [
+  { id: 1, year: 2, subject: 'كيمياء عامة (2)', section: 'المحاضرات', title: 'محاضرة كيمياء عامة', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 2, year: 2, subject: 'طحالب + تصنيف نبات B', part: 'طحالب', section: 'المحاضرات', title: 'محاضرات الطحالب', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 15, year: 2, subject: 'طحالب + تصنيف نبات B', part: 'تصنيف نبات B', section: 'المحاضرات', title: 'محاضرات تصنيف نبات B', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 3, year: 2, subject: 'تطبيقات الفيزياء في الحياة', section: 'المحاضرات', title: 'ملخص تطبيقات الفيزياء', type: 'ملخصات', format: 'PDF', file: '', note: '' },
+  { id: 4, year: 2, subject: 'كهرومغناطيسية', section: 'المحاضرات', title: 'محاضرة الكهرومغناطيسية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 5, year: 2, subject: 'تدريس مصغر (2)', section: 'المحاضرات', title: 'ملزمة التدريس المصغر', type: 'ملازم', format: 'PDF', file: '', note: '' },
+  { id: 6, year: 2, subject: 'تطبيقات الرياضيات في الحياة', section: null, title: 'تطبيقات الرياضيات', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 7, year: 2, subject: 'قضايا مجتمعية', section: 'المحاضرات', title: 'ملخص القضايا المجتمعية', type: 'ملخصات', format: 'PDF', file: '', note: '' },
+  { id: 8, year: 2, subject: 'الاتجاهات المعاصرة في علم نفس', section: 'المحاضرات', title: 'محاضرة علم النفس', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 9, year: 2, subject: 'دمج ذوي الاحتياجات الخاصة', section: 'المحاضرات', title: 'محاضرة الدمج', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 10, year: 2, subject: 'كيمياء الجزيئات الحيوية', section: 'المحاضرات', title: 'محاضرة الجزيئات الحيوية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 11, year: 2, subject: 'خبرات دولية في تطوير المناهج', section: 'المحاضرات', title: 'محاضرة الخبرات الدولية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 12, year: 2, subject: 'نظريات تربوية وإدارية', section: 'المحاضرات', title: 'ملخص النظريات التربوية', type: 'ملخصات', format: 'PDF', file: '', note: '' },
+  { id: 13, year: 2, subject: 'المهارات الحياتية', section: 'المحاضرات', title: 'ملزمة المهارات الحياتية', type: 'ملازم', format: 'PDF', file: '', note: '' },
+  { id: 14, year: 2, subject: 'القوة الإيجابية في الشخصية', section: 'المحاضرات', title: 'محاضرة القوة الإيجابية', type: 'محاضرات', format: 'PDF', file: '', note: '' }
+];
 
-@media (max-width: 620px) {
-  .nav-links {
-    display: flex !important;
-    gap: 12px !important;
-    font-size: 11px !important;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 5px 0;
+window.materials = window.materials || s;
+
+let selectedYear = null;
+let selectedSubject = null;
+let selectedSubSubject = null;
+let selectedSection = null;
+let selectedMediaType = null;
+
+const fileGrid = document.getElementById('fileGrid');
+const searchInput = document.getElementById('searchInput');
+const typeFilter = document.getElementById('typeFilter');
+const resultsCount = document.getElementById('resultsCount');
+const emptyState = document.getElementById('emptyState');
+
+const styleAnimation = document.createElement('style');
+styleAnimation.innerHTML = `
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  
-  .topbar {
-    height: auto !important;
-    flex-direction: column !important;
-    padding: 12px 4% !important;
-    gap: 8px !important;
+
+  .animate-fade {
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
+
+  #categoryBoxes.subjects-layout {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 18px !important;
+    margin: 8px 0 30px;
+    direction: rtl;
+  }
+
+  .subject-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 104px;
+    padding: 18px 16px;
+    overflow: hidden;
+    text-align: right;
+    cursor: pointer;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 18px;
+    background: var(--surface, #fff);
+    box-shadow: 0 5px 18px rgba(15, 23, 42, .045);
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  }
+
+  .subject-card::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 4px;
+    background: var(--subject-accent, #3b82f6);
+    opacity: .9;
+  }
+
+  .subject-card:hover,
+  .subject-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--subject-accent, var(--primary, #3b82f6));
+    box-shadow: 0 12px 26px rgba(15, 23, 42, .10);
+    outline: none;
+  }
+
+  .subject-icon {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    color: var(--subject-accent, #3b82f6);
+    background: var(--subject-tint, rgba(59, 130, 246, .10));
+  }
+
+  .subject-icon svg { width: 25px; height: 25px; }
+  .subject-name {
+    color: var(--text, #1e293b);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.8;
+  }
+  .subject-arrow {
+    margin-right: auto;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    color: var(--subject-accent, #64748b);
+    background: var(--subject-tint, rgba(59,130,246,.08));
+    transition: transform .22s ease, background .22s ease, border-color .22s ease;
+  }
+  .subject-arrow svg { width: 15px; height: 15px; }
+  .subject-card:hover .subject-arrow,
+  .subject-card:focus-visible .subject-arrow { transform: translateX(-3px); }
+
+  .subject-caption {
+    display: block;
+    margin-top: 3px;
+    color: var(--text-muted, #64748b);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .unavailable-card {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 42px 20px;
+    border: 1px dashed var(--border, #cbd5e1);
+    border-radius: 20px;
+    background: var(--surface, #fff);
+    color: var(--text-muted, #64748b);
+    text-align: center;
+  }
+  .unavailable-card .unavailable-icon {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    color: #d97706;
+    background: rgba(245, 158, 11, .12);
+  }
+  .unavailable-card strong { color: var(--text, #1e293b); font-size: 17px; }
+  .unavailable-card p { margin: 0; font-size: 13px; line-height: 1.8; }
+
+  .materials-back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+    gap: 10px;
+    min-height: 46px;
+    padding: 7px 14px 7px 10px;
+    margin-inline-start: 0;
+    text-align: right;
+    align-self: flex-start;
+    border: 1px solid rgba(37, 99, 235, .16);
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--surface, #fff), rgba(37, 99, 235, .055));
+    color: var(--primary, #2563eb);
+    font-family: "Cairo", "Tajawal", "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.5;
+    letter-spacing: 0;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, .045);
+    transition: none;
+  }
+  .materials-back-button .back-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 9px;
+    background: rgba(37, 99, 235, .10);
+    color: var(--primary, #2563eb);
+    transition: none;
+  }
+  .materials-back-button .back-button-icon svg { width: 17px; height: 17px; }
+  .materials-back-button .back-button-label { direction: rtl; unicode-bidi: isolate; white-space: nowrap; }
+  .materials-back-button:hover,
+  .materials-back-button:focus-visible {
+    outline: none;
+  }
+  .materials-back-button .back-button-icon { transform: none; }
+  .materials-back-button:active { transform: none; }
+  .materials-back-button.is-going-back { pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .materials-back-button, .materials-back-button .back-button-icon { transition: none; animation: none !important; }
+  }
+  .materials-heading {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin: 10px 0 22px; padding: 18px 20px;
+    border-radius: 18px; border: 1px solid var(--border, #e2e8f0);
+    background: linear-gradient(135deg, var(--surface, #fff), rgba(59,130,246,.045));
+  }
+  .materials-heading h3 { margin: 12px 0 0; font-size: 19px; line-height: 1.8; color: var(--text, #1e293b); }
+  .materials-heading p { margin: 3px 0 0; color: var(--text-muted, #64748b); font-size: 12px; }
+  .materials-heading .pdf-count {
+    display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px;
+    border-radius: 999px; background: rgba(220,38,38,.09); color: #dc2626;
+    font-size: 12px; font-weight: 800; white-space: nowrap;
+  }
+  .file-card { transition: transform .22s ease, box-shadow .22s ease; }
+  .file-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(15,23,42,.09); }
+  .pdf-empty-state {
+    grid-column: 1/-1; padding: 32px 18px; border-radius: 18px; text-align: center;
+    border: 1px dashed var(--border, #cbd5e1); color: var(--text-muted, #64748b);
+    background: var(--surface, #fff);
+  }
+
+  @media (max-width: 520px) {
+    #categoryBoxes.subjects-layout {
+      grid-template-columns: 1fr;
+      gap: 12px !important;
+    }
+    .subject-card { min-height: 88px; padding: 14px; }
+  }
+`;
+document.head.appendChild(styleAnimation);
+
+function renderFiles() {
+  const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
+
+  if (selectedYear === null) {
+    fileGrid.innerHTML = '';
+    resultsCount.textContent = '0 ملف';
+    if (emptyState) emptyState.hidden = true;
+    return;
+  }
+
+  if (selectedSubject) {
+    if (/^طحالب\s*\+\s*تصنيف نبات/i.test(selectedSubject) && !selectedSubSubject) {
+      showCombinedSubjectOptions();
+      return;
+    }
+    if (isSectionedSubject(selectedSubject, selectedSubSubject) && !selectedSection) {
+      showSectionOptions();
+      return;
+    }
+    selectedMediaType = 'PDF';
+    showActualFiles();
+    return;
+  }
+
+  showSubjectBoxes();
 }
 
+function normalizeSearchText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u064B-\u065F\u0670]/g, '')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .trim();
+}
 
-.site-footer{border-top:1px solid #edf0f3;min-height:105px;padding:22px max(5.5%,calc((100% - 1280px)/2));display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;margin-top:auto;direction:rtl}.footer-contact{display:flex;align-items:center;gap:10px;color:var(--navy);font-size:12px}.footer-contact strong{margin-left:4px}.social-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:Arial,sans-serif;font-size:18px;font-weight:800;text-decoration:none;transition:transform .2s ease,opacity .2s ease}.social-icon:hover{transform:translateY(-2px);opacity:.88}.whatsapp-icon{background:#25d366}.whatsapp-icon svg{width:18px;height:18px;fill:currentColor}.facebook-icon{background:#1877f2}.footer-details{display:flex;flex-direction:column;align-items:flex-start;gap:3px}.developer-credit{font-weight:800;font-size:11px;color:var(--navy);letter-spacing:4.5px}.site-footer .copyright{font-size:10px;color:#8c96a0}@media(max-width:620px){.site-footer{padding:22px 6%;flex-direction:column;justify-content:center;gap:14px}.footer-details{align-items:center}.developer-credit{font-size:9px;letter-spacing:2px}}
+function showSubjectBoxes() {
+  let container = document.getElementById('categoryBoxes');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'categoryBoxes';
+    fileGrid.parentNode.insertBefore(container, fileGrid);
+  }
+  
+  container.className = 'animate-fade subjects-layout';
+  container.style.cssText = '';
 
+  if (selectedYear === '1') {
+    container.innerHTML = `
+      <div class="unavailable-card">
+        <div class="unavailable-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 8v4"></path>
+            <path d="M12 16h.01"></path>
+          </svg>
+        </div>
+        <strong>الفرقة الأولى غير متوفرة حاليًا</strong>
+        <p>نعمل على تجهيز المواد الدراسية وسيتم إتاحتها قريبًا إن شاء الله .</p>
+      </div>
+    `;
+    fileGrid.innerHTML = '';
+    resultsCount.textContent = '0 ملف';
+    if (emptyState) emptyState.hidden = true;
+    return;
+  }
 
-/* Footer refinement */
-.site-footer{min-height:150px;padding:24px 6%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;text-align:center}.footer-contact{display:flex;flex-direction:column;align-items:center;gap:8px}.footer-contact strong{font-size:14px;color:var(--navy);margin:0}.social-links{display:flex;align-items:center;justify-content:center;gap:10px;direction:ltr}.social-icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;text-decoration:none;transition:transform .2s ease,opacity .2s ease}.social-icon:hover{transform:translateY(-2px);opacity:.88}.whatsapp-icon{background:#25d366}.whatsapp-icon svg{width:20px;height:20px;fill:currentColor}.facebook-icon{background:#1877f2}.facebook-icon svg{width:20px;height:20px;fill:currentColor}.footer-details{display:flex;flex-direction:column;align-items:center;gap:3px}.site-footer .copyright{font-size:11px;color:#7f8994}.developer-credit{font-size:12px;letter-spacing:1.5px;color:var(--navy);font-weight:800}@media(max-width:620px){.site-footer{padding:24px 6%;gap:11px}.social-icon{width:34px;height:34px}.developer-credit{font-size:10px;letter-spacing:1px}}
+  const subjects = [
+    { name: 'كيمياء عامة (2)', subject: 'كيمياء عامة (2)', accent: '#0f766e', tint: 'rgba(15,118,110,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 15h8"/><circle cx="10" cy="18" r=".7" fill="currentColor"/><circle cx="14" cy="17" r=".7" fill="currentColor"/></svg>' },
+    { name: 'طحالب + تصنيف نبات B', subject: 'طحالب + تصنيف نبات B', accent: '#16a34a', tint: 'rgba(22,163,74,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10"/><path d="M12 14C5 14 4 8 4 5c6 0 9 3 8 9Z"/><path d="M12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/><path d="M4 21h16"/></svg>' },
+    { name: 'تطبيقات الفيزياء في الحياة', subject: 'تطبيقات الفيزياء في الحياة', accent: '#2563eb', tint: 'rgba(37,99,235,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="4"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(-60 12 12)"/></svg>' },
+    { name: 'كهرومغناطيسية', subject: 'كهرومغناطيسية', accent: '#7c3aed', tint: 'rgba(124,58,237,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 13h6l-1 9 11-13h-7Z"/><path d="M3 5h3M2 9h2M18 19h3"/></svg>' },
+    { name: 'تدريس مصغر (2)', subject: 'تدريس مصغر (2)', accent: '#c2410c', tint: 'rgba(194,65,12,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M8 21h8M12 16v5M7 8h10M7 11h6"/></svg>' },
+    { name: 'تطبيقات الرياضيات في الحياة', subject: 'تطبيقات الرياضيات في الحياة', accent: '#0891b2', tint: 'rgba(8,145,178,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 19h2m4 0h2"/></svg>' },
+    { name: 'قضايا مجتمعية', subject: 'قضايا مجتمعية', accent: '#be123c', tint: 'rgba(190,18,60,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20v-2a6.5 6.5 0 0 1 13 0v2zM16 14a5 5 0 0 1 5.5 5v1H18"/></svg>' },
+    { name: 'الاتجاهات المعاصرة في علم نفس', subject: 'الاتجاهات المعاصرة في علم نفس', accent: '#9333ea', tint: 'rgba(147,51,234,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H9a4 4 0 0 0-4 4v1a3 3 0 0 0 0 6v1a4 4 0 0 0 4 4h2Z"/><path d="M13 4h2a4 4 0 0 1 4 4v1a3 3 0 0 1 0 6v1a4 4 0 0 1-4 4h-2Z"/><path d="M8 9h3m2 5h3"/></svg>' },
+    { name: 'دمج ذوي الاحتياجات الخاصة', subject: 'دمج ذوي الاحتياجات الخاصة', accent: '#0369a1', tint: 'rgba(3,105,161,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="M12 7v5m0-3-5 2m5-2 5 2M12 12l-4 8m4-8 4 8"/><circle cx="12" cy="12" r="9"/></svg>' },
+    { name: 'كيمياء الجزيئات الحيوية', subject: 'كيمياء الجزيئات الحيوية', accent: '#ca8a04', tint: 'rgba(202,138,4,.13)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="14" cy="18" r="2"/><circle cx="5" cy="18" r="1.5"/><path d="m8 7 8-1m1 1-2 9M7 9l6 7M7 18h5"/></svg>' },
+    { name: 'خبرات دولية في تطوير المناهج', subject: 'خبرات دولية في تطوير المناهج', accent: '#4f46e5', tint: 'rgba(79,70,229,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5a15 15 0 0 1 0 19M12 2.5a15 15 0 0 0 0 19M5 5h14M5 19h14"/></svg>' },
+    { name: 'نظريات تربوية وإدارية', subject: 'نظريات تربوية وإدارية', accent: '#475569', tint: 'rgba(71,85,105,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5l8-3 8 3v16M2 21h20M8 8h2m4 0h2M8 12h2m4 0h2M10 21v-4h4v4"/></svg>' },
+    { name: 'المهارات الحياتية', subject: 'المهارات الحياتية', accent: '#db2777', tint: 'rgba(219,39,119,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"/><path d="M8 12h2l1.2-2.5L13 15l1.2-3H16"/></svg>' },
+    { name: 'القوة الإيجابية في الشخصية', subject: 'القوة الإيجابية في الشخصية', accent: '#d97706', tint: 'rgba(217,119,6,.12)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.8 6.1 6.7.8-4.9 4.5 1.3 6.6-5.9-3.3-5.9 3.3 1.3-6.6-4.9-4.5 6.7-.8L12 2Z"/><path d="m9 12 2 2 4-4"/></svg>' }
+  ];
 
+  const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
+  const dynamicSubjects = [...new Set(materials.filter(item => String(item.year) === String(selectedYear) && item.subject).map(item => item.subject))]
+    .filter(name => !subjects.some(sub => sub.subject === name))
+    .map(name => ({ name, subject: name, accent: '#a78240', tint: 'rgba(167,130,64,.11)', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>' }));
+  const allSubjects = subjects.concat(dynamicSubjects);
+  const matchingSubjects = allSubjects.filter(sub => normalizeSearchText(sub.name).includes(searchTerm));
 
-/* Final footer layout: contact on the bottom-right, credits centered */
-.site-footer{position:relative;min-height:142px;padding:24px 6%;display:block;text-align:center;direction:rtl}.footer-contact{position:absolute;right:6%;top:24px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--navy)}.footer-contact strong{font-size:14px;font-weight:800;margin:0;white-space:nowrap}.social-links{display:flex;align-items:center;justify-content:center;gap:10px;direction:ltr}.social-icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;text-decoration:none}.whatsapp-icon svg,.facebook-icon svg{width:20px;height:20px;fill:currentColor}.footer-details{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:5px;white-space:nowrap}.site-footer .copyright{font-size:17px;color:#7f8994;line-height:1.6}.developer-credit{font-size:15px;letter-spacing:1.5px;color:var(--navy);font-weight:800;line-height:1.6}@media(max-width:620px){.site-footer{min-height:190px;padding:22px 6%}.footer-contact{position:static;margin:0 auto 18px}.footer-details{position:static;transform:none;white-space:normal}.site-footer .copyright{font-size:10px}.developer-credit{font-size:10px;letter-spacing:1px}}
+  if (searchTerm && matchingSubjects.length === 0) {
+    container.innerHTML = `
+      <div class="unavailable-card">
+        <strong>لا توجد مواد مطابقة للبحث</strong>
+        <p>جرّب كتابة اسم المادة او جزءًا منها.</p>
+      </div>
+    `;
+    fileGrid.innerHTML = '';
+    resultsCount.textContent = '0 مادة';
+    if (emptyState) emptyState.hidden = true;
+    return;
+  }
+
+  container.innerHTML = matchingSubjects.map(sub => `
+    <button type="button" class="subject-card"
+      onclick="selectSubjectHandler('${sub.subject}')"
+      style="--subject-accent:${sub.accent}; --subject-tint:${sub.tint}; font-family:inherit; width:100%;"
+      aria-label="فتح مادة ${sub.name}">
+      <span class="subject-icon">${sub.icon}</span>
+      <span>
+        <span class="subject-name">${sub.name}</span>
+        <span class="subject-caption">الفرقة الثانية - علوم أساسي</span>
+      </span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
+    </button>
+  `).join('');
+
+  fileGrid.innerHTML = '';
+  resultsCount.textContent = searchTerm ? `${matchingSubjects.length} مادة` : '0 ملف';
+  if (emptyState) emptyState.hidden = true;
+}
+
+function isSectionedSubject(subject, part) {
+  return ['كيمياء عامة (2)', 'كهرومغناطيسية', 'كيمياء الجزيئات الحيوية'].includes(subject) || (subject === 'طحالب + تصنيف نبات B' && ['طحالب', 'تصنيف نبات B'].includes(part));
+}
+
+function showSectionOptions() {
+  const container = document.getElementById('categoryBoxes');
+  if (!container) return;
+  container.className = 'animate-fade subjects-layout';
+  container.style.cssText = '';
+  container.innerHTML = `
+    <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
+      <div><button type="button" onclick="animateBackAndGo(this, '${selectedSubSubject ? 'goBackToSubSubjects' : 'goBackToSubjects'}')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true">←</span><span class="back-button-label">${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</span></button><h3>${escapeHTML(selectedSubSubject || selectedSubject)}</h3><p>اختار نوع المحتوى</p></div>
+    </div>
+    <button type="button" class="subject-card" onclick="selectSectionHandler('المحاضرات')" style="--subject-accent:#2563eb;--subject-tint:rgba(37,99,235,.11);font-family:inherit;width:100%;"><span class="subject-icon">▤</span><span><span class="subject-name">المحاضرات</span><span class="subject-arrow">←</span></button>
+    <button type="button" class="subject-card" onclick="selectSectionHandler('السكاشن')" style="--subject-accent:#16a34a;--subject-tint:rgba(22,163,74,.11);font-family:inherit;width:100%;"><span class="subject-icon">▦</span><span><span class="subject-name">السكاشن</span><span class="subject-arrow">←</spa></button>`;
+  fileGrid.innerHTML = ''; fileGrid.hidden = true; resultsCount.textContent = 'قسمان'; if (emptyState) emptyState.hidden = true;
+}
+
+window.selectSectionHandler = function(section) { selectedSection = section; selectedMediaType = 'PDF'; renderFiles(); };
+
+function showCombinedSubjectOptions() {
+  const container = document.getElementById('categoryBoxes');
+  if (!container) return;
+
+  container.className = 'animate-fade subjects-layout';
+  container.style.cssText = '';
+  container.innerHTML = `
+    <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
+      <div>
+        <button type="button" onclick="animateBackAndGo(this, 'goBackToSubjects')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M12 5l7 7-7 7"/></svg></span><span class="back-button-label">العودة لقائمة المواد</span></button>
+        <h3>طحالب + تصنيف نبات B</h3>
+        <p>اختر المادة التي تريد فتحها</p>
+      </div>
+    </div>
+    <button type="button" class="subject-card" onclick="selectSubSubjectHandler('طحالب')" style="--subject-accent:#16a34a; --subject-tint:rgba(22,163,74,.11); font-family:inherit; width:100%;">
+      <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M12 14C5 14 4 8 4 5c6 0 9 3 8 9ZM12 17c7 0 8-5 8-8-6 0-9 3-8 8Z"/></svg></span>
+      <span><span class="subject-name">طحالب</span><span class="subject-caption">ملفات ومحاضرات الطحالب</span></span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
+    </button>
+    <button type="button" class="subject-card" onclick="selectSubSubjectHandler('تصنيف نبات B')" style="--subject-accent:#2563eb; --subject-tint:rgba(37,99,235,.11); font-family:inherit; width:100%;">
+      <span class="subject-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg></span>
+      <span><span class="subject-name">تصنيف نبات B</span><span class="subject-caption">ملفات ومحاضرات التصنيف</span></span>
+      <span class="subject-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
+    </button>
+  `;
+  fileGrid.innerHTML = '';
+  fileGrid.hidden = true;
+  resultsCount.textContent = 'مادتان';
+  if (emptyState) emptyState.hidden = true;
+}
+
+window.selectSubSubjectHandler = function(part) {
+  selectedSubSubject = part;
+  selectedSection = null;
+  selectedMediaType = 'PDF';
+  renderFiles();
+};
+
+function showMediaTypeBoxes() {
+  selectedMediaType = 'PDF';
+  showActualFiles();
+}
+
+function showActualFiles() {
+  let container = document.getElementById('categoryBoxes');
+  if (container) {
+    container.innerHTML = `
+      <div class="materials-heading" style="grid-column:1/-1; direction:rtl;">
+        <div>
+          <button type="button" onclick="animateBackAndGo(this, '${selectedSection ? 'goBackToSections' : 'goBackToSubjects'}')" class="materials-back-button"><span class="back-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M12 5l7 7-7 7"/></svg></span><span class="back-button-label">${selectedSubSubject ? 'العودة لاختيار المادة' : 'العودة لقائمة المواد'}</span></button>
+          <h3>${escapeHTML(selectedSection ? `${selectedSubSubject || selectedSubject} — ${selectedSection}` : (selectedSubSubject || selectedSubject))}</h3>
+        </div>
+      </div>
+    `;
+  }
+
+  const filtered = materials.filter(item => item.subject === selectedSubject && (!selectedSubSubject || item.part === selectedSubSubject) && (!selectedSection || (item.section || 'المحاضرات') === selectedSection));
+  
+  fileGrid.className = 'file-grid animate-fade';
+  fileGrid.innerHTML = filtered.length ? filtered.map(item => `
+    <article class="file-card" style="direction:rtl;">
+      <span class="file-type-icon type-${item.type}">${item.format}</span>
+      <div class="file-info">
+        <h3>${escapeHTML(item.title)}</h3>
+        <div class="file-meta">
+          <span class="file-tag">${escapeHTML(item.type)}</span>
+          ${item.file ? `<span style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><a class="file-link preview-link" href="${escapeHTML(window.fileActions.getPreviewUrl(item))}" target="_blank" rel="noopener noreferrer" title="معاينة ${escapeHTML(item.subject)} — ${escapeHTML(item.title)}">معاينة</a><a class="file-link download-link" href="${escapeHTML(window.fileActions.getOriginalFileUrl(item))}" data-file-key="${escapeHTML(item.file_key || '')}" download="${escapeHTML(downloadFileName(item))}">تنزيل</a></span>` : `<span class="file-link" aria-label="رابط الملف غير مضاف">سيُتاح الملف قريبًا</span>`}
+        </div>
+      </div>
+    </article>
+  `).join('') : '<div class="pdf-empty-state">لا توجد ملفات PDF مضافة لهذه المادة حتى الآن.</div>';
+
+  resultsCount.textContent = `${filtered.length} ملف`;
+  if (emptyState) emptyState.hidden = true;
+  fileGrid.hidden = false;
+}
+
+window.selectSubjectHandler = function(subject) {
+  selectedSubject = subject;
+  selectedSubSubject = null;
+  selectedSection = null;
+  selectedMediaType = null;
+  renderFiles();
+};
+
+window.goBackToSections = function() { selectedSection = null; selectedMediaType = null; renderFiles(); };
+
+window.goBackToSubSubjects = function() {
+  selectedSubSubject = null;
+  selectedSection = null;
+  selectedMediaType = null;
+  renderFiles();
+};
+
+window.selectMediaTypeHandler = function(mediaType) {
+  selectedMediaType = mediaType;
+  renderFiles();
+};
+
+window.animateBackAndGo = function(button, actionName) {
+  if (typeof window[actionName] === 'function') window[actionName]();
+};
+
+window.goBackToSubjects = function() {
+  selectedSubject = null;
+  selectedSubSubject = null;
+  selectedSection = null;
+  selectedMediaType = null;
+  renderFiles();
+};
+
+window.goBackToMediaTypes = function() {
+  selectedMediaType = null;
+  selectedSubject = null;
+  renderFiles();
+};
+
+window.selectYear = function(yearNum, newHtmlText) {
+  document.getElementById("mainTitle").innerHTML = newHtmlText;
+  selectedYear = String(yearNum)
+  selectedSubject = null;
+  selectedSubSubject = null;
+  selectedSection = null;
+  selectedMediaType = null;
+  
+  const markElement = document.getElementById("sectionMark");
+  if (markElement) {
+    if (yearNum === 1) {
+      markElement.innerHTML = "<b style='color: #ffc107;'>01</b> <i> / 02</i>";
+    } else {
+      markElement.innerHTML = "01 <i> / <b style='color: #ffc107;'>02</b></i>";
+    }
+  }
+
+  document.querySelectorAll('.year-card').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-year') == yearNum);
+  });
+
+  renderFiles();
+  document.getElementById('library').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+document.getElementById('yearGrid').addEventListener('click', event => {
+  const card = event.target.closest('[data-year]');
+  if (!card) return;
+  const yearNum = parseInt(card.dataset.year);
+  const text = yearNum === 1 ? 'ماتريال الفرقة الأولى،<br><em>علوم أساسي.</em>' : 'ماتريال الفرقة الثانية،<br><em>علوم أساسي.</em>';
+  selectYear(yearNum, text);
+});
+
+function escapeHTML(value) { return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]); }
+
+searchInput.addEventListener('input', renderFiles);
+if (typeFilter) typeFilter.addEventListener('change', renderFiles);
+document.getElementById('yearNow').textContent = new Date().getFullYear();
+
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+window.addEventListener('load', function () {
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+});
+
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }
+});
+
+function downloadFileName(item) {
+  const title = String(item.title || 'ملف دراسي').replace(/[\/:*?"<>|]/g, '-').trim() || 'ملف دراسي';
+  return `${title}.${window.fileActions.getFileExtension(item)}`;
+}
+
+fileGrid.addEventListener('click', async event => {
+  const link = event.target.closest('.download-link');
+  if (!link) return;
+  event.preventDefault();
+  const item = {
+    file: link.getAttribute('href') || '',
+    file_key: link.dataset.fileKey || '',
+    format: link.closest('.file-card')?.querySelector('.file-type-icon')?.textContent?.trim() || ''
+  };
+  await window.fileActions.downloadMaterial(item, link.href, link.getAttribute('download'));
+});
