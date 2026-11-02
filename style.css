@@ -27,7 +27,7 @@
 /* تحسين وضوح اسم المطور على شاشات الهاتف */
 @media (max-width: 620px) {
   .footer-credits .developer-credit {
-    font-size: 15px !important;
+    font-size: 10px !important;
     letter-spacing: 1.5px !important;
     line-height: 1.5;
     white-space: nowrap;
