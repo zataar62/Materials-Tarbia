@@ -30,7 +30,7 @@
   function updateCustomSubject() {
     const selectedName = $('subject').value.trim();
     const combined = selectedName === 'طحالب + تصنيف نبات B';
-    const sectioned = ['كيمياء عامة (2)', 'كهرومغناطيسية', 'تطبيقات الرياضيات في الحياة', 'كيمياء الجزيئات الحيوية'].includes(selectedName) || (combined && !!$('part').value);
+    const sectioned = ['كيمياء عامة (2)', 'كهرومغناطيسية', 'كيمياء الجزيئات الحيوية'].includes(selectedName) || (combined && !!$('part').value);
     $('partWrap').hidden = !combined;
     $('part').required = combined;
     $('sectionWrap').hidden = !sectioned;
@@ -160,9 +160,18 @@
     }
 
     const payload = { ...base, file_url: fileUrl, file_path: filePath };
-    const result = editingId
+    let result = editingId
       ? await client.from('materials').update(payload).eq('id', editingId)
       : await client.from('materials').insert(payload);
+    // Retry once without section on installations that have not run the migration yet.
+    if (result.error && /section|schema cache/i.test(result.error.message || '')) {
+      const legacyPayload = { ...payload };
+      delete legacyPayload.section;
+      result = editingId
+        ? await client.from('materials').update(legacyPayload).eq('id', editingId)
+        : await client.from('materials').insert(legacyPayload);
+      if (!result.error) notify('تم الحفظ. لتفعيل حفظ السكاشن نهائيًا شغّل migration-section.sql في Supabase.', true);
+    }
     if (result.error) {
       if (newlyUploadedPath) await client.storage.from('materials').remove([newlyUploadedPath]);
       $('submitLabel').textContent = editingId ? 'حفظ التعديل' : 'رفع ونشر الملف';

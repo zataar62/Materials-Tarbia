@@ -5,7 +5,7 @@ s = [
   { id: 3, year: 2, subject: 'تطبيقات الفيزياء في الحياة', section: 'المحاضرات', title: 'ملخص تطبيقات الفيزياء', type: 'ملخصات', format: 'PDF', file: '', note: '' },
   { id: 4, year: 2, subject: 'كهرومغناطيسية', section: 'المحاضرات', title: 'محاضرة الكهرومغناطيسية', type: 'محاضرات', format: 'PDF', file: '', note: '' },
   { id: 5, year: 2, subject: 'تدريس مصغر (2)', section: 'المحاضرات', title: 'ملزمة التدريس المصغر', type: 'ملازم', format: 'PDF', file: '', note: '' },
-  { id: 6, year: 2, subject: 'تطبيقات الرياضيات في الحياة', section: 'المحاضرات', title: 'تطبيقات الرياضيات', type: 'محاضرات', format: 'PDF', file: '', note: '' },
+  { id: 6, year: 2, subject: 'تطبيقات الرياضيات في الحياة', section: null, title: 'تطبيقات الرياضيات', type: 'محاضرات', format: 'PDF', file: '', note: '' },
   { id: 7, year: 2, subject: 'قضايا مجتمعية', section: 'المحاضرات', title: 'ملخص القضايا المجتمعية', type: 'ملخصات', format: 'PDF', file: '', note: '' },
   { id: 8, year: 2, subject: 'الاتجاهات المعاصرة في علم نفس', section: 'المحاضرات', title: 'محاضرة علم النفس', type: 'محاضرات', format: 'PDF', file: '', note: '' },
   { id: 9, year: 2, subject: 'دمج ذوي الاحتياجات الخاصة', section: 'المحاضرات', title: 'محاضرة الدمج', type: 'محاضرات', format: 'PDF', file: '', note: '' },
@@ -235,10 +235,6 @@ document.head.appendChild(styleAnimation);
 function renderFiles() {
   const searchTerm = normalizeSearchText(searchInput ? searchInput.value : '');
 
-  if (selectedYear === null && searchTerm) {
-    selectedYear = '2';
-  }
-
   if (selectedYear === null) {
     fileGrid.innerHTML = '';
     resultsCount.textContent = '0 ملف';
@@ -362,7 +358,7 @@ function showSubjectBoxes() {
 }
 
 function isSectionedSubject(subject, part) {
-  return ['كيمياء عامة (2)', 'كهرومغناطيسية', 'تطبيقات الرياضيات في الحياة', 'كيمياء الجزيئات الحيوية'].includes(subject) || (subject === 'طحالب + تصنيف نبات B' && ['طحالب', 'تصنيف نبات B'].includes(part));
+  return ['كيمياء عامة (2)', 'كهرومغناطيسية', 'كيمياء الجزيئات الحيوية'].includes(subject) || (subject === 'طحالب + تصنيف نبات B' && ['طحالب', 'تصنيف نبات B'].includes(part));
 }
 
 function showSectionOptions() {

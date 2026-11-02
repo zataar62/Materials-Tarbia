@@ -5,6 +5,7 @@ create table if not exists public.materials (
   year smallint not null check (year in (1, 2)),
   subject text not null,
   part text,
+  section text,
   title text not null,
   type text not null default 'محاضرات',
   format text not null default 'PDF',
@@ -14,6 +15,8 @@ create table if not exists public.materials (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.materials add column if not exists section text;
 
 alter table public.materials enable row level security;
 
