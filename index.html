@@ -162,37 +162,30 @@
   <footer class="site-footer">      
     </div>
     <div class="footer-details">
-     <!-- الكود المطلوب -->
-<div class="footer-credit">
+   <div class="footer-credit">
   <span class="copyright">© <span id="yearNow"></span> جميع الحقوق محفوظة</span>
-  <span class="developer-credit">Developed by: فاعل خير</span>
+  <span class="developer-credit">Developed by: فاعل خير </span>
 </div>
 
 <style>
   .footer-credit {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #ffffff; /* يمكنك تغيير لون الخلفية حسب تصميم موقعك */
-    text-align: center;
-    padding: 10px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); /* ظل خفيف لفصل الـ Footer عن المحتوى */
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-size: 13px;
+    white-space: nowrap;
     z-index: 9999;
-    font-size: 14px;
-  }
-  
-  .footer-credit .developer-credit {
-    margin-right: 15px; /* مسافة بسيطة بين الحقوق واسم المطور */
   }
 </style>
 
 <script>
-  // تحديث السنة الحالية تلقائياً
-  document.getElementById('yearNow').innerText = newDateField = new Date().getFullYear();
+  document.getElementById('yearNow').textContent = new Date().getFullYear();
 </script>
-    </div>
-  </footer>
 
   <script>
     function updateTitleAndScroll(newHtmlText, yearNum, buttonElement) {
