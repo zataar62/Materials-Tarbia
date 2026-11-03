@@ -562,4 +562,37 @@ fileGrid.addEventListener('click', async event => {
     format: link.closest('.file-card')?.querySelector('.file-type-icon')?.textContent?.trim() || ''
   };
   await window.fileActions.downloadMaterial(item, link.href, link.getAttribute('download'));
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+// حط هنا بيانات مشروعك في Supabase
+const supabase = createClient('رابط_مشروعك_هنا', 'مفتاح_الـ_anon_key_هنا')
+
+async function updateLastSeen() {
+  // 1. هات بيانات المستخدم الحالي المسجل دخول
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (user) {
+    // 2. حدد الوقت الحالي
+    const now = new Date().toISOString();
+
+    // 3. احفظ أو حدث بياناته في جدول active_users
+    const { error } = await supabase
+      .from('active_users')
+      .upsert({ 
+        id: user.id, 
+        email: user.email, 
+        last_seen: now 
+      });
+
+    if (error) {
+      console.error("خطأ في تحديث النشاط:", error.message);
+    }
+  }
+}
+
+// شغّل الدالة أول ما الصفحة تفتح
+updateLastSeen();
+
+// حدّث النشاط تلقائياً كل 60 ثانية طول ما المستخدم قاعد في الصفحة
+setInterval(updateLastSeen, 60000);
 });
