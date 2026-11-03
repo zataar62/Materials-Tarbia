@@ -1,0 +1,25 @@
+{
+  "name": "materials-tarbia",
+  "version": "1.0.0",
+  "description": "مكتبة مواد كلية التربية - Materials library for Faculty of Education",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8000 || python3 -m http.server 8000",
+    "build": "echo 'Static site - no build needed'",
+    "lint": "echo 'No linter configured yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zataar62/Materials-Tarbia.git"
+  },
+  "keywords": [
+    "education",
+    "materials",
+    "tarbia"
+  ],
+  "author": "Ebram Adel",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  }
+}
