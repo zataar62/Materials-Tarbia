@@ -562,5 +562,4 @@ fileGrid.addEventListener('click', async event => {
     format: link.closest('.file-card')?.querySelector('.file-type-icon')?.textContent?.trim() || ''
   };
   await window.fileActions.downloadMaterial(item, link.href, link.getAttribute('download'));
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 });
