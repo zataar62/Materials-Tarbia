@@ -162,7 +162,7 @@
   <footer class="site-footer">      
     </div>
     <div class="footer-details">
-   <div class="footer-credit">
+  <div class="footer-credit">
   <span class="copyright">© <span id="yearNow"></span> جميع الحقوق محفوظة</span>
   <span class="developer-credit">Developed by: فاعل خير </span>
 </div>
@@ -170,14 +170,18 @@
 <style>
   .footer-credit {
     position: fixed;
-    bottom: 12px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    font-size: 13px;
+    gap: 4px;
+    
+    /* للتحكم في حجم الخط - غير الرقم حسب رغبتك */
+    font-size: 14px; 
+    
     white-space: nowrap;
     z-index: 9999;
   }
