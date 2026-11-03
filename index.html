@@ -220,38 +220,5 @@
   <script src="file-actions.js"></script>
   <script src="script.js"></script
   <script defer src="/_vercel/insights/script.js"></script>
-
-
-  <script>import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-const supabase = createClient('رابط_مشروعك', 'مفتاح_الـ_anon_key')
-
-// 1. إنشاء أو جلب رقم تعريفي فريد للزائر على جهازه فقط
-let visitorId = localStorage.getItem('guest_visitor_id');
-if (!visitorId) {
-  visitorId = 'guest_' + Math.random().toString(36.substring(2) + Date.now().toString(36));
-  localStorage.setItem('guest_visitor_id', visitorId);
-}
-
-// 2. دالة لتحديث حالة الزائر أنه "أونلاين"
-async function pingOnline() {
-  await supabase
-    .from('visitors_online')
-    .upsert({ 
-      id: visitorId, 
-      last_seen: new Date().toISOString(),
-      status: 'online'
-    });
-}
-
-// 3. تشغيل الدالة فور فتح الموقع، وتحديثها كل 10 ثواني طول ما هو فاتح الصفحة
-pingOnline();
-const pingInterval = setInterval(pingOnline, 10000);
-
-// 4. إذا الزائر قفل الصفحة أو غيّر التبويب، نحدث حالته لـ "أوفلاين" فوراً
-window.addEventListener('beforeunload', () => {
-  navigator.sendBeacon // أو إرسال تحديث للـ Supabase أن حالته أصبحت offline
-  // (أو ببساطة نظام الـ timeout في صفحة الأدمن يعتبره أوفلاين لو مر 20 ثانية بدون تحديث)
-});</script>
 </body>
 </html>
