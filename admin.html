@@ -6,11 +6,6 @@
   <title>دخول الإدارة — Materials-Tarbia</title>
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="stylesheet" href="admin.css">
-  <!-- Vercel Web Analytics -->
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
   <main class="auth-shell">
@@ -20,8 +15,8 @@
       <h1>تسجيل دخول المسؤول</h1>
       <p>بعد تسجيل الدخول سيتم تحويلك مباشرة إلى صفحة إضافة الملفات.</p>
       <form id="loginForm">
-        <label>الإيميل<input id="email" type="email" autocomplete="username" required placeholder="admin@gmail.com"></label>
-        <label>الباسورد<input id="password" type="password" autocomplete="current-password" required placeholder="••••••••••"></label>
+        <label>الإيميل<input id="email" type="email" autocomplete="username" required placeholder="admin@example.com"></label>
+        <label>الباسورد<input id="password" type="password" autocomplete="current-password" required placeholder="••••••••"></label>
         <button class="primary" type="submit">دخول مكتبة إدارة الملفات<span>←</span></button>
         <p id="loginMessage" class="message" role="alert"></p>
       </form>
