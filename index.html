@@ -56,6 +56,14 @@
 </style>
 </head>
 <body>
+  <button class="exam-notification" id="examNotification" type="button" aria-label="إغلاق تنبيه امتحان الدمج">
+    <span class="exam-notification-icon" aria-hidden="true">!</span>
+    <span class="exam-notification-content">
+      <strong>الفرقة الثانية</strong>
+      <span>متنساش عندنا النهارده امتحان دمج أونلاين الساعة 9 بليل</span>
+    </span>
+    <span class="exam-notification-close" aria-hidden="true">×</span>
+  </button>
   <header class="topbar">
    <div class="brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
       <img src="logo.png" alt="شعار الكلية" style="width: 50px; height: 50px; object-fit: contain;">
@@ -66,17 +74,10 @@
     <nav class="nav-links" aria-label="التنقل الرئيسي"></nav>
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
       <a id="midtermBtn" class="header-button" href="جدول-امتحانات-الميدترم-الفرقة-الثانية.png" target="_blank" style="display: none;">جدول امتحانات الميدترم<span>⊞</span></a>
-    <a id="adminLoginBtn" class="header-button" href="admin.html" target="_blank" rel="noopener noreferrer">
-  تسجيل دخول المسؤول
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b08a46" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;">
-    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-    <circle cx="12" cy="7" r="4"/>
-  </svg>
-</a>
+      <a id="adminLoginBtn" class="header-button" href="admin.html" target="_blank" rel="noopener noreferrer">تسجيل دخول المسؤول<span>↗</span></a>
     </div>
     
   </header>
-
   <main>
     <section class="hero" id="home">
       <div class="hero-copy">
@@ -110,25 +111,12 @@
         <div><span class="eyebrow">ابدأ بالمكتبة الدراسية</span><h2>الفرق الدراسية</h2><p>الموقع مخصص حاليًا لماتريال الفرقة الأولى والثانية علوم أساسي فقط.</p></div>
       </div>
       
-     <div class="year-grid" id="yearGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+      <div class="year-grid" id="yearGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
         <button class="year-card" data-year="1" onclick="updateTitleAndScroll('ماتريال الفرقة الأولى،<br><em>علوم أساسي.</em>', 1, this)">
-          <span class="year-number">01</span>
-          <span class="year-symbol">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </span>
-          <span class="year-name">الفرقة الأولى — علوم أساسي</span>
-          <span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span>
-          <span class="year-arrow">←</span>
+          <span class="year-number">01</span><span class="year-symbol">⚗</span><span class="year-name">الفرقة الأولى — علوم أساسي</span><span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span><span class="year-arrow">←</span>
         </button>                
-
         <button class="year-card" data-year="2" onclick="updateTitleAndScroll('ماتريال الفرقة الثانية،<br><em>علوم أساسي.</em>', 2, this)">
-          <span class="year-number">02</span>
-          <span class="year-symbol">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </span>
-          <span class="year-name">الفرقة الثانية — علوم أساسي</span>
-          <span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span>
-          <span class="year-arrow">←</span>
+          <span class="year-number">02</span><span class="year-symbol">⚗</span><span class="year-name">الفرقة الثانية — علوم أساسي</span><span class="year-desc">المحاضرات والملازم والملخصات والامتحانات</span><span class="year-arrow">←</span>
         </button>
       </div>
     </section>
@@ -175,6 +163,16 @@
   </footer>
 
   <script>
+    const examNotification = document.getElementById("examNotification");
+    if (examNotification) {
+      const hideExamNotification = () => {
+        examNotification.classList.add("is-hidden");
+      };
+
+      examNotification.addEventListener("click", hideExamNotification);
+      window.setTimeout(hideExamNotification, 30000);
+    }
+
     function updateTitleAndScroll(newHtmlText, yearNum, buttonElement) {
       document.getElementById("mainTitle").innerHTML = newHtmlText;
       
