@@ -73,14 +73,6 @@
   <main>
     <section class="hero" id="home">
       <div class="hero-copy">
-        <button class="exam-notification" id="examNotification" type="button" aria-label="إغلاق تنبيه امتحان الدمج">
-          <span class="exam-notification-icon" aria-hidden="true">!</span>
-          <span class="exam-notification-content">
-            <strong>الفرقة الثانية</strong>
-            <span>متنساش عندنا النهارده امتحان دمج أونلاين الساعة 9 مساءً</span>
-          </span>
-          <span class="exam-notification-close" aria-hidden="true">×</span>
-        </button>
         <span class="eyebrow"><span class="pulse"></span> مكتبتك الدراسية الرقمية</span>
         
         <h1 id="mainTitle">ماتريال الفرق الدراسية،<br><em>علوم أساسي.</em></h1>
@@ -163,16 +155,6 @@
   </footer>
 
   <script>
-    const examNotification = document.getElementById("examNotification");
-    if (examNotification) {
-      const hideExamNotification = () => {
-        examNotification.classList.add("is-hidden");
-      };
-
-      examNotification.addEventListener("click", hideExamNotification);
-      window.setTimeout(hideExamNotification, 30000);
-    }
-
     function updateTitleAndScroll(newHtmlText, yearNum, buttonElement) {
       document.getElementById("mainTitle").innerHTML = newHtmlText;
       
