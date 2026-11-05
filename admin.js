@@ -1,7 +1,6 @@
 (() => {
   const config = window.MATERIALS_CONFIG;
   const demoMode = !config || !window.supabase || !config.supabaseUrl || config.supabaseUrl.includes('YOUR-');
-
   const form = document.getElementById('loginForm');
   const message = document.getElementById('loginMessage');
   if (!form) return;
