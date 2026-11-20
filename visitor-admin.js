@@ -65,4 +65,9 @@
 
   load();
   window.setInterval(load, 15000);
+  if (!demo) {
+    client.channel('visitors-admin-live')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'visitors' }, () => load())
+      .subscribe();
+  }
 })();

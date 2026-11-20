@@ -11,16 +11,20 @@
   const title = document.getElementById('visitorGateTitle');
   const intro = document.getElementById('visitorGateIntro');
   const profileKey = 'materials-visitor-profile';
+  const blockedProfileKey = 'materials-visitor-blocked-profile';
   const listKey = 'materials-visitor-profiles';
   const client = window.supabase && window.MATERIALS_CONFIG?.supabaseUrl
     ? window.supabase.createClient(window.MATERIALS_CONFIG.supabaseUrl, window.MATERIALS_CONFIG.supabaseAnonKey)
     : null;
   const getGender = () => form.querySelector('input[name="gender"]:checked')?.value || '';
+  const blockedMessage = document.getElementById('visitorBlockedMessage');
   const studentIcon = female => { const detail = female ? '<path d="M22 27c1-7 5-12 10-12s9 5 10 12c-3-3-6-5-10-5s-7 2-10 5Z" class="icon-hair"/><path d="M27 34c3 2 7 2 10 0" class="icon-smile"/><circle cx="21" cy="35" r="3" class="icon-bow"/><circle cx="43" cy="35" r="3" class="icon-bow"/>' : '<path d="M24 27c2-2 4-3 8-3s6 1 8 3" class="icon-hair"/><path d="M28 34h8" class="icon-smile"/>'; return `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="avatarFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3c2"/><stop offset="1" stop-color="#eeb98c"/></linearGradient></defs><circle cx="32" cy="32" r="28" class="icon-ring"/><path d="M14 57c1-12 8-19 18-19s17 7 18 19" class="icon-body"/><path d="M22 28c0-8 4-13 10-13s10 5 10 13c0 7-4 12-10 12S22 35 22 28Z" class="icon-face"/><path d="M20 20 32 11l12 9-12 5-12-5Z" class="icon-cap"/><path d="M17 21h30M44 21v7" class="icon-cap-line"/><circle cx="44" cy="29" r="2" class="icon-tassel"/>${detail}</svg>`; };
   const setGender = value => form.querySelectorAll('input[name="gender"]').forEach(input => { input.checked = input.value === value; });
   async function isBanned(email) {
     if (!email) return false;
     if (client) {
+      const rpc = await client.rpc('is_visitor_banned', { p_email: email });
+      if (!rpc.error) return Boolean(rpc.data);
       const result = await client.from('visitors').select('banned').eq('email', email).maybeSingle();
       return !result.error && Boolean(result.data?.banned);
     }
@@ -41,15 +45,38 @@
   function startPresence(email) {
     if (presenceTimer) clearInterval(presenceTimer);
     touchPresence(email);
-    presenceTimer = setInterval(() => touchPresence(email), 60000);
+    presenceTimer = setInterval(async () => {
+      if (await isBanned(email)) return lockBanned();
+      touchPresence(email);
+    }, 5000);
   }
   function lockBanned() {
     if (presenceTimer) clearInterval(presenceTimer);
+    const current = saved || JSON.parse(localStorage.getItem(profileKey) || 'null');
+    if (current?.email) localStorage.setItem(blockedProfileKey, JSON.stringify(current));
     localStorage.removeItem(profileKey);
     saved = null;
-    setMessage('هذا الحساب محظور. لا يمكنك التسجيل أو دخول المكتبة؛ يجب الرجوع إلى الإدارة لفك الحظر أولًا.');
+    document.querySelector('.visitor-card')?.classList.add('is-blocked');
+    if (blockedMessage) { blockedMessage.hidden = false; blockedMessage.textContent = 'هذا الحساب محظور. لا يمكنك التسجيل أو دخول المكتبة؛ يجب الرجوع إلى الإدارة لفك الحظر أولًا.'; }
+    form.hidden = true;
     gate.hidden = false;
     document.body.classList.add('visitor-locked');
+    const blocked = JSON.parse(localStorage.getItem(blockedProfileKey) || 'null');
+    if (blocked?.email) {
+      presenceTimer = setInterval(async () => {
+        if (!(await isBanned(blocked.email))) unlockRestoredProfile(blocked);
+      }, 5000);
+    }
+  }
+  function unlockRestoredProfile(profile) {
+    localStorage.removeItem(blockedProfileKey);
+    localStorage.setItem(profileKey, JSON.stringify(profile));
+    saved = profile;
+    document.querySelector('.visitor-card')?.classList.remove('is-blocked');
+    if (blockedMessage) blockedMessage.hidden = true;
+    form.hidden = false;
+    applyProfile(profile);
+    startPresence(profile.email);
   }
   function setMessage(text, error = true) { message.textContent = text; message.className = error ? 'visitor-message error' : 'visitor-message success'; }
   function applyProfile(profile) {
@@ -101,6 +128,9 @@
       if (banned) lockBanned();
       else { applyProfile(saved); startPresence(saved.email); }
     });
+  } else {
+    let blocked = null; try { blocked = JSON.parse(localStorage.getItem(blockedProfileKey) || 'null'); } catch (_) {}
+    if (blocked?.email) isBanned(blocked.email).then(banned => { if (!banned) unlockRestoredProfile(blocked); else { saved = blocked; lockBanned(); } });
   }
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -115,7 +145,10 @@
     if (!editing && password.length < 6) return setMessage('كلمة المرور يجب أن تكون 6 أحرف على الأقل.');
     if (editing && password && password.length < 6) return setMessage('كلمة المرور الجديدة يجب أن تكون 6 أحرف على الأقل.');
     if (!gender) return setMessage('اختار النوع: ذكر أو أنثى.');
-    if (await isBanned(email)) { lockBanned(); submit.disabled = false; return; }
+    if (await isBanned(email)) {
+      localStorage.setItem(blockedProfileKey, JSON.stringify({ name, email, gender, joined_at: oldProfile?.joined_at || new Date().toISOString() }));
+      lockBanned(); submit.disabled = false; return;
+    }
     const profile = { name, email, gender, banned: false, joined_at: oldProfile?.joined_at || new Date().toISOString() };
     submit.disabled = true; setMessage(editing ? 'جارٍ حفظ التعديلات...' : 'جارٍ حفظ بيانات الدخول...', false);
     try {
