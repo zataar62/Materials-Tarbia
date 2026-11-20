@@ -69,3 +69,18 @@ for each row execute function public.set_material_updated_at();
 
 alter table public.materials replica identity full;
 alter publication supabase_realtime add table public.materials;
+create table if not exists public.visitors (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null unique,
+  gender text not null check (gender in ('ذكر','أنثى')),
+  created_at timestamptz not null default now(),
+  last_seen timestamptz not null default now()
+);
+alter table public.visitors enable row level security;
+drop policy if exists "Visitors can submit their profile" on public.visitors;
+create policy "Visitors can submit their profile" on public.visitors for insert to anon, authenticated with check (length(name) between 2 and 120 and gender in ('ذكر','أنثى'));
+drop policy if exists "Admins can read visitor profiles" on public.visitors;
+create policy "Admins can read visitor profiles" on public.visitors for select to authenticated using (true);
+drop policy if exists "Visitors can refresh their profile" on public.visitors;
+create policy "Visitors can refresh their profile" on public.visitors for update to anon, authenticated using (true) with check (length(name) between 2 and 120 and gender in ('ذكر','أنثى'));
