@@ -20,7 +20,6 @@
       return `<article class="visitor-row ${banned ? 'is-banned' : ''}">
         <div class="visitor-row-avatar">${row.gender === 'أنثى' ? 'طالبة' : 'طالب'}</div>
         <div class="visitor-row-info"><strong>${escape(row.name)}</strong><small>${escape(row.email)} · ${escape(row.gender)}</small><small>تاريخ التسجيل: ${formatDate(row.created_at)}</small><small>آخر دخول: ${formatDate(row.last_seen)}</small></div>
-        <div class="visitor-status ${online ? 'online' : 'offline'}">${banned ? 'محظور' : online ? 'نشط' : 'خامل'}</div>
         <div class="visitor-actions">
           <button type="button" class="visitor-toggle ${banned ? 'unban' : 'ban'}" data-id="${escape(row.id || row.email)}" data-banned="${banned}">${banned ? 'فك الحظر' : 'حظر'}</button>
         </div>
