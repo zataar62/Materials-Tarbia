@@ -23,7 +23,6 @@
         <div class="visitor-status ${online ? 'online' : 'offline'}">${banned ? 'محظور' : online ? 'نشط' : 'خامل'}</div>
         <div class="visitor-actions">
           <button type="button" class="visitor-toggle ${banned ? 'unban' : 'ban'}" data-id="${escape(row.id || row.email)}" data-banned="${banned}">${banned ? 'فك الحظر' : 'حظر'}</button>
-          <button type="button" class="visitor-remove" data-id="${escape(row.id || row.email)}" data-email="${escape(row.email)}">حذف نهائي</button>
         </div>
       </article>`;
     }).join('') : '<div class="empty">لا توجد بيانات زائرين حتى الآن.</div>';
