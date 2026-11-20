@@ -12,11 +12,11 @@
   if (!demo) client = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
 
   function render(rows) {
-    const active = rows.filter(row => !row.banned && isActive(row.last_seen)).length;
+    const active = rows.filter(row => !row.banned && row.is_online && isActive(row.last_seen)).length;
     count.textContent = `${rows.length} زائر · ${active} نشط`;
     list.innerHTML = rows.length ? rows.map(row => {
       const banned = Boolean(row.banned);
-      const online = !banned && isActive(row.last_seen);
+      const online = !banned && Boolean(row.is_online) && isActive(row.last_seen);
       return `<article class="visitor-row ${banned ? 'is-banned' : ''}">
         <div class="visitor-row-avatar">${row.gender === 'أنثى' ? 'طالبة' : 'طالب'}</div>
         <div class="visitor-row-info"><strong>${escape(row.name)}</strong><small>${escape(row.email)} · ${escape(row.gender)}</small><small>تاريخ التسجيل: ${formatDate(row.created_at)}</small><small>آخر دخول: ${formatDate(row.last_seen)}</small></div>
@@ -35,7 +35,7 @@
     if (demo) { let rows = []; try { rows = JSON.parse(localStorage.getItem('materials-visitor-profiles') || '[]'); } catch (_) {} render(rows); return; }
     const session = await client.auth.getSession();
     if (!session.data.session) return;
-    const result = await client.from('visitors').select('id,name,email,gender,created_at,last_seen,banned,banned_at').order('last_seen', { ascending: false });
+    const result = await client.from('visitors').select('id,name,email,gender,created_at,last_seen,is_online,banned,banned_at').order('last_seen', { ascending: false });
     if (!result.error) render(result.data || []);
     else list.innerHTML = '<div class="empty">شغّل migration-visitors-admin.sql في Supabase ثم أعد تحميل الصفحة.</div>';
   }

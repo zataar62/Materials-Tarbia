@@ -37,19 +37,25 @@
     return (await accountStatus(email)) === 'banned';
   }
   let presenceTimer = null;
-  async function touchPresence(email) {
+  let presenceEmail = null;
+  async function setPresence(email, online) {
+    if (!email) return;
     const now = new Date().toISOString();
     if (client) {
-      await client.from('visitors').update({ last_seen: now }).eq('email', email);
+      await client.from('visitors').update({ is_online: online, last_seen: now }).eq('email', email);
       return;
     }
     try {
       const rows = JSON.parse(localStorage.getItem(listKey) || '[]');
-      localStorage.setItem(listKey, JSON.stringify(rows.map(row => row.email === email ? {...row, last_seen: now} : row)));
+      localStorage.setItem(listKey, JSON.stringify(rows.map(row => row.email === email ? {...row, is_online: online, last_seen: now} : row)));
     } catch (_) {}
+  }
+  async function touchPresence(email) {
+    return setPresence(email, true);
   }
   function startPresence(email) {
     if (presenceTimer) clearInterval(presenceTimer);
+    presenceEmail = email;
     touchPresence(email);
     presenceTimer = setInterval(async () => {
       const status = await accountStatus(email);
@@ -58,7 +64,25 @@
       touchPresence(email);
     }, 5000);
   }
+  function markOffline() {
+    if (!presenceEmail) return;
+    if (client && window.MATERIALS_CONFIG?.supabaseUrl) {
+      fetch(`${window.MATERIALS_CONFIG.supabaseUrl}/rest/v1/visitors?email=eq.${encodeURIComponent(presenceEmail)}`, {
+        method: 'PATCH', keepalive: true,
+        headers: {'apikey': window.MATERIALS_CONFIG.supabaseAnonKey, 'Content-Type': 'application/json', 'Prefer': 'return=minimal'},
+        body: JSON.stringify({ is_online: false, last_seen: new Date().toISOString() })
+      }).catch(() => {});
+    } else setPresence(presenceEmail, false);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!presenceEmail) return;
+    if (document.hidden) markOffline();
+    else startPresence(presenceEmail);
+  });
+  window.addEventListener('pagehide', markOffline);
+  window.addEventListener('beforeunload', markOffline);
   function lockBanned() {
+    markOffline();
     if (presenceTimer) clearInterval(presenceTimer);
     const current = saved || JSON.parse(localStorage.getItem(profileKey) || 'null');
     if (current?.email) localStorage.setItem(blockedProfileKey, JSON.stringify(current));
@@ -87,6 +111,7 @@
     startPresence(profile.email);
   }
   function showDeleted() {
+    markOffline();
     if (presenceTimer) clearInterval(presenceTimer);
     localStorage.removeItem(profileKey);
     localStorage.removeItem(blockedProfileKey);
@@ -106,6 +131,7 @@
   }
   function setMessage(text, error = true) { message.textContent = text; message.className = error ? 'visitor-message error' : 'visitor-message success'; }
   function applyProfile(profile) {
+    if (deletedMessage) deletedMessage.hidden = true;
     const isFemale = profile.gender === 'أنثى';
     const genderLabel = isFemale ? 'طالبة' : 'طالب';
     const nameLabel = document.getElementById('visitorNameLabel');
@@ -219,7 +245,10 @@
         if (index >= 0) profiles[index] = { ...profiles[index], ...row }; else profiles.unshift(row);
         localStorage.setItem(listKey, JSON.stringify(profiles));
       }
-      saved = profile; localStorage.setItem(profileKey, JSON.stringify(profile));
+      saved = profile;
+      // حفظ بيانات الحساب غير الحساسة على هذا الجهاز فقط؛ لا يتم حفظ كلمة المرور.
+      localStorage.setItem(profileKey, JSON.stringify(profile));
+      localStorage.setItem('materials-visitor-remembered', '1');
       passwordInput.value = ''; submit.disabled = false; applyProfile(profile); closeEdit(); startPresence(email);
     } catch (error) {
       setMessage(error.message || 'تعذر حفظ البيانات، حاول مرة أخرى.');

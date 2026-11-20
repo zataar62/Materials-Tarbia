@@ -76,11 +76,13 @@ create table if not exists public.visitors (
   gender text not null check (gender in ('ذكر','أنثى')),
   banned boolean not null default false,
   banned_at timestamptz,
+  is_online boolean not null default false,
   created_at timestamptz not null default now(),
   last_seen timestamptz not null default now()
 );
 alter table public.visitors add column if not exists banned boolean not null default false;
 alter table public.visitors add column if not exists banned_at timestamptz;
+alter table public.visitors add column if not exists is_online boolean not null default false;
 alter table public.visitors enable row level security;
 drop policy if exists "Visitors can submit their profile" on public.visitors;
 create policy "Visitors can submit their profile" on public.visitors for insert to anon, authenticated with check (length(name) between 2 and 120 and gender in ('ذكر','أنثى'));

@@ -2,7 +2,8 @@
 -- لا يخزن هذا التعديل كلمات المرور ولا يتيح قراءتها.
 alter table public.visitors
   add column if not exists banned boolean not null default false,
-  add column if not exists banned_at timestamptz;
+  add column if not exists banned_at timestamptz,
+  add column if not exists is_online boolean not null default false;
 
 create index if not exists visitors_banned_idx on public.visitors (banned);
 
