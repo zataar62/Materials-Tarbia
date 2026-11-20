@@ -82,9 +82,13 @@
     try {
       if (client) {
         if (!editing) {
-          let auth = await client.auth.signUp({ email, password, options: { data: { name, gender } } });
-          if (auth.error && /already registered|already been registered|user already exists/i.test(auth.error.message || '')) auth = await client.auth.signInWithPassword({ email, password });
-          if (auth.error && !/confirm/i.test(auth.error.message || '')) throw auth.error;
+          // نحاول الدخول للحساب الموجود فقط. للزائر الجديد نستخدم جدول visitors مباشرة،
+          // حتى لا نرسل أي رسالة تأكيد ونصطدم بحد البريد في Supabase.
+          const auth = await client.auth.signInWithPassword({ email, password });
+          if (auth.error) {
+            // الدخول كزائر لا يحتاج رسالة بريد؛ بياناته ستظهر للأدمن في visitors.
+            console.info('Visitor mode: Supabase Auth sign-in skipped for this new visitor.');
+          }
           const savedRow = await client.from('visitors').insert({ name, email, gender, last_seen: new Date().toISOString() });
           if (savedRow.error && !/duplicate|unique/i.test(savedRow.error.message || '')) console.warn(savedRow.error.message);
         } else {
