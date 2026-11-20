@@ -13,7 +13,7 @@
 
   function render(rows) {
     const active = rows.filter(row => !row.banned && row.is_online && isActive(row.last_seen)).length;
-    count.textContent = `${rows.length} زائر · ${active} نشط`;
+    count.textContent = `${rows.length} زائر `;
     list.innerHTML = rows.length ? rows.map(row => {
       const banned = Boolean(row.banned);
       const online = !banned && Boolean(row.is_online) && isActive(row.last_seen);
