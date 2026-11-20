@@ -5,21 +5,72 @@
   if (!panel || !list) return;
   const config = window.MATERIALS_CONFIG;
   const demo = !config || !config.supabaseUrl || config.supabaseUrl.includes('YOUR-');
-  const escape = value => String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const formatDate = value => value ? new Date(value).toLocaleString('ar-EG', { dateStyle:'medium', timeStyle:'short' }) : '—';
+  let client = null;
+  if (!demo) client = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
+
   function render(rows) {
-    count.textContent = `${rows.length} زائر`;
-    list.innerHTML = rows.length ? rows.map(row => `<article class="visitor-row"><div class="visitor-row-avatar">${row.gender === 'أنثى' ? 'طالبة' : 'طالب'}</div><div class="visitor-row-info"><strong>${escape(row.name)}</strong><small>${escape(row.email)} · ${escape(row.gender)}</small></div><time>${formatDate(row.last_seen || row.created_at)}</time></article>`).join('') : '<div class="empty">لا توجد بيانات زائرين حتى الآن.</div>';
+    const active = rows.filter(row => !row.banned).length;
+    count.textContent = `${rows.length} زائر · ${active} نشط`;
+    list.innerHTML = rows.length ? rows.map(row => {
+      const banned = Boolean(row.banned);
+      return `<article class="visitor-row ${banned ? 'is-banned' : ''}">
+        <div class="visitor-row-avatar">${row.gender === 'أنثى' ? 'طالبة' : 'طالب'}</div>
+        <div class="visitor-row-info"><strong>${escape(row.name)}</strong><small>${escape(row.email)} · ${escape(row.gender)}</small><small>التسجيل: ${formatDate(row.created_at)} · آخر دخول: ${formatDate(row.last_seen)}</small></div>
+        <div class="visitor-status">${banned ? 'محظور' : 'نشط'}</div>
+        <div class="visitor-actions">
+          <button type="button" class="visitor-toggle ${banned ? 'unban' : 'ban'}" data-id="${escape(row.id || row.email)}" data-banned="${banned}">${banned ? 'فك الحظر' : 'حظر'}</button>
+          <button type="button" class="visitor-reset" data-email="${escape(row.email)}">إعادة تعيين كلمة المرور</button>
+          <button type="button" class="visitor-remove" data-id="${escape(row.id || row.email)}" data-email="${escape(row.email)}">حذف نهائي</button>
+        </div>
+      </article>`;
+    }).join('') : '<div class="empty">لا توجد بيانات زائرين حتى الآن.</div>';
+    list.querySelectorAll('.visitor-toggle').forEach(button => button.onclick = () => toggleBan(button.dataset.id, button.dataset.banned === 'true'));
+    list.querySelectorAll('.visitor-remove').forEach(button => button.onclick = () => removeVisitor(button.dataset.id, button.dataset.email));
+    list.querySelectorAll('.visitor-reset').forEach(button => button.onclick = () => resetPassword(button.dataset.email));
   }
+
   async function load() {
     if (demo) { let rows = []; try { rows = JSON.parse(localStorage.getItem('materials-visitor-profiles') || '[]'); } catch (_) {} render(rows); return; }
-    const client = window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
     const session = await client.auth.getSession();
     if (!session.data.session) return;
-    const result = await client.from('visitors').select('name,email,gender,created_at,last_seen').order('last_seen', { ascending: false });
+    const result = await client.from('visitors').select('id,name,email,gender,created_at,last_seen,banned,banned_at').order('last_seen', { ascending: false });
     if (!result.error) render(result.data || []);
-    else list.innerHTML = '<div class="empty">شغّل ملف visitors.sql في Supabase ثم أعد تحميل الصفحة.</div>';
+    else list.innerHTML = '<div class="empty">شغّل migration-visitors-admin.sql في Supabase ثم أعد تحميل الصفحة.</div>';
   }
+
+  async function toggleBan(id, currentlyBanned) {
+    if (!confirm(currentlyBanned ? 'فك حظر هذا الزائر؟' : 'حظر هذا الزائر؟ لن يستطيع دخول المكتبة.')) return;
+    if (demo) {
+      const rows = JSON.parse(localStorage.getItem('materials-visitor-profiles') || '[]');
+      const updated = rows.map(row => String(row.id || row.email) === String(id) ? {...row, banned: !currentlyBanned, banned_at: currentlyBanned ? null : new Date().toISOString()} : row);
+      localStorage.setItem('materials-visitor-profiles', JSON.stringify(updated)); render(updated); return;
+    }
+    const result = await client.from('visitors').update({ banned: !currentlyBanned, banned_at: currentlyBanned ? null : new Date().toISOString() }).eq('id', id);
+    if (result.error) return alert(`تعذر تحديث حالة الحظر: ${result.error.message}`);
+    await load();
+  }
+
+  async function removeVisitor(id, email) {
+    if (!confirm(`حذف حساب ${email} نهائيًا؟ لا يمكن التراجع عن هذا الإجراء.`)) return;
+    if (demo) {
+      const rows = JSON.parse(localStorage.getItem('materials-visitor-profiles') || '[]').filter(row => String(row.id || row.email) !== String(id || email));
+      localStorage.setItem('materials-visitor-profiles', JSON.stringify(rows)); render(rows); return;
+    }
+    const result = await client.from('visitors').delete().eq('id', id);
+    if (result.error) return alert(`تعذر حذف الحساب: ${result.error.message}`);
+    await load();
+  }
+
+  async function resetPassword(email) {
+    if (!confirm(`إرسال رابط إعادة تعيين كلمة المرور إلى ${email}؟`)) return;
+    if (demo) return alert('وضع التجربة: لا يوجد بريد فعلي لإرسال الرابط إليه.');
+    const result = await client.auth.resetPasswordForEmail(email, { redirectTo: `${location.origin}/index.html` });
+    if (result.error) return alert(`تعذر إرسال الرابط: ${result.error.message}`);
+    alert('تم إرسال رابط إعادة تعيين كلمة المرور إذا كان البريد مسجلًا في نظام المصادقة.');
+  }
+
   load();
   window.setInterval(load, 15000);
 })();

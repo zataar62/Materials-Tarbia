@@ -18,6 +18,21 @@
   const getGender = () => form.querySelector('input[name="gender"]:checked')?.value || '';
   const studentIcon = female => `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="18" r="9"/><path d="M16 52c1-11 7-17 16-17s15 6 16 17"/><path d="M13 40h38v8H13z" class="icon-book"/><path d="M16 39 32 31l16 8-16 8-16-8Z" class="icon-cap"/>${female ? '<path d="M23 27c2 3 5 4 9 4s7-1 9-4" class="icon-detail"/>' : '<path d="M25 27h14" class="icon-detail"/>'}</svg>`;
   const setGender = value => form.querySelectorAll('input[name="gender"]').forEach(input => { input.checked = input.value === value; });
+  async function isBanned(email) {
+    if (!email) return false;
+    if (client) {
+      const result = await client.from('visitors').select('banned').eq('email', email).maybeSingle();
+      return !result.error && Boolean(result.data?.banned);
+    }
+    try { return JSON.parse(localStorage.getItem(listKey) || '[]').some(row => row.email === email && row.banned); } catch (_) { return false; }
+  }
+  function lockBanned() {
+    localStorage.removeItem(profileKey);
+    saved = null;
+    setMessage('هذا الحساب محظور من دخول المكتبة. تواصل مع الإدارة إذا كان الحظر بالخطأ.');
+    gate.hidden = false;
+    document.body.classList.add('visitor-locked');
+  }
   function setMessage(text, error = true) { message.textContent = text; message.className = error ? 'visitor-message error' : 'visitor-message success'; }
   function applyProfile(profile) {
     const isFemale = profile.gender === 'أنثى';
@@ -63,7 +78,9 @@
   document.getElementById('editVisitorButton')?.addEventListener('click', openEdit);
   cancel?.addEventListener('click', closeEdit);
   let saved = null; try { saved = JSON.parse(localStorage.getItem(profileKey) || 'null'); } catch (_) {}
-  if (saved?.name && saved?.email && saved?.gender) applyProfile(saved);
+  if (saved?.name && saved?.email && saved?.gender) {
+    isBanned(saved.email).then(banned => banned ? lockBanned() : applyProfile(saved));
+  }
   form.addEventListener('submit', async event => {
     event.preventDefault();
     const editing = !cancel.hidden;
@@ -77,7 +94,8 @@
     if (!editing && password.length < 6) return setMessage('كلمة المرور يجب أن تكون 6 أحرف على الأقل.');
     if (editing && password && password.length < 6) return setMessage('كلمة المرور الجديدة يجب أن تكون 6 أحرف على الأقل.');
     if (!gender) return setMessage('اختار النوع: ذكر أو أنثى.');
-    const profile = { name, email, gender, joined_at: oldProfile?.joined_at || new Date().toISOString() };
+    if (await isBanned(email)) { lockBanned(); submit.disabled = false; return; }
+    const profile = { name, email, gender, banned: false, joined_at: oldProfile?.joined_at || new Date().toISOString() };
     submit.disabled = true; setMessage(editing ? 'جارٍ حفظ التعديلات...' : 'جارٍ حفظ بيانات الدخول...', false);
     try {
       if (client) {

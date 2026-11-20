@@ -74,13 +74,36 @@ create table if not exists public.visitors (
   name text not null,
   email text not null unique,
   gender text not null check (gender in ('ذكر','أنثى')),
+  banned boolean not null default false,
+  banned_at timestamptz,
   created_at timestamptz not null default now(),
   last_seen timestamptz not null default now()
 );
+alter table public.visitors add column if not exists banned boolean not null default false;
+alter table public.visitors add column if not exists banned_at timestamptz;
 alter table public.visitors enable row level security;
 drop policy if exists "Visitors can submit their profile" on public.visitors;
 create policy "Visitors can submit their profile" on public.visitors for insert to anon, authenticated with check (length(name) between 2 and 120 and gender in ('ذكر','أنثى'));
 drop policy if exists "Admins can read visitor profiles" on public.visitors;
 create policy "Admins can read visitor profiles" on public.visitors for select to authenticated using (true);
+drop policy if exists "Admins can delete visitor profiles" on public.visitors;
+create policy "Admins can delete visitor profiles" on public.visitors for delete to authenticated using (true);
+drop policy if exists "Admins can update visitor moderation" on public.visitors;
+create policy "Admins can update visitor moderation" on public.visitors for update to authenticated
+  using (true) with check (length(name) between 2 and 120 and gender in ('ذكر','أنثى'));
 drop policy if exists "Visitors can refresh their profile" on public.visitors;
 create policy "Visitors can refresh their profile" on public.visitors for update to anon, authenticated using (true) with check (length(name) between 2 and 120 and gender in ('ذكر','أنثى'));
+
+create or replace function public.prevent_visitor_moderation_tamper()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if auth.role() <> 'authenticated' and (new.banned is distinct from old.banned or new.banned_at is distinct from old.banned_at) then
+    raise exception 'moderation fields are not editable by visitors';
+  end if;
+  return new;
+end;
+$$;
+drop trigger if exists visitors_moderation_guard on public.visitors;
+create trigger visitors_moderation_guard
+before update on public.visitors
+for each row execute function public.prevent_visitor_moderation_tamper();
