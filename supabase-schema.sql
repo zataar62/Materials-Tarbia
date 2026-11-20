@@ -84,23 +84,3 @@ drop policy if exists "Admins can read visitor profiles" on public.visitors;
 create policy "Admins can read visitor profiles" on public.visitors for select to authenticated using (true);
 drop policy if exists "Visitors can refresh their profile" on public.visitors;
 create policy "Visitors can refresh their profile" on public.visitors for update to anon, authenticated using (true) with check (length(name) between 2 and 120 and gender in ('ذكر','أنثى'));
-
-
--- حذف حساب الزائر وبياناته من خلال جلسة Supabase الحالية فقط
-create or replace function public.delete_my_visitor_account()
-returns void
-language plpgsql
-security definer
-set search_path = public, auth
-as $$
-begin
-  if auth.uid() is null then
-    raise exception 'لا توجد جلسة مستخدم صالحة للحذف';
-  end if;
-  delete from public.visitors
-  where lower(email) = lower((select email from auth.users where id = auth.uid()));
-  delete from auth.users where id = auth.uid();
-end;
-$$;
-revoke all on function public.delete_my_visitor_account() from public;
-grant execute on function public.delete_my_visitor_account() to authenticated;

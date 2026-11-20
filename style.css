@@ -61,5 +61,3 @@ body.visitor-locked{overflow:hidden}.visitor-gate{position:fixed;inset:0;z-index
 
 /* Device-independent student icons */
 .visitor-avatar-icon svg{width:34px;height:34px;display:block;fill:#315e89;stroke:#315e89;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.visitor-avatar-icon .icon-book{fill:#8aa9c3;stroke:#315e89}.visitor-avatar-icon .icon-cap{fill:#557f9e;stroke:#315e89}.visitor-avatar-icon .icon-detail{fill:none;stroke:#fff;stroke-width:2.4}.visitor-avatar-icon.female svg{fill:#b65c7c;stroke:#a24d6b}.visitor-avatar-icon.female .icon-book{fill:#d795ad;stroke:#a24d6b}.visitor-avatar-icon.female .icon-cap{fill:#be6f8e;stroke:#a24d6b}
-
-.visitor-delete-button{display:block;margin:13px auto 0;border:0;background:transparent;color:#b85a4d;font:700 10px Cairo,Tahoma,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px}.visitor-delete-button:hover{color:#8e3930}.visitor-delete-button:disabled{opacity:.55;cursor:wait}

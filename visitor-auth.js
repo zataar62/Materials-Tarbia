@@ -8,7 +8,6 @@
   const message = document.getElementById('visitorMessage');
   const submit = form.querySelector('button[type="submit"]');
   const cancel = document.getElementById('visitorCancelEdit');
-  const deleteButton = document.getElementById('deleteVisitorButton');
   const title = document.getElementById('visitorGateTitle');
   const intro = document.getElementById('visitorGateIntro');
   const profileKey = 'materials-visitor-profile';
@@ -48,7 +47,6 @@
     submit.innerHTML = 'حفظ التعديلات <span>✓</span>';
     submit.disabled = false;
     cancel.hidden = false;
-    if (deleteButton) { deleteButton.hidden = false; deleteButton.disabled = false; deleteButton.textContent = 'حذف الحساب نهائيًا'; }
     setMessage('');
     gate.hidden = false;
     document.body.classList.add('visitor-locked');
@@ -64,37 +62,6 @@
   }
   document.getElementById('editVisitorButton')?.addEventListener('click', openEdit);
   cancel?.addEventListener('click', closeEdit);
-  deleteButton?.addEventListener('click', async () => {
-    let profile = null; try { profile = JSON.parse(localStorage.getItem(profileKey) || 'null'); } catch (_) {}
-    if (!profile?.email) return;
-    const confirmed = window.confirm('سيتم حذف بيانات حسابك نهائيًا من الموقع. لا يمكن التراجع عن هذا الإجراء. هل تريد المتابعة؟');
-    if (!confirmed) return;
-    deleteButton.disabled = true; deleteButton.textContent = 'جارٍ حذف الحساب...'; setMessage('جارٍ حذف بيانات الحساب...', false);
-    try {
-      if (client) {
-        const sessionResult = await client.auth.getSession();
-        if (sessionResult.data?.session) {
-          const result = await client.rpc('delete_my_visitor_account');
-          if (result.error) throw result.error;
-          await client.auth.signOut();
-        } else {
-          const result = await client.from('visitors').delete().eq('email', profile.email);
-          if (result.error) throw result.error;
-        }
-      }
-      localStorage.removeItem(profileKey);
-      const profiles = JSON.parse(localStorage.getItem(listKey) || '[]');
-      localStorage.setItem(listKey, JSON.stringify(profiles.filter(row => row.email !== profile.email)));
-      saved = null; form.reset(); cancel.hidden = true; if (deleteButton) deleteButton.hidden = true;
-      title.textContent = 'سجّل دخولك للبدء';
-      intro.textContent = 'تم حذف الحساب. يمكنك التسجيل من جديد في أي وقت.';
-      submit.innerHTML = 'دخول إلى المكتبة <span>←</span>'; submit.disabled = false; passwordInput.required = true;
-      gate.hidden = false; document.body.classList.add('visitor-locked'); setMessage('تم حذف الحساب وبياناته بنجاح.', false);
-    } catch (error) {
-      deleteButton.disabled = false; deleteButton.textContent = 'حذف الحساب نهائيًا';
-      setMessage(error.message || 'تعذر حذف الحساب. تأكد من تشغيل آخر كود SQL في Supabase.');
-    }
-  });
   let saved = null; try { saved = JSON.parse(localStorage.getItem(profileKey) || 'null'); } catch (_) {}
   if (saved?.name && saved?.email && saved?.gender) applyProfile(saved);
   form.addEventListener('submit', async event => {
@@ -115,21 +82,8 @@
     try {
       if (client) {
         if (!editing) {
-          // جرّب الدخول أولًا حتى لا نرسل رسالة تسجيل جديدة للحسابات الموجودة.
-          let auth = await client.auth.signInWithPassword({ email, password });
-          if (auth.error) {
-            const signUp = await client.auth.signUp({ email, password, options: { data: { name, gender } } });
-            const signUpMessage = signUp.error?.message || '';
-            if (/rate limit|email rate limit|too many requests/i.test(signUpMessage)) {
-              // لا نوقف الموقع بسبب حظر البريد المؤقت؛ نسجل الزائر بدون إرسال رسالة.
-              auth = { data: { session: null }, error: null };
-            } else {
-              if (signUp.error && /already registered|already been registered|user already exists/i.test(signUpMessage)) {
-                throw new Error('هذا البريد مسجل بالفعل. استخدم كلمة المرور الصحيحة أو عطّل تأكيد البريد من Supabase.');
-              }
-              auth = signUp;
-            }
-          }
+          let auth = await client.auth.signUp({ email, password, options: { data: { name, gender } } });
+          if (auth.error && /already registered|already been registered|user already exists/i.test(auth.error.message || '')) auth = await client.auth.signInWithPassword({ email, password });
           if (auth.error && !/confirm/i.test(auth.error.message || '')) throw auth.error;
           const savedRow = await client.from('visitors').insert({ name, email, gender, last_seen: new Date().toISOString() });
           if (savedRow.error && !/duplicate|unique/i.test(savedRow.error.message || '')) console.warn(savedRow.error.message);
