@@ -16,7 +16,7 @@
     ? window.supabase.createClient(window.MATERIALS_CONFIG.supabaseUrl, window.MATERIALS_CONFIG.supabaseAnonKey)
     : null;
   const getGender = () => form.querySelector('input[name="gender"]:checked')?.value || '';
-  const studentIcon = female => `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="18" r="9"/><path d="M16 52c1-11 7-17 16-17s15 6 16 17"/><path d="M13 40h38v8H13z" class="icon-book"/><path d="M16 39 32 31l16 8-16 8-16-8Z" class="icon-cap"/>${female ? '<path d="M23 27c2 3 5 4 9 4s7-1 9-4" class="icon-detail"/>' : '<path d="M25 27h14" class="icon-detail"/>'}</svg>`;
+  const studentIcon = female => { const detail = female ? '<path d="M22 27c1-7 5-12 10-12s9 5 10 12c-3-3-6-5-10-5s-7 2-10 5Z" class="icon-hair"/><path d="M27 34c3 2 7 2 10 0" class="icon-smile"/><circle cx="21" cy="35" r="3" class="icon-bow"/><circle cx="43" cy="35" r="3" class="icon-bow"/>' : '<path d="M24 27c2-2 4-3 8-3s6 1 8 3" class="icon-hair"/><path d="M28 34h8" class="icon-smile"/>'; return `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="avatarFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3c2"/><stop offset="1" stop-color="#eeb98c"/></linearGradient></defs><circle cx="32" cy="32" r="28" class="icon-ring"/><path d="M14 57c1-12 8-19 18-19s17 7 18 19" class="icon-body"/><path d="M22 28c0-8 4-13 10-13s10 5 10 13c0 7-4 12-10 12S22 35 22 28Z" class="icon-face"/><path d="M20 20 32 11l12 9-12 5-12-5Z" class="icon-cap"/><path d="M17 21h30M44 21v7" class="icon-cap-line"/><circle cx="44" cy="29" r="2" class="icon-tassel"/>${detail}</svg>`; };
   const setGender = value => form.querySelectorAll('input[name="gender"]').forEach(input => { input.checked = input.value === value; });
   async function isBanned(email) {
     if (!email) return false;
@@ -26,10 +26,28 @@
     }
     try { return JSON.parse(localStorage.getItem(listKey) || '[]').some(row => row.email === email && row.banned); } catch (_) { return false; }
   }
+  let presenceTimer = null;
+  async function touchPresence(email) {
+    const now = new Date().toISOString();
+    if (client) {
+      await client.from('visitors').update({ last_seen: now }).eq('email', email);
+      return;
+    }
+    try {
+      const rows = JSON.parse(localStorage.getItem(listKey) || '[]');
+      localStorage.setItem(listKey, JSON.stringify(rows.map(row => row.email === email ? {...row, last_seen: now} : row)));
+    } catch (_) {}
+  }
+  function startPresence(email) {
+    if (presenceTimer) clearInterval(presenceTimer);
+    touchPresence(email);
+    presenceTimer = setInterval(() => touchPresence(email), 60000);
+  }
   function lockBanned() {
+    if (presenceTimer) clearInterval(presenceTimer);
     localStorage.removeItem(profileKey);
     saved = null;
-    setMessage('هذا الحساب محظور من دخول المكتبة. تواصل مع الإدارة إذا كان الحظر بالخطأ.');
+    setMessage('هذا الحساب محظور. لا يمكنك التسجيل أو دخول المكتبة؛ يجب الرجوع إلى الإدارة لفك الحظر أولًا.');
     gate.hidden = false;
     document.body.classList.add('visitor-locked');
   }
@@ -79,7 +97,10 @@
   cancel?.addEventListener('click', closeEdit);
   let saved = null; try { saved = JSON.parse(localStorage.getItem(profileKey) || 'null'); } catch (_) {}
   if (saved?.name && saved?.email && saved?.gender) {
-    isBanned(saved.email).then(banned => banned ? lockBanned() : applyProfile(saved));
+    isBanned(saved.email).then(banned => {
+      if (banned) lockBanned();
+      else { applyProfile(saved); startPresence(saved.email); }
+    });
   }
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -139,7 +160,7 @@
         localStorage.setItem(listKey, JSON.stringify(profiles));
       }
       saved = profile; localStorage.setItem(profileKey, JSON.stringify(profile));
-      passwordInput.value = ''; submit.disabled = false; applyProfile(profile); closeEdit();
+      passwordInput.value = ''; submit.disabled = false; applyProfile(profile); closeEdit(); startPresence(email);
     } catch (error) {
       setMessage(error.message || 'تعذر حفظ البيانات، حاول مرة أخرى.');
       submit.disabled = false;
