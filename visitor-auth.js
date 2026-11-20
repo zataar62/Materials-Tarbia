@@ -18,17 +18,23 @@
     : null;
   const getGender = () => form.querySelector('input[name="gender"]:checked')?.value || '';
   const blockedMessage = document.getElementById('visitorBlockedMessage');
+  const deletedMessage = document.getElementById('visitorDeletedMessage');
   const studentIcon = female => { const detail = female ? '<path d="M22 27c1-7 5-12 10-12s9 5 10 12c-3-3-6-5-10-5s-7 2-10 5Z" class="icon-hair"/><path d="M27 34c3 2 7 2 10 0" class="icon-smile"/><circle cx="21" cy="35" r="3" class="icon-bow"/><circle cx="43" cy="35" r="3" class="icon-bow"/>' : '<path d="M24 27c2-2 4-3 8-3s6 1 8 3" class="icon-hair"/><path d="M28 34h8" class="icon-smile"/>'; return `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="avatarFace" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3c2"/><stop offset="1" stop-color="#eeb98c"/></linearGradient></defs><circle cx="32" cy="32" r="28" class="icon-ring"/><path d="M14 57c1-12 8-19 18-19s17 7 18 19" class="icon-body"/><path d="M22 28c0-8 4-13 10-13s10 5 10 13c0 7-4 12-10 12S22 35 22 28Z" class="icon-face"/><path d="M20 20 32 11l12 9-12 5-12-5Z" class="icon-cap"/><path d="M17 21h30M44 21v7" class="icon-cap-line"/><circle cx="44" cy="29" r="2" class="icon-tassel"/>${detail}</svg>`; };
   const setGender = value => form.querySelectorAll('input[name="gender"]').forEach(input => { input.checked = input.value === value; });
-  async function isBanned(email) {
+  async function accountStatus(email) {
     if (!email) return false;
     if (client) {
-      const rpc = await client.rpc('is_visitor_banned', { p_email: email });
-      if (!rpc.error) return Boolean(rpc.data);
+      const rpc = await client.rpc('visitor_account_status', { p_email: email });
+      if (!rpc.error) return rpc.data || 'missing';
       const result = await client.from('visitors').select('banned').eq('email', email).maybeSingle();
-      return !result.error && Boolean(result.data?.banned);
+      if (result.error) return 'unknown';
+      if (!result.data) return 'missing';
+      return result.data.banned ? 'banned' : 'active';
     }
-    try { return JSON.parse(localStorage.getItem(listKey) || '[]').some(row => row.email === email && row.banned); } catch (_) { return false; }
+    try { const row = JSON.parse(localStorage.getItem(listKey) || '[]').find(item => item.email === email); return !row ? 'missing' : row.banned ? 'banned' : 'active'; } catch (_) { return 'missing'; }
+  }
+  async function isBanned(email) {
+    return (await accountStatus(email)) === 'banned';
   }
   let presenceTimer = null;
   async function touchPresence(email) {
@@ -46,7 +52,9 @@
     if (presenceTimer) clearInterval(presenceTimer);
     touchPresence(email);
     presenceTimer = setInterval(async () => {
-      if (await isBanned(email)) return lockBanned();
+      const status = await accountStatus(email);
+      if (status === 'banned') return lockBanned();
+      if (status === 'missing') return showDeleted();
       touchPresence(email);
     }, 5000);
   }
@@ -77,6 +85,24 @@
     form.hidden = false;
     applyProfile(profile);
     startPresence(profile.email);
+  }
+  function showDeleted() {
+    if (presenceTimer) clearInterval(presenceTimer);
+    localStorage.removeItem(profileKey);
+    localStorage.removeItem(blockedProfileKey);
+    saved = null;
+    document.querySelector('.visitor-card')?.classList.remove('is-blocked');
+    if (blockedMessage) blockedMessage.hidden = true;
+    if (deletedMessage) { deletedMessage.hidden = false; deletedMessage.textContent = 'تم حذف الحساب. يمكنك الآن إنشاء حساب جديد.'; }
+    form.hidden = false;
+    form.reset();
+    passwordInput.required = true;
+    cancel.hidden = true;
+    title.textContent = 'تم حذف الحساب';
+    intro.textContent = 'يمكنك الآن إدخال بياناتك لإنشاء حساب جديد.';
+    submit.innerHTML = 'إنشاء حساب جديد <span>←</span>';
+    gate.hidden = false;
+    document.body.classList.add('visitor-locked');
   }
   function setMessage(text, error = true) { message.textContent = text; message.className = error ? 'visitor-message error' : 'visitor-message success'; }
   function applyProfile(profile) {
@@ -124,13 +150,14 @@
   cancel?.addEventListener('click', closeEdit);
   let saved = null; try { saved = JSON.parse(localStorage.getItem(profileKey) || 'null'); } catch (_) {}
   if (saved?.name && saved?.email && saved?.gender) {
-    isBanned(saved.email).then(banned => {
-      if (banned) lockBanned();
+    accountStatus(saved.email).then(status => {
+      if (status === 'banned') lockBanned();
+      else if (status === 'missing') showDeleted();
       else { applyProfile(saved); startPresence(saved.email); }
     });
   } else {
     let blocked = null; try { blocked = JSON.parse(localStorage.getItem(blockedProfileKey) || 'null'); } catch (_) {}
-    if (blocked?.email) isBanned(blocked.email).then(banned => { if (!banned) unlockRestoredProfile(blocked); else { saved = blocked; lockBanned(); } });
+    if (blocked?.email) accountStatus(blocked.email).then(status => { if (status === 'active') unlockRestoredProfile(blocked); else if (status === 'missing') showDeleted(); else { saved = blocked; lockBanned(); } });
   }
   form.addEventListener('submit', async event => {
     event.preventDefault();

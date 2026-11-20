@@ -53,3 +53,15 @@ exception when duplicate_object then null;
 end $$;
 
 notify pgrst, 'reload schema';
+
+-- حالة الحساب للعميل الحالي: active أو banned أو missing.
+create or replace function public.visitor_account_status(p_email text)
+returns text language sql security definer set search_path = public as $$
+  select case
+    when not exists (select 1 from public.visitors where lower(email) = lower(trim(p_email))) then 'missing'
+    when exists (select 1 from public.visitors where lower(email) = lower(trim(p_email)) and banned) then 'banned'
+    else 'active'
+  end;
+$$;
+revoke all on function public.visitor_account_status(text) from public;
+grant execute on function public.visitor_account_status(text) to anon, authenticated;
