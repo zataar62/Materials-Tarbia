@@ -68,15 +68,15 @@
       <div class="visitor-mark">ت</div>
       <span class="eyebrow">أهلًا بك في مكتبتك</span>
       <h1 id="visitorGateTitle">سجّل دخولك للبدء</h1>
-      <p id="visitorGateIntro">اكتب بياناتك مرة واحدة لتظهر لك المكتبة باسمك.</p>
+      <p id="visitorGateIntro">اكتب بياناتك مرة واحدة لتظهر لك المكتبة باسمك، ويعرف الأدمن عدد الزائرين المسجلين.</p>
       <form id="visitorForm" novalidate>
         <label>الاسم بالكامل<input id="visitorName" name="name" type="text" autocomplete="name" placeholder="مثال: محمد أحمد" required></label>
-        <label>البريد الإلكتروني<input id="visitorEmail" name="email" type="email" autocomplete="email" placeholder="name@gmail.com" required></label>
+        <label>البريد الإلكتروني<input id="visitorEmail" name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
         <label>كلمة المرور<input id="visitorPassword" name="password" type="password" minlength="6" autocomplete="new-password" placeholder="6 أحرف على الأقل" required></label>
         <fieldset class="gender-field"><legend>النوع</legend><label><input type="radio" name="gender" value="ذكر"> ذكر</label><label><input type="radio" name="gender" value="أنثى"> أنثى</label></fieldset>
         <div class="visitor-form-actions"><button class="visitor-submit" type="submit">دخول إلى المكتبة <span>←</span></button><button id="visitorCancelEdit" class="visitor-cancel" type="button" hidden>إلغاء</button></div>
         <p id="visitorMessage" class="visitor-message" aria-live="polite"></p>
-       <button id="deleteVisitorButton" class="visitor-delete-button" type="button" hidden>حذف الحساب نهائيًا</button>
+        <small class="visitor-privacy">لن يتم عرض كلمة المرور للأدمن أو حفظها كنص مكشوف.</small><button id="deleteVisitorButton" class="visitor-delete-button" type="button" hidden>حذف الحساب نهائيًا</button>
       </form>
     </div>
   </section>

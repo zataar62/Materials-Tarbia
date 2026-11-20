@@ -115,8 +115,15 @@
     try {
       if (client) {
         if (!editing) {
-          let auth = await client.auth.signUp({ email, password, options: { data: { name, gender } } });
-          if (auth.error && /already registered|already been registered|user already exists/i.test(auth.error.message || '')) auth = await client.auth.signInWithPassword({ email, password });
+          // جرّب الدخول أولًا حتى لا نرسل رسالة تسجيل جديدة للحسابات الموجودة.
+          let auth = await client.auth.signInWithPassword({ email, password });
+          if (auth.error) {
+            const signUp = await client.auth.signUp({ email, password, options: { data: { name, gender } } });
+            if (signUp.error && /already registered|already been registered|user already exists/i.test(signUp.error.message || '')) {
+              throw new Error('هذا البريد مسجل بالفعل. استخدم كلمة المرور الصحيحة أو عطّل تأكيد البريد من Supabase.');
+            }
+            auth = signUp;
+          }
           if (auth.error && !/confirm/i.test(auth.error.message || '')) throw auth.error;
           const savedRow = await client.from('visitors').insert({ name, email, gender, last_seen: new Date().toISOString() });
           if (savedRow.error && !/duplicate|unique/i.test(savedRow.error.message || '')) console.warn(savedRow.error.message);
