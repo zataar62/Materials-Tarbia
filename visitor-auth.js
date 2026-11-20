@@ -119,10 +119,16 @@
           let auth = await client.auth.signInWithPassword({ email, password });
           if (auth.error) {
             const signUp = await client.auth.signUp({ email, password, options: { data: { name, gender } } });
-            if (signUp.error && /already registered|already been registered|user already exists/i.test(signUp.error.message || '')) {
-              throw new Error('هذا البريد مسجل بالفعل. استخدم كلمة المرور الصحيحة أو عطّل تأكيد البريد من Supabase.');
+            const signUpMessage = signUp.error?.message || '';
+            if (/rate limit|email rate limit|too many requests/i.test(signUpMessage)) {
+              // لا نوقف الموقع بسبب حظر البريد المؤقت؛ نسجل الزائر بدون إرسال رسالة.
+              auth = { data: { session: null }, error: null };
+            } else {
+              if (signUp.error && /already registered|already been registered|user already exists/i.test(signUpMessage)) {
+                throw new Error('هذا البريد مسجل بالفعل. استخدم كلمة المرور الصحيحة أو عطّل تأكيد البريد من Supabase.');
+              }
+              auth = signUp;
             }
-            auth = signUp;
           }
           if (auth.error && !/confirm/i.test(auth.error.message || '')) throw auth.error;
           const savedRow = await client.from('visitors').insert({ name, email, gender, last_seen: new Date().toISOString() });
