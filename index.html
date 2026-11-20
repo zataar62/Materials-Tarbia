@@ -76,14 +76,14 @@
         <fieldset class="gender-field"><legend>النوع</legend><label><input type="radio" name="gender" value="ذكر"> ذكر</label><label><input type="radio" name="gender" value="أنثى"> أنثى</label></fieldset>
         <div class="visitor-form-actions"><button class="visitor-submit" type="submit">دخول إلى المكتبة <span>←</span></button><button id="visitorCancelEdit" class="visitor-cancel" type="button" hidden>إلغاء</button></div>
         <p id="visitorMessage" class="visitor-message" aria-live="polite"></p>
-        <small class="visitor-privacy">لن يتم عرض كلمة المرور للأدمن أو حفظها كنص مكشوف.</small>
+        <small class="visitor-privacy">لن يتم عرض كلمة المرور للأدمن أو حفظها كنص مكشوف.</small><button id="deleteVisitorButton" class="visitor-delete-button" type="button" hidden>حذف الحساب نهائيًا</button>
       </form>
     </div>
   </section>
   </button>
   <header class="topbar">
    <div class="brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-      <span id="visitorAvatar" class="visitor-avatar-icon male" aria-label="طالب">👨‍🎓</span>
+      <span id="visitorAvatar" class="visitor-avatar-icon male" aria-label="طالب"><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="18" r="9"/><path d="M16 52c1-11 7-17 16-17s15 6 16 17"/><path d="M13 40h38v8H13z" class="icon-book"/><path d="M16 39 32 31l16 8-16 8-16-8Z" class="icon-cap"/><path d="M25 27h14" class="icon-detail"/></svg></span>
             <a href="#home" aria-label="الفرقة الثانية علوم أساسي - الرئيسية" style="text-decoration: none; color: inherit;">
         <span><strong id="visitorNameLabel">كلية التربية قسم علوم اساسي</strong><button id="editVisitorButton" class="visitor-edit-link" type="button">تعديل البيانات</button></span>
       </a>
