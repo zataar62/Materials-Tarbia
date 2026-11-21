@@ -18,8 +18,8 @@
     : null;
   const getGender = () => form.querySelector('input[name="gender"]:checked')?.value || '';
   const studentIcon = female => female
-    ? `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path class="icon-hair" d="M20 27c-1-10 4-18 12-18s13 8 12 18v19c-2 5-7 8-12 8s-10-3-12-8V27Z"/><circle class="icon-face" cx="32" cy="25" r="8"/><path class="icon-body" d="M12 58c1-12 8-19 20-19s19 7 20 19H12Z"/><path class="icon-cap" d="M13 19 32 10l19 9-19 9-19-9Z"/><path class="icon-cap-line" d="M46 22v9c-4 3-9 4-14 4s-10-1-14-4v-9"/><path class="icon-detail" d="M27 27h10"/><path class="icon-tassel" d="M51 19v9"/></svg>`
-    : `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path class="icon-hair" d="M21 27c-1-9 4-17 11-17s12 8 11 17l-3 7H24l-3-7Z"/><circle class="icon-face" cx="32" cy="25" r="8"/><path class="icon-body" d="M12 58c1-12 8-19 20-19s19 7 20 19H12Z"/><path class="icon-cap" d="M13 19 32 10l19 9-19 9-19-9Z"/><path class="icon-cap-line" d="M46 22v9c-4 3-9 4-14 4s-10-1-14-4v-9"/><path class="icon-detail" d="M27 27h10"/><path class="icon-tassel" d="M51 19v9"/></svg>`;
+    ? `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path class="icon-hair" d="M19 29c-1-11 4-20 13-20s14 9 13 20v16c-2 7-7 10-13 10s-11-3-13-10V29Z"/><circle class="icon-face" cx="32" cy="27" r="8"/><path class="icon-body" d="M13 59c1-11 8-17 19-17s18 6 19 17H13Z"/><path class="icon-cap" d="M13 17 32 8l19 9-19 9-19-9Z"/><path class="icon-cap-line" d="M21 20v5c3 2 7 3 11 3s8-1 11-3v-5"/><path class="icon-detail" d="M27 29h10"/><path class="icon-tassel" d="M51 17v10"/></svg>`
+    : `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path class="icon-hair" d="M22 28c-1-10 3-18 10-18s11 8 10 18v5H22Z"/><circle class="icon-face" cx="32" cy="27" r="8"/><path class="icon-body" d="M13 59c1-11 8-17 19-17s18 6 19 17H13Z"/><path class="icon-cap" d="M13 17 32 8l19 9-19 9-19-9Z"/><path class="icon-cap-line" d="M21 20v5c3 2 7 3 11 3s8-1 11-3v-5"/><path class="icon-detail" d="M27 29h10"/><path class="icon-tassel" d="M51 17v10"/></svg>`;
   const setGender = value => form.querySelectorAll('input[name="gender"]').forEach(input => { input.checked = input.value === value; });
   function setMessage(text, error = true) { message.textContent = text; message.className = error ? 'visitor-message error' : 'visitor-message success'; }
   function applyProfile(profile) {
@@ -67,15 +67,54 @@
   document.getElementById('editVisitorButton')?.addEventListener('click', openEdit);
   cancel?.addEventListener('click', closeEdit);
   let saved = null;
+  let blockedMode = false;
   try { saved = JSON.parse(localStorage.getItem(profileKey) || 'null'); } catch (_) { saved = null; }
+  // Recover the one device account from the local profile list if the primary key was refreshed.
+  if (!saved?.name || !saved?.email || !saved?.gender) {
+    try {
+      const cachedProfiles = JSON.parse(localStorage.getItem(listKey) || '[]');
+      saved = cachedProfiles.find(row => row?.name && row?.email && row?.gender) || null;
+      if (saved) localStorage.setItem(profileKey, JSON.stringify(saved));
+    } catch (_) { saved = null; }
+  }
+  function setBlockedMode(blocked) {
+    blockedMode = blocked;
+    if (blocked) {
+      gate.hidden = false; document.body.classList.add('visitor-locked');
+      title.textContent = 'الحساب محظور';
+      intro.textContent = 'تم حظر هذا الحساب من الموقع بواسطة الإدارة.';
+      setMessage('لا يمكن استخدام المكتبة بهذا الحساب حاليًا. تواصل مع الإدارة.');
+      [nameInput, emailInput, passwordInput, ...form.querySelectorAll('input[name="gender"]')].forEach(input => { input.disabled = true; });
+      submit.disabled = true; cancel.hidden = true;
+    } else if (saved?.name && saved?.email && saved?.gender) {
+      [nameInput, emailInput, passwordInput, ...form.querySelectorAll('input[name="gender"]')].forEach(input => { input.disabled = false; });
+      submit.disabled = false; applyProfile(saved);
+    }
+  }
+  async function checkVisitorStatus() {
+    if (!saved?.email) return;
+    try {
+      if (client) {
+        const result = await client.rpc('get_visitor_status', { p_email: saved.email });
+        if (!result.error) return setBlockedMode(!result.data?.length || Boolean(result.data[0].blocked));
+      } else {
+        const localProfiles = JSON.parse(localStorage.getItem(listKey) || '[]');
+        const localRow = localProfiles.find(row => row.email === saved.email);
+        return setBlockedMode(!localRow || Boolean(localRow.blocked));
+      }
+    } catch (_) { /* temporary network errors must not log the visitor out */ }
+  }
   if (saved?.name && saved?.email && saved?.gender) {
     // localStorage keeps the visitor signed in on this device across reloads and restarts.
     localStorage.setItem(registeredKey, '1');
     applyProfile(saved);
+    checkVisitorStatus();
+    window.setInterval(checkVisitorStatus, 4000);
   }
   form.addEventListener('submit', async event => {
     event.preventDefault();
     const editing = !cancel.hidden;
+    if (blockedMode) return;
     const oldProfile = saved || JSON.parse(localStorage.getItem(profileKey) || 'null');
     if (!editing && oldProfile?.name && oldProfile?.email && oldProfile?.gender) {
       // A device may have one visitor account only; existing visitors edit their profile.
@@ -147,13 +186,24 @@
         if (index >= 0) profiles[index] = { ...profiles[index], ...row }; else profiles.unshift(row);
         localStorage.setItem(listKey, JSON.stringify(profiles));
       }
+      const previousEmail = oldProfile?.email || profile.email;
       saved = profile;
       localStorage.setItem(profileKey, JSON.stringify(profile));
       localStorage.setItem(registeredKey, '1');
+      let cachedProfiles = [];
+      try { cachedProfiles = JSON.parse(localStorage.getItem(listKey) || '[]'); } catch (_) { cachedProfiles = []; }
+      cachedProfiles = cachedProfiles.filter(row => row.email !== previousEmail && row.email !== profile.email);
+      cachedProfiles.unshift({ ...profile, last_seen: new Date().toISOString() });
+      localStorage.setItem(listKey, JSON.stringify(cachedProfiles));
       passwordInput.value = ''; submit.disabled = false; applyProfile(profile); closeEdit();
     } catch (error) {
       setMessage(error.message || 'تعذر حفظ البيانات، حاول مرة أخرى.');
       submit.disabled = false;
     }
+  });
+  window.addEventListener('storage', event => {
+    if (event.key !== profileKey) return;
+    try { saved = JSON.parse(event.newValue || 'null'); } catch (_) { saved = null; }
+    if (saved?.name && saved?.email && saved?.gender) { blockedMode = false; applyProfile(saved); checkVisitorStatus(); }
   });
 })();
