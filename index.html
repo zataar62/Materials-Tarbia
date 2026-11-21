@@ -55,13 +55,37 @@
   }
 </style>
 </head>
-<body>
+<body class="visitor-locked">
+  <section id="visitorGate" class="visitor-gate" role="dialog" aria-modal="true" aria-labelledby="visitorGateTitle">
+    <span class="visitor-shape shape-ring" aria-hidden="true"></span>
+    <span class="visitor-shape shape-star shape-star-one" aria-hidden="true">✦</span>
+    <span class="visitor-shape shape-star shape-star-two" aria-hidden="true">✧</span>
+    <span class="visitor-shape shape-pill shape-pill-one" aria-hidden="true"></span>
+    <span class="visitor-shape shape-pill shape-pill-two" aria-hidden="true"></span>
+    <span class="visitor-shape shape-dot shape-dot-one" aria-hidden="true"></span>
+    <span class="visitor-shape shape-dot shape-dot-two" aria-hidden="true"></span>
+    <div class="visitor-card">
+      <div class="visitor-mark">ت</div>
+      <span class="eyebrow">أهلًا بك في مكتبتك</span>
+      <h1 id="visitorGateTitle">سجّل دخولك للبدء</h1>
+      <p id="visitorGateIntro">سجّل حسابك مرة واحدة على هذا الجهاز، وسيظل مفتوحًا لك. يمكنك تعديل بياناتك لاحقًا من الرابط أسفل اسمك.</p>
+      <form id="visitorForm" novalidate>
+        <label>الاسم بالكامل<input id="visitorName" name="name" type="text" autocomplete="name" placeholder="مثال: محمد أحمد" required></label>
+        <label>البريد الإلكتروني<input id="visitorEmail" name="email" type="email" autocomplete="email" placeholder="name@example.com" required></label>
+        <label>كلمة المرور<input id="visitorPassword" name="password" type="password" minlength="6" autocomplete="new-password" placeholder="6 أحرف على الأقل" required></label>
+        <fieldset class="gender-field"><legend>النوع</legend><label><input type="radio" name="gender" value="ذكر"> ذكر</label><label><input type="radio" name="gender" value="أنثى"> أنثى</label></fieldset>
+        <div class="visitor-form-actions"><button class="visitor-submit" type="submit">دخول إلى المكتبة <span>←</span></button><button id="visitorCancelEdit" class="visitor-cancel" type="button" hidden>إلغاء</button></div>
+        <p id="visitorMessage" class="visitor-message" aria-live="polite"></p>
+        <small class="visitor-privacy">لن يتم عرض كلمة المرور للأدمن أو حفظها كنص مكشوف.</small>
+      </form>
+    </div>
+  </section>
   </button>
   <header class="topbar">
    <div class="brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-      <img src="logo.png" alt="شعار الكلية" style="width: 50px; height: 50px; object-fit: contain;">
+      <span id="visitorAvatar" class="visitor-avatar-icon male" aria-label="طالب"><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path class="icon-hair" d="M21 27c-1-9 4-17 11-17s12 8 11 17l-3 7H24l-3-7Z"/><circle class="icon-face" cx="32" cy="25" r="8"/><path class="icon-body" d="M12 58c1-12 8-19 20-19s19 7 20 19H12Z"/><path class="icon-cap" d="M13 19 32 10l19 9-19 9-19-9Z"/><path class="icon-cap-line" d="M46 22v9c-4 3-9 4-14 4s-10-1-14-4v-9"/><path class="icon-detail" d="M27 27h10"/><path class="icon-tassel" d="M51 19v9"/></svg></span>
             <a href="#home" aria-label="الفرقة الثانية علوم أساسي - الرئيسية" style="text-decoration: none; color: inherit;">
-        <span><strong>كلية التربية قسم علوم اساسي</strong><small>مكتبة الماتريال والامتحانات</small></span>
+        <span><strong id="visitorNameLabel">كلية التربية قسم علوم اساسي</strong><button id="editVisitorButton" class="visitor-edit-link" type="button">تعديل البيانات</button></span>
       </a>
     </div>
     <nav class="nav-links" aria-label="التنقل الرئيسي"></nav>
@@ -128,6 +152,11 @@
       <div id="emptyState" hidden></div>
     </section>
 
+    <section class="section exams-section" id="examsSection">
+      <div class="section-heading"><div><span class="eyebrow">اختبارات إلكترونية</span><h2>امتحانات المواد</h2><p>حل الامتحان واعرف نتيجتك وشوف ترتيبك بين الزملاء.</p></div><span class="heading-mark">★</span></div>
+      <div id="examResults" class="exam-results" hidden></div>
+      <div id="examsGrid" class="exams-grid"><div class="exam-loading">جارٍ تحميل الامتحانات...</div></div>
+    </section>
     <section class="cta-section">
       <div class="cta-symbol">✦</div>
       <div>
@@ -157,8 +186,10 @@
 
   <script>
     const examNotification = document.getElementById("examNotification");
-    examNotification.addEventListener("click", () => examNotification.remove());
-    window.setTimeout(() => examNotification.remove(), 30000);
+    if (examNotification) {
+      examNotification.addEventListener("click", () => examNotification.remove());
+      window.setTimeout(() => examNotification.remove(), 30000);
+    }
 
     function updateTitleAndScroll(newHtmlText, yearNum, buttonElement) {
       document.getElementById("mainTitle").innerHTML = newHtmlText;
@@ -197,8 +228,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
+  <script src="visitor-auth.js"></script>
   <script src="data-bridge.js"></script>
   <script src="file-actions.js"></script>
   <script src="script.js"></script>
+  <script src="exams.js"></script>
 </body>
 </html>
