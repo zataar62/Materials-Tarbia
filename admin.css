@@ -7,20 +7,3 @@
   align-items: center;
   text-align: center;
 }
-.visitors-panel{margin-top:18px}.visitors-count{font-size:11px;color:var(--success);background:#e4f0e9;border-radius:999px;padding:7px 12px;white-space:nowrap}.visitors-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.visitor-row{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:#fff}.visitor-row-avatar{width:45px;height:38px;display:grid;place-items:center;border-radius:9px;background:#e7eef6;color:#315e89;font-size:9px;font-weight:800;flex:0 0 45px}.visitor-row-info{min-width:0;flex:1}.visitor-row-info strong,.visitor-row-info small{display:block}.visitor-row-info strong{font-size:12px;color:var(--navy)}.visitor-row-info small{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.visitor-row time{font-size:9px;color:var(--muted);white-space:nowrap}@media(max-width:760px){.visitors-list{grid-template-columns:1fr}.visitor-row time{display:none}}
-
-.visitor-row { position: relative; }
-.visitor-row.is-blocked { border-color: #f1b5b5; background: #fff8f8; }
-.visitor-status { display: inline-block; font-weight: 700; margin-top: 4px; }
-.visitor-status.active { color: #16805b; }
-.visitor-status.blocked { color: #c0392b; }
-.visitor-row-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-inline-start: auto; }
-.visitor-action { border: 0; border-radius: 9px; padding: 8px 11px; cursor: pointer; font: inherit; font-size: .78rem; font-weight: 700; }
-.visitor-action.block { color: #8a4b00; background: #fff0d6; }
-.visitor-action.unblock { color: #126b4d; background: #dcf6eb; }
-.visitor-action.delete { color: #a42626; background: #ffe2e2; }
-.visitor-action:hover { filter: brightness(.96); transform: translateY(-1px); }
-@media (max-width: 700px) { .visitor-row-actions { width: 100%; margin-top: 8px; } .visitor-row-actions .visitor-action { flex: 1; } }
-
-/* Exam administration */
-.exams-admin-panel{margin-top:18px}.exam-form .form-grid{margin-bottom:4px}.questions-builder{margin:16px 0}.questions-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;color:var(--navy)}.questions-heading .ghost{padding:7px 11px;color:var(--navy);background:#fff}.question-editor{padding:15px;border:1px solid var(--line);border-radius:12px;margin-top:10px;background:#fbfcfd}.question-editor-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;color:var(--navy);font-size:12px}.question-editor-head .ghost{padding:5px 8px;color:var(--danger)}.question-editor textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;font:inherit;font-size:11px;resize:vertical}.question-editor label{margin-bottom:10px}.options-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 12px}.question-footer{display:flex;gap:12px}.question-footer label{flex:1}.question-footer input,.question-footer select{height:40px}.exams-admin-list{display:grid;gap:9px;margin-top:18px}.exam-admin-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px}.exam-admin-row strong,.exam-admin-row small{display:block}.exam-admin-row strong{font-size:12px;color:var(--navy)}.exam-admin-row small{font-size:10px;color:var(--muted)}.exam-admin-row .delete{border:1px solid #f0d3d0;border-radius:7px;background:#fff;color:var(--danger);padding:6px 9px;font:inherit;font-size:10px;cursor:pointer}@media(max-width:700px){.options-grid{grid-template-columns:1fr}.question-footer{display:grid;grid-template-columns:1fr 1fr}}

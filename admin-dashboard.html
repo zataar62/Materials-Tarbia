@@ -41,24 +41,11 @@
         <aside class="panel stats-panel"><span class="eyebrow">ملخص سريع</span><div class="big-stat" id="totalCount">0</div><p>ملف منشور في المكتبة</p><div class="stat-row"><span>الفرقة الأولى</span><b id="year1Count">0</b></div><div class="stat-row"><span>الفرقة الثانية</span><b id="year2Count">0</b></div><div class="hint" >الملفات المنشورة تظهر في الموقع العام تلقائيًا بعد الرفع.</div></aside>
       </section>
       <section class="panel library-panel"><div class="panel-heading"><div><span class="eyebrow">المحتوى الحالي</span><h2>الملفات المضافة</h2></div><input id="adminSearch" class="search" type="search" placeholder="ابحث باسم الملف أو المادة..."></div><div id="materialsList" class="materials-list"></div></section>
-      <section id="examsAdminPanel" class="panel exams-admin-panel">
-        <div class="panel-heading"><div><span class="eyebrow">اختبارات إلكترونية</span><h2>إضافة امتحان وأسئلته</h2></div><strong id="examsAdminCount" class="visitors-count">0 امتحان</strong></div>
-        <form id="examForm" class="exam-form">
-          <div class="form-grid"><label>عنوان الامتحان<input id="examTitle" required placeholder="مثال: اختبار الوحدة الأولى"></label><label>الفرقة<select id="examYear"><option value="2">الفرقة الثانية</option><option value="1">الفرقة الأولى</option></select></label><label>المادة<select id="examSubject" required></select></label><label>وصف مختصر<input id="examDescription" placeholder="اختبار قصير للمراجعة"></label></div>
-          <label class="checkline"><input id="examPublished" type="checkbox" checked> نشر الامتحان للزائرين</label>
-          <div class="questions-builder"><div class="questions-heading"><strong>الأسئلة</strong><button id="addQuestionButton" class="ghost" type="button">+ إضافة سؤال</button></div><div id="questionsBuilder"></div></div>
-          <button class="primary" type="submit"><span>حفظ الامتحان ونشره</span><span>←</span></button><p id="examFormMessage" class="message" role="status"></p>
-        </form>
-        <div id="examsAdminList" class="exams-admin-list"></div>
-      </section>
-      <section id="visitorsPanel" class="panel visitors-panel"><div class="panel-heading"><div><span class="eyebrow">بيانات الدخول</span><h2>الزائرون المسجلون</h2></div><strong id="visitorsCount" class="visitors-count">0 زائر</strong></div><p class="hint visitor-security-note">تظهر هنا بيانات الاسم والإيميل والنوع وتاريخ آخر دخول وحالة الحساب. كلمات المرور لا يتم تخزينها أو عرضها لأسباب أمنية.</p><div id="visitorsList" class="visitors-list"></div></section>
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
   <script src="file-actions.js"></script>
   <script src="admin-dashboard.js"></script>
-  <script src="visitor-admin.js"></script>
-  <script src="exam-admin.js"></script>
 </body>
 </html>
